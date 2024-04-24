@@ -629,6 +629,31 @@
               }  
           ?>
         </div>
+        <div class="form-container" id="questionForm1">
+          <?php
+              if(isset($_GET['id']))
+              {
+                require_once('C:\wamp64\www\projetV1\Controllers\PublicationC.php');
+                $pub1=new PublicationC();
+                $id = $_GET['id'];
+                $row = $pub1->getPublicationById($id);
+                if ($row !== false) 
+                {
+                    echo '<h5>Veuillez confirmer</h5>
+                    <p>Voulez-vous vraiment supprimer cet élément ?</p>
+                    <button onclick="hideConfirmationPopup()" style="background-color: #f44336; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; margin-right: 10px;">Annuler</button>
+                    <button style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">
+                        <a href="delete_publication.php?id='.$id .'" style="color: inherit; text-decoration: none;">Supprimer</a>
+                    </button>'
+                    ;
+                } 
+                else 
+                {
+                    echo "Publication not found.";
+                }
+              }  
+          ?>
+        </div>
         <div class="card ">
             <div class="card-header pb-0 p-3">
               <div class="d-flex justify-content-between">

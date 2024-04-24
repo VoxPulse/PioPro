@@ -153,7 +153,6 @@ class Publication{
     public function setId_user($id_user)
     {
         $this->id_user = $id_user;
-
         return $this;
     }
 }

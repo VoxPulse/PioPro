@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="css/aos.css">
 
     <link rel="stylesheet" href="css/style.css">
-
+    <link rel="stylesheet" href="css/comment.css">
     <link rel="icon" type="image/png" href="../images/logo 1.png">
     <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
   </head>
@@ -108,17 +108,41 @@
                 />
             </div>
         </div>
+        <div class="form-container" id="questionForm1">
+          <?php
+              if(isset($_GET['id']))
+              {
+                require_once('C:\wamp64\www\projetV2\Controllers\PublicationC.php');
+                $pub1=new PublicationC();
+                $id = $_GET['id'];
+                $row = $pub1->getPublicationById($id);
+                if ($row !== false) 
+                {
+                    echo '<h5>Veuillez confirmer</h5>
+                    <p style="background-color: white; color: black; border: none; box-shadow: none; ">Voulez-vous vraiment supprimer cet élément ?</p>
+                    <button onclick="hideConfirmationPopup()" style="background-color: #f44336; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; margin-right: 10px;">Annuler</button>
+                    <button style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">
+                        <a href="delete_publication.php?id='.$id .'" style="color: inherit; text-decoration: none;">Supprimer</a>
+                    </button>'
+                    ;
+                } 
+                else 
+                {
+                    echo "Publication not found.";
+                }
+              }  
+               
+          ?>
+        </div>
+        
           <div class="form-container" id="questionForm">
                 <h4>Créer une publication</h4>
                 <div class="close-button" onclick="hideQuestionForm()">X</div>
-          <hr>
-         
-        
         
           <?php 
           if(isset($_GET['id']))
           {
-            require_once('C:\wamp64\www\projetV1\Controllers\PublicationC.php');
+            require_once('C:\wamp64\www\projetV2\Controllers\PublicationC.php');
             $pub1=new PublicationC();
             $id = $_GET['id'];
             $row = $pub1->getPublicationById($id);
@@ -132,14 +156,14 @@
             {
                 echo "Publication not found.";
             }
-            
           }
-          ?> 
+          ?>
+           
           <form action="submit_publication.php?<?php if (isset($id)){echo "id=update";} ?>" method="POST" id="publier">
            <input type="hidden" name="id" value="<?php if (isset($id)){echo $_GET['id'];}?>">
             <div class="userId-part940">
                 <span class="form-description43">User ID* </span>
-                <input type="text" name="id_user" id="form_id_user" class="username029" placeholder="Entrez ID" value="<?php if (isset($id)){echo $id_user;}?>">  
+                <input type="text" name="id_user" id="form_id_user" class="username029" placeholder="Entrez ID" value="<?php if (isset($id)){echo $id_user;}?>"  <?php if (isset($id_user)) { echo 'readonly'; } ?> >  
                 <span id="form_user_idError" class="error"></span>
             </div>
             <div class="question-title39">
@@ -153,7 +177,7 @@
               <span id="form_contenuError" class="error"></span>
             </div>	
             <div class="button-group-addfile3239">
-              <span class="form-description43">Attachment*</span>
+              <span class="form-description43">Attachment</span>
               <input type="file" name="ffile" class="question-ttile3226">
             </div>
             <div class="publish-button2389">
@@ -172,6 +196,7 @@
             </div>
           </form>         
         </div>
+        
       </div>
     </div>
   </section>
@@ -193,7 +218,36 @@
 
             <section id="content1">
               <!--Recent Question Content Section -->
-              <?php include 'get_publication.php'; ?>    
+              <?php  include 'get_publication.php'; ?>  
+              <div class="form-containerComment" id="commentForm">
+                <?php 
+                if(isset($_GET['id_comment']))
+                {
+                
+                  require_once('C:\wamp64\www\projetV2\Controllers\commentaireC.php');
+                  $comment1=new commentaireC();
+                  $id_comment = $_GET['id_comment'];
+                  $row = $comment1->getCommentById($id_comment);
+                  if ($row !== false) 
+                  {
+                      echo '<h5>Veuillez confirmer</h5>
+                      <p style="background-color: white; color: black; border: none; box-shadow: none; ">Voulez-vous vraiment supprimer cet élément ?</p>
+                      <button onclick="hideConfirmationPopupComment()" style="background-color: #f44336; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; margin-right: 10px;">Annuler</button>
+                      <button style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">
+                          <a href="delete_comment.php?id_comment='.$id_comment .'" style="color: inherit; text-decoration: none;">Supprimer</a>
+                      </button>'
+                      ;
+                  } 
+                  else 
+                  {
+                      echo "Comment not found.";
+                  }
+                } 
+                else {
+                  error_log("ID not received");
+              }
+                ?>
+        </div>  
               <div class="question-type2033">
                 <div class="row">
                   <div class="col-md-1">
@@ -259,7 +313,7 @@
                     <div class="ques-type302">
                       <a href="#">
                         <button type="button" class="q-type238">
-                          <i class="fa fa-comment" aria-hidden="true">
+                          <i class="fa fa-" aria-hidden="true">
                             333335 answer</i
                           >
                         </button>
@@ -4274,6 +4328,7 @@
   <script src="js/aos.js"></script>
   <script src="js/jquery.fancybox.min.js"></script>
   <script src="js/jquery.sticky.js"></script>
+  <script src="js/comment.js"></script>
 
   <script src="js/main.js"></script>
 
