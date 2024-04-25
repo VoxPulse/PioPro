@@ -20,12 +20,21 @@ class Offre_emploiC
             echo 'Échec de connexion : ' . $e->getMessage();
         }
     }
+<<<<<<< HEAD
     public function addOffre($titre_p , $description , $date_fin , $salaire , $categorie)
+=======
+    public function addOffre($id , $titre_p , $description , $date_fin , $salaire , $categorie)
+>>>>>>> 355c956eac4eef2648e55fce1160df4743d97bdc
     {
         $conn = config::getConnexion();
         try 
         {
+<<<<<<< HEAD
             $requete = $conn->prepare("INSERT INTO offre_emploi (titre_p , description, date_fin, salaire ,  categorie) VALUES (:titre_p , :description, :date_fin , :salaire, :categorie )");
+=======
+            $requete = $conn->prepare("INSERT INTO offre_emploi (id, titre_p , description, date_fin, salaire ,  categorie) VALUES (:id, :titre_p , :description, :date_fin , :salaire, :categorie )");
+            $requete->bindParam(':id', $id);
+>>>>>>> 355c956eac4eef2648e55fce1160df4743d97bdc
             $requete->bindParam(':titre_p', $titre_p);
             $requete->bindParam(':description', $description);
             $requete->bindParam(':date_fin', $date_fin);

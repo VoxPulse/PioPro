@@ -24,8 +24,12 @@
         $tableHTML .= '<td>' . $row['date_fin'] . '</td>';
         $tableHTML .= '<td>' . $row['salaire'] . '</td>';
         $tableHTML .= '<td>' . $row['categorie'] . '</td>';
+<<<<<<< HEAD
         $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "' onclick='return confirmDelete();'>Supprimer</a></td>";
        /* $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "'>suprimer</a></td>" ;*/
+=======
+        $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "'>suprimer</a></td>" ;
+>>>>>>> 355c956eac4eef2648e55fce1160df4743d97bdc
         $tableHTML .= "<td > <a class='btn btn-primary' href='modifier_offreEmploi.php?id=" . $row['id']. "'>modifier</a></td>" ;
         $tableHTML .= '</tr>';
     }
