@@ -6,6 +6,7 @@ $UserOnline = $E->UsersOnline();
 $NewUsers = $E->NouveauInscription();
 $LastLogin = $E->LastLogin();
 $ListUser = $E->ListUser();
+$listBlock= $E->ListBlock();
 //deux boutons
 ?>
 <!DOCTYPE html>
@@ -279,7 +280,7 @@ $ListUser = $E->ListUser();
                 <div class="row">
                   <div class="col-8">
                     <div class="numbers">
-                      <p class="text-sm mb-0 text-uppercase font-weight-bold"> <strong>Nouveau Utilisateurs</strong>  </p>
+                      <p class="text-sm mb-0 text-uppercase font-weight-bold"> <strong>Nouveau Utilisateurs</strong> </p>
                       <h5 class="font-weight-bolder">
                         +<?php echo  $NewUsers; ?>
                       </h5>
@@ -320,7 +321,7 @@ $ListUser = $E->ListUser();
       <div class="row mt-4">
         <div class="card z-index-2 h-100">
           <div class="card-header pb-0 pt-3 bg-transparent d-flex justify-content-between align-items-center">
-          <h6 class="text-capitalize m-0"><strong>Tous Les Utilisateurs</strong></h6>
+            <h6 class="text-capitalize m-0"><strong>Tous Les Utilisateurs</strong></h6>
             <button id="btn-add-admin" class="btn btn-primary1">Ajouter Un Administrateur</button>
           </div>
 
@@ -345,130 +346,7 @@ $ListUser = $E->ListUser();
             <div class="table-responsive">
               <table class="table align-items-center ">
                 <tbody>
-                  <tr>
-                    <td class="w-30">
-                      <div class="d-flex px-2 py-1 align-items-center">
-                        <div>
-                          <img src="../assets/img/icons/flags/US.png" alt="Country flag">
-                        </div>
-                        <div class="ms-4">
-                          <p class="text-xs font-weight-bold mb-0">Pays:</p>
-                          <h6 class="text-sm mb-0">United States</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Accés:</p>
-                        <h6 class="text-sm mb-0">2500</h6>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Ventes:</p>
-                        <h6 class="text-sm mb-0">$230,900</h6>
-                      </div>
-                    </td>
-                    <td class="align-middle text-sm">
-                      <div class="col text-center">
-                        <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                        <h6 class="text-sm mb-0">29.9%</h6>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="w-30">
-                      <div class="d-flex px-2 py-1 align-items-center">
-                        <div>
-                          <img src="../assets/img/icons/flags/DE.png" alt="Country flag">
-                        </div>
-                        <div class="ms-4">
-                          <p class="text-xs font-weight-bold mb-0">Pays:</p>
-                          <h6 class="text-sm mb-0">Allemagne</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Accés:</p>
-                        <h6 class="text-sm mb-0">3.900</h6>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Ventes:</p>
-                        <h6 class="text-sm mb-0">$440,000</h6>
-                      </div>
-                    </td>
-                    <td class="align-middle text-sm">
-                      <div class="col text-center">
-                        <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                        <h6 class="text-sm mb-0">40.22%</h6>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="w-30">
-                      <div class="d-flex px-2 py-1 align-items-center">
-                        <div>
-                          <img src="../assets/img/icons/flags/GB.png" alt="Country flag">
-                        </div>
-                        <div class="ms-4">
-                          <p class="text-xs font-weight-bold mb-0">Pays:</p>
-                          <h6 class="text-sm mb-0">Grand Bretagne</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Accés:</p>
-                        <h6 class="text-sm mb-0">1.400</h6>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Ventes:</p>
-                        <h6 class="text-sm mb-0">$190,700</h6>
-                      </div>
-                    </td>
-                    <td class="align-middle text-sm">
-                      <div class="col text-center">
-                        <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                        <h6 class="text-sm mb-0">23.44%</h6>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="w-30">
-                      <div class="d-flex px-2 py-1 align-items-center">
-                        <div>
-                          <img src="../assets/img/icons/flags/BR.png" alt="Country flag">
-                        </div>
-                        <div class="ms-4">
-                          <p class="text-xs font-weight-bold mb-0">Pays:</p>
-                          <h6 class="text-sm mb-0">Bresil</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Accés:</p>
-                        <h6 class="text-sm mb-0">562</h6>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Ventes:</p>
-                        <h6 class="text-sm mb-0">$143,960</h6>
-                      </div>
-                    </td>
-                    <td class="align-middle text-sm">
-                      <div class="col text-center">
-                        <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                        <h6 class="text-sm mb-0">32.14%</h6>
-                      </div>
-                    </td>
-                  </tr>
+                <?php echo $listBlock; ?>
                 </tbody>
               </table>
             </div>
@@ -477,7 +355,7 @@ $ListUser = $E->ListUser();
         <div class="col-lg-5">
           <div class="card">
             <div class="card-header pb-0 p-3">
-            <h6 style="font-weight: bold; color: red;" class="mb-0">Signal</h6>
+              <h6 style="font-weight: bold; color: red;" class="mb-0">Signal</h6>
             </div>
             <div class="card-body p-3">
               <ul class="list-group">
@@ -653,7 +531,7 @@ $ListUser = $E->ListUser();
     <div class="custom-modal2">
       <div class="modal-content">
         <h5>Ajouter Un Administrateur</h5>
-        <form action="ADDUSER.php" method="post">
+        <form action="ADDUSER.php" method="post" id ="MYFORM2">
           <div style="display: flex;">
             <!-- Première colonne -->
             <div style="flex: 1;">
@@ -715,7 +593,7 @@ $ListUser = $E->ListUser();
     <div class="custom-modal">
       <div class="modal-content">
         <h5>Modifier</h5>
-        <form action="UPDATEE.php" method="post">
+        <form action="UPDATEE.php" method="post" id="Form4">
           <div style="display: flex;">
             <!-- Première colonne -->
             <div style="flex: 1; margin-right: 20px;">
@@ -792,7 +670,48 @@ $ListUser = $E->ListUser();
     </div>
   </div>
 
-  <script> </script>
+  <script>
+    // Sélectionner les boutons supprimer
+    var supprimerButtons = document.querySelectorAll('.btn-supprimer');
+
+    // Sélectionner la boîte de dialogue modale et les boutons "Oui" et "Non"
+    var confirmationModal = document.getElementById('confirmation-modal');
+    var btnOui = document.getElementById('btn-oui');
+    var btnNon = document.getElementById('btn-non');
+
+    // Ajouter un gestionnaire d'événements à chaque bouton supprimer
+    supprimerButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        var userId = button.getAttribute('data-id');
+        // Afficher la boîte de dialogue modale
+        confirmationModal.style.display = 'block';
+
+        // Gérer le clic sur le bouton "Oui"
+        btnOui.addEventListener('click', function() {
+          // Effectuer la suppression
+          fetch('../delete_user.php?id=' + userId, {
+              method: 'DELETE'
+            })
+            .then(function(response) {
+              location.reload();
+            })
+            .catch(function(error) {
+              console.error('Une erreur s\'est produite:', error);
+            });
+          // Cacher la boîte de dialogue modale
+          confirmationModal.style.display = 'none';
+        });
+
+        // Gérer le clic sur le bouton "Non"
+        btnNon.addEventListener('click', function() {
+          // Ne rien faire
+          console.log("Suppression annulée.");
+          // Cacher la boîte de dialogue modale
+          confirmationModal.style.display = 'none';
+        });
+      });
+    });
+  </script>
 
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
@@ -943,207 +862,350 @@ $ListUser = $E->ListUser();
     });
   </script>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Sélection des éléments du formulaire
-      var nomInput = document.getElementById('NN');
-      var prenomInput = document.getElementById('PP');
-      var DateInput = document.getElementById('DD');
-      var CinInput = document.getElementById('CC');
-      var TelInput = document.getElementById('TT');
-      var MailInput = document.getElementById('EM');
-      var MDPInput = document.getElementById('MP');
-      //
-      var nom2Input = document.getElementById('upNom');
-      var prenom2Input = document.getElementById('PR');
-      var Date2Input = document.getElementById('DDN');
-      var Cin2Input = document.getElementById('cin');
-      var Tel2Input = document.getElementById('tel');
-      var Mail2Input = document.getElementById('email');
-      var MDP2Input = document.getElementById('mdp');
-      var ETAB = document.getElementById('etab');
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    
+    var myForm = document.getElementById('Form4');
 
-      // Sélection des éléments d'erreur
-      var nomError = document.getElementById('NE');
-      var prenomError = document.getElementById('PE');
-      var DateError = document.getElementById('DE');
-      var CinError = document.getElementById('CE');
-      var TelError = document.getElementById('TE');
-      var MailError = document.getElementById('EE');
-      var MDPError = document.getElementById('EP');
-      //
-      var nom2Error = document.getElementById('NI');
-      var prenom2Error = document.getElementById('PI');
-      var Date2Error = document.getElementById('DNI');
-      var Cin2Error = document.getElementById('CINI');
-      var Tel2Error = document.getElementById('TI');
-      var Mail2Error = document.getElementById('MI');
-      var MDP2Error = document.getElementById('MDI');
-      var ETABError = document.getElementById('EI');
+    //
+    var nom2Input = document.getElementById('upNom');
+    var prenom2Input = document.getElementById('PR');
+    var Date2Input = document.getElementById('DDN');
+    var Cin2Input = document.getElementById('cin');
+    var Tel2Input = document.getElementById('tel');
+    var Mail2Input = document.getElementById('email');
+    var MDP2Input = document.getElementById('mdp');
+    var ETAB = document.getElementById('etab');
 
-      ETAB.addEventListener('input', function() {
-        if (!validateNom(ETAB.value)) {
-          ETABError.style.display = 'block';
-        } else {
-          ETABError.style.display = 'none';
+    //
+    var nom2Error = document.getElementById('NI');
+    var prenom2Error = document.getElementById('PI');
+    var Date2Error = document.getElementById('DNI');
+    var Cin2Error = document.getElementById('CINI');
+    var Tel2Error = document.getElementById('TI');
+    var Mail2Error = document.getElementById('MI');
+    var MDP2Error = document.getElementById('MDI');
+    var ETABError = document.getElementById('EI');
+
+    myForm.addEventListener('submit', function(event) {
+        // Initialisation du compteur d'erreurs
+        var errors = 0;
+    // Ajout d'écouteurs d'événements pour chaque champ d'entrée pour la validation en temps réel
+      if (!validateNom(ETAB.value)) {
+        ETABError.style.display = 'block';
+        errors++;
+      } else {
+        ETABError.style.display = 'none';
+      }
+
+      if (!validateMotDePasse(MDP2Input.value)) {
+        MDP2Error.style.display = 'block';
+        errors++;
+      } else {
+        MDP2Error.style.display = 'none';
+      }
+
+    // Événement pour le champ Nom
+
+    // Événement pour le champ Nom
+    Mail2Input.addEventListener('input', function() {
+      if (!validateEmail(Mail2Input.value)) {
+        Mail2Error.style.display = 'block';
+        errors++;
+      } else {
+        Mail2Error.style.display = 'none';
+      }
+    });
+    // Événement pour le champ Nom
+
+      if (!validateCIN(Tel2Input.value)) {
+        Tel2Error.style.display = 'block';
+        errors++;
+      } else {
+        Tel2Error.style.display = 'none';
+      }
+
+
+
+    // Événement pour le champ Nom
+      if (!validateCIN(Cin2Input.value)) {
+        Cin2Error.style.display = 'block';
+        errors++;
+      } else {
+        Cin2Error.style.display = 'none';
+      }
+
+
+      if (!validateNom(nom2Input.value)) {
+        nom2Error.style.display = 'block';
+        errors++;
+      } else {
+        nom2Error.style.display = 'none';
+      }
+
+    // Événement pour le champ Nom
+
+    //prenom
+
+      if (!validateNom(prenom2Input.value)) {
+        prenom2Error.style.display = 'block';
+        errors++;
+      } else {
+        prenom2Error.style.display = 'none';
+      }
+
+
+    //Date
+
+      if (!validateAge(Date2Input.value)) {
+        Date2Error.style.display = 'block';
+        errors++;
+      } else {
+        Date2Error.style.display = 'none';
+      }
+
+      if (errors > 0) {
+            event.preventDefault();
+            alert('Le formulaire contient des erreurs, veuillez les corriger.');
         }
-      });
+    });
 
-      MDP2Input.addEventListener('input', function() {
-        if (!validateMotDePasse(MDP2Input.value)) {
-          MDP2Error.style.display = 'block';
-        } else {
-          MDP2Error.style.display = 'none';
-        }
-      });
-      // Événement pour le champ Nom
-      MDPInput.addEventListener('input', function() {
+
+
+    // Validation du nom
+    function validateNom(nom) {
+      var nomRegex = /^[a-zA-Z\s]+$/;
+      return nom.length > 3 && nomRegex.test(nom);
+    }
+
+    //Validation du prenom 
+    function validatePrenom(prenom) {
+      var nomRegex = /^[a-zA-Z\s]+$/;
+      return prenom.length > 3 && nomRegex.test(prenom);
+    }
+
+    //Date
+    function validateAge(date) {
+      // Convertir la chaîne de date en objet Date
+      var birthDate = new Date(date);
+
+      // Obtenir la date actuelle
+      var today = new Date();
+
+      // Calculer la date il y a 18 ans
+      var eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
+      // Comparer les dates
+      return birthDate <= eighteenYearsAgo;
+    }
+
+    //CIN 
+    function validateCIN(cin) {
+      var cinRegex = /^[0-9]*$/;
+      return cin.length === 8 && cinRegex.test(cin);
+    }
+
+    //Tel 
+    function validateTel(cin) {
+      var cinRegex = /^[0-9]*$/;
+      return cin.length === 8 && cinRegex.test(cin);
+    }
+
+    //EMAIL 
+    function validateEmail(email) {
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    //MDP
+    function validateMotDePasse(motDePasse) {
+      // Expression régulière pour vérifier si le mot de passe contient au moins un caractère spécial, un chiffre et une lettre
+      var regex = /^(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,}$/;
+      return regex.test(motDePasse);
+    }
+  });
+</script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    
+    var myForm = document.getElementById('MYFORM2');
+    var errors = 0; // Variable pour compter les erreurs
+
+    // Sélection des éléments du formulaire
+    var nomInput = document.getElementById('NN');
+    var prenomInput = document.getElementById('PP');
+    var DateInput = document.getElementById('DD');
+    var CinInput = document.getElementById('CC');
+    var TelInput = document.getElementById('TT');
+    var MailInput = document.getElementById('EM');
+    var MDPInput = document.getElementById('MP');
+
+    // Sélection des éléments d'erreur
+    var nomError = document.getElementById('NE');
+    var prenomError = document.getElementById('PE');
+    var DateError = document.getElementById('DE');
+    var CinError = document.getElementById('CE');
+    var TelError = document.getElementById('TE');
+    var MailError = document.getElementById('EE');
+    var MDPError = document.getElementById('EP');
+
+    myForm.addEventListener('submit', function(event) {
+        // Initialisation du compteur d'erreurs
+        var errorCount = 0;
+
+        // Validation du mot de passe
         if (!validateMotDePasse(MDPInput.value)) {
-          MDPError.style.display = 'block';
+            MDPError.style.display = 'block';
+            errors++;
         } else {
-          MDPError.style.display = 'none';
+            MDPError.style.display = 'none';
         }
-      });
 
-      MailInput.addEventListener('input', function() {
+        // Validation de l'email
         if (!validateEmail(MailInput.value)) {
-          MailError.style.display = 'block';
+            MailError.style.display = 'block';
+            errors++;
         } else {
-          MailError.style.display = 'none';
+            MailError.style.display = 'none';
         }
-      });
-      // Événement pour le champ Nom
-      Mail2Input.addEventListener('input', function() {
-        if (!validateEmail(Mail2Input.value)) {
-          Mail2Error.style.display = 'block';
-        } else {
-          Mail2Error.style.display = 'none';
-        }
-      });
-      // Événement pour le champ Nom
-      Tel2Input.addEventListener('input', function() {
-        if (!validateCIN(Tel2Input.value)) {
-          Tel2Error.style.display = 'block';
-        } else {
-          Tel2Error.style.display = 'none';
-        }
-      });
-      TelInput.addEventListener('input', function() {
-        if (!validateCIN(TelInput.value)) {
-          TelError.style.display = 'block';
-        } else {
-          TelError.style.display = 'none';
-        }
-      });
 
-      // Événement pour le champ Nom
-      Cin2Input.addEventListener('input', function() {
-        if (!validateCIN(Cin2Input.value)) {
-          Cin2Error.style.display = 'block';
+        // Validation du numéro de téléphone
+        if (!validateTel(TelInput.value)) {
+            TelError.style.display = 'block';
+            errors++;
         } else {
-          Cin2Error.style.display = 'none';
+            TelError.style.display = 'none';
         }
-      });
-      CinInput.addEventListener('input', function() {
+
+        // Validation du numéro de carte d'identité
         if (!validateCIN(CinInput.value)) {
-          CinError.style.display = 'block';
+            CinError.style.display = 'block';
+            errors++;
         } else {
-          CinError.style.display = 'none';
+            CinError.style.display = 'none';
         }
-      });
-      nom2Input.addEventListener('input', function() {
-        if (!validateNom(nom2Input.value)) {
-          nom2Error.style.display = 'block';
-        } else {
-          nom2Error.style.display = 'none';
-        }
-      });
-      // Événement pour le champ Nom
-      nomInput.addEventListener('input', function() {
+
+        // Validation du nom
         if (!validateNom(nomInput.value)) {
-          nomError.style.display = 'block';
+            nomError.style.display = 'block';
+            errors++;
         } else {
-          nomError.style.display = 'none';
+            nomError.style.display = 'none';
         }
-      });
-      //prenom
-      prenom2Input.addEventListener('input', function() {
-        if (!validateNom(prenom2Input.value)) {
-          prenom2Error.style.display = 'block';
+
+        // Validation du prénom
+        if (!validatePrenom(prenomInput.value)) {
+            prenomError.style.display = 'block';
+            errors++;
         } else {
-          prenom2Error.style.display = 'none';
+            prenomError.style.display = 'none';
         }
-      });
-      prenomInput.addEventListener('input', function() {
-        if (!validateNom(prenomInput.value)) {
-          prenomError.style.display = 'block';
-        } else {
-          prenomError.style.display = 'none';
-        }
-      });
-      //Date
-      Date2Input.addEventListener('input', function() {
-        if (!validateAge(Date2Input.value)) {
-          Date2Error.style.display = 'block';
-        } else {
-          Date2Error.style.display = 'none';
-        }
-      });
-      DateInput.addEventListener('input', function() {
+
+        // Validation de la date de naissance
         if (!validateAge(DateInput.value)) {
-          DateError.style.display = 'block';
+            DateError.style.display = 'block';
+            errors++;
         } else {
-          DateError.style.display = 'none';
+            DateError.style.display = 'none';
         }
-      });
-      // Validation du nom
-      function validateNom(nom) {
+
+        // Si le compteur d'erreurs est supérieur à 0, empêcher l'envoi du formulaire
+        if (errors > 0) {
+            event.preventDefault();
+            alert('Le formulaire contient des erreurs, veuillez les corriger.');
+        }
+    });
+
+    // Validation du nom
+    function validateNom(nom) {
         var nomRegex = /^[a-zA-Z\s]+$/;
         return nom.length > 3 && nomRegex.test(nom);
-      }
-      //Validation du prenom 
-      function validatePrenom(prenom) {
-        var nomRegex = /^[a-zA-Z\s]+$/;
-        return prenom.length > 3 && nomRegex.test(prenom);
-      }
-      //Date
-      function validateAge(date) {
+    }
+
+    // Validation du prénom
+    function validatePrenom(prenom) {
+        var prenomRegex = /^[a-zA-Z\s]+$/;
+        return prenom.length > 3 && prenomRegex.test(prenom);
+    }
+
+    // Validation de la date de naissance
+    function validateAge(date) {
         // Convertir la chaîne de date en objet Date
         var birthDate = new Date(date);
-
         // Obtenir la date actuelle
         var today = new Date();
-
         // Calculer la date il y a 18 ans
         var eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
-
         // Comparer les dates
         return birthDate <= eighteenYearsAgo;
-      }
-      //CIN 
-      function validateCIN(cin) {
+    }
+
+    // Validation du numéro de carte d'identité
+    function validateCIN(cin) {
         var cinRegex = /^[0-9]*$/;
         return cin.length === 8 && cinRegex.test(cin);
-      }
-      //Tel 
-      function validateTel(cin) {
-        var cinRegex = /^[0-9]*$/;
-        return cin.length === 8 && cinRegex.test(cin);
-      }
-      //EMAIL 
-      function validateEmail(email) {
+    }
+
+    // Validation du numéro de téléphone
+    function validateTel(tel) {
+        var telRegex = /^[0-9]*$/;
+        return tel.length === 8 && telRegex.test(tel);
+    }
+
+    // Validation de l'email
+    function validateEmail(email) {
         var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
-      }
-      //MDP
-      function validateMotDePasse(motDePasse) {
+    }
+
+    // Validation du mot de passe
+    function validateMotDePasse(motDePasse) {
         // Expression régulière pour vérifier si le mot de passe contient au moins un caractère spécial, un chiffre et une lettre
         var regex = /^(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,}$/;
         return regex.test(motDePasse);
-      }
+    }
+});
+</script>
+
+  <script>
+    var supprimerButtons = document.querySelectorAll('.btn-supprimer');
+    supprimerButtons.forEach(function(button) {
+      button.addEventListener('click', function(event) {
+        event.preventDefault(); // Empêcher le comportement par défaut du bouton (redirection)
+        var userId = button.getAttribute('data-id');
+        // Afficher une boîte de dialogue de prompt pour confirmation
+        var confirmation = prompt("Voulez-vous vraiment supprimer cet utilisateur ? Répondez par 'oui' ou 'non'.");
+        // Vérifier la réponse de l'utilisateur
+        if (confirmation !== null) {
+          var confirmationLowerCase = confirmation.toLowerCase(); // Convertir la réponse en minuscules pour la comparaison
+          if (confirmationLowerCase === "oui") {
+            // Si l'utilisateur répond "oui", effectuer la suppression
+            fetch('../delete_user.php?id=' + userId, {
+                method: 'DELETE'
+              })
+              .then(function(response) {
+                location.reload(); // Rafraîchir la page après la suppression
+              })
+              .catch(function(error) {
+                console.error('Une erreur s\'est produite:', error);
+              });
+          } else if (confirmationLowerCase === "non") {
+            // Si l'utilisateur répond "non", ne rien faire
+            // Rafraîchir la page
+            location.reload();
+          } else {
+            // Si la réponse n'est ni "oui" ni "non", afficher un message d'erreur
+            alert("Réponse invalide. Veuillez répondre par 'oui' ou 'non'.");
+          }
+        } else {
+          // Si l'utilisateur ferme la boîte de dialogue, ne rien faire
+          console.log("Boîte de dialogue fermée.");
+        }
+      });
     });
   </script>
-
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       var dropZone = document.getElementById('drop-zone');
@@ -1184,6 +1246,114 @@ $ListUser = $E->ListUser();
       }
     });
   </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var slimOverlay = document.querySelector('.slim');
+    var modal = document.querySelector('.custom-modal');
+
+    // Ajout
+    var slim2Overlay = document.querySelector('.slim2');
+    var modal2 = document.querySelector('.custom-modal2');
+    
+    // Suppression
+    var salimOverlay = document.querySelector('.salim');
+    var modal3 = document.querySelector('.custom-modal');
+
+    // Ajouter
+    var AjouterButtons = document.querySelectorAll('.btn-primary1');
+    AjouterButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            slim2Overlay.style.display = 'flex';
+            modal2.style.display = 'block';
+            slim2Overlay.classList.add('blurred');
+        });
+    });
+
+    // Modifier
+    var modifierButtons = document.querySelectorAll('.btn-primary');
+    modifierButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var userId = button.getAttribute('data-id');
+            // Effectuer une requête GET vers le fichier PHP avec l'ID de l'utilisateur dans l'URL
+            fetch('GETUSER.php?id=' + userId, {
+                method: 'GET'
+            }).then(function(response) {
+                // Traitez la réponse ici si nécessaire
+            }).catch(function(error) {
+                console.error('Erreur lors de la requête fetch :', error);
+            });
+            slimOverlay.style.display = 'flex';
+            modal.style.display = 'block';
+            slimOverlay.classList.add('blurred');
+        });
+    });
+
+    // Supprimer
+    var supprimerButtons = document.querySelectorAll('.btn-supprimer');
+    supprimerButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var userId = button.getAttribute('data-id');
+            // Afficher une boîte de dialogue de confirmation
+            var confirmation = prompt("Voulez-vous vraiment supprimer cet utilisateur ? Répondez par 'oui' ou 'non'.");
+            if (confirmation !== null) {
+                var confirmationLowerCase = confirmation.toLowerCase();
+                if (confirmationLowerCase === "oui") {
+                    fetch('../delete_user.php?id=' + userId, {
+                        method: 'DELETE'
+                    })
+                    .then(function(response) {
+                        location.reload(); // Recharger la page après suppression
+                    })
+                    .catch(function(error) {
+                        console.error('Une erreur s\'est produite:', error);
+                    });
+                } else if (confirmationLowerCase === "non") {
+                    console.log("Suppression annulée.");
+                } else {
+                    alert("Réponse invalide. Veuillez répondre par 'oui' ou 'non'.");
+                }
+            } else {
+                console.log("Boîte de dialogue fermée.");
+            }
+        });
+    });
+
+    // Bloquer
+    var BlockButtons = document.querySelectorAll('.btn-Mod');
+    BlockButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var userId = button.getAttribute('data-id');
+            fetch('BLOCK.php?id=' + userId, {
+                method: 'POST'
+            }).then(function(response) {
+                if (response.ok) {
+                    console.log('L\'utilisateur a été bloqué avec succès.');
+                } else {
+                    console.error('Erreur lors du blocage de l\'utilisateur.');
+                }
+            }).catch(function(error) {
+                console.error('Erreur lors de la requête fetch :', error);
+            });
+        });
+    });
+
+    // Fonction pour activer les champs
+    function activerChamps() {
+        var inputs = document.querySelectorAll('input');
+        var selects = document.querySelectorAll('select');
+        
+        inputs.forEach(function(input) {
+            input.removeAttribute('disabled');
+        });
+
+        selects.forEach(function(select) {
+            select.removeAttribute('disabled');
+        });
+    }
+});
+
+  </script>
+  
 </body>
 
 </html>

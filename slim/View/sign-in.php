@@ -127,16 +127,23 @@
   <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
   <script src="script3.js"></script>
   <script>
-        // Récupérer le paramètre d'URL pour vérifier s'il y a une erreur
-        const urlParams = new URLSearchParams(window.location.search);
-        const error = urlParams.get('error');
-        
-        // Si une erreur est présente, afficher le message d'erreur dans le div avec l'ID COERROR
-        if (error === 'utilisateur_introuvable') {
-            const COERRORDiv = document.getElementById('COERROR');
-            COERRORDiv.style.display = 'block';
-        }
-    </script>
+    // Récupérer le paramètre d'URL pour vérifier s'il y a une erreur
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+    
+    // Si une erreur est présente, afficher le message d'erreur correspondant
+    if (error === 'utilisateur_introuvable') {
+        const COERRORDiv = document.getElementById('COERROR');
+        COERRORDiv.textContent = "Utilisateur introuvable. Veuillez vérifier votre email et mot de passe.";
+        COERRORDiv.style.display = 'block';
+    } else if (error === 'utilisateur_bloque') {
+        const COERRORDiv = document.getElementById('COERROR');
+        COERRORDiv.textContent = "Utilisateur bloqué. Veuillez contacter l'administrateur pour plus d'informations.";
+        COERRORDiv.style.display = 'block';
+    }
+</script>
+
+
 </body>
 
 </html>

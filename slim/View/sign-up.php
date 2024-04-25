@@ -102,7 +102,7 @@
               </div>
             </div>
             <div class="card-body">
-              <form role="form" action="ADD.php" method="post" >
+              <form role="form" action="ADD.php" method="post" id="myForm">
                 <div class="row">
                   <div class="col-md-6">
                     <!-- Première colonne -->
@@ -251,7 +251,189 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
-  <script src="script4.js"></script>
+  <script >document.addEventListener('DOMContentLoaded', function() {
+    //form 
+    var myForm = document.getElementById('myForm');
+    // Sélection des éléments du formulaire
+    var nomInput = document.getElementById('nom');
+    var prenomInput = document.getElementById('prenom');
+    var cinInput = document.getElementById('cin');
+    var telInput = document.getElementById('telephone');
+    var mailInput = document.getElementById('email');
+    var roleInput = document.getElementById('role');
+    var MDPInput = document.getElementById('motdepasse');
+    var CMDPInput = document.getElementById('confirmationmdp');
+    var DDNPInput = document.getElementById('ddn');
+    var etablissementInput = document.getElementById('etablissement');
+    // Sélection des éléments d'erreur
+    var nomError = document.getElementById('nomError');
+    var prenomError = document.getElementById('prenomError');
+    var cinError = document.getElementById('cinError');
+    var telError = document.getElementById('telephoneError');
+    var mailError = document.getElementById('emailError');
+    var roleError = document.getElementById('roleError');
+    var MDPError = document.getElementById('motdepasseError');
+    var CMDPError = document.getElementById('confirmationmdpError');
+    var DDNError = document.getElementById('ddnError');
+    var etablissementError = document.getElementById('etablissementError');
+
+    myForm.addEventListener('submit', function(event) {
+        // Initialisation du compteur d'erreurs
+        var errorCount = 0;
+        //Etbalissement 
+        if (!validateEtablissement(etablissementInput.value)) {
+            etablissementError.style.display = 'block';
+            errorCount++;
+        } else {
+            etablissementError.style.display = 'none';
+        }
+
+        // Date de naissance 
+        // Événement pour le champ Date de naissance
+        if (!validateAge(DDNPInput.value)) {
+            DDNError.style.display = 'block';
+            errorCount++;
+        } else {
+            DDNError.style.display = 'none';
+        }
+
+        // CMDP
+        if (!validateMotDePasse2(MDPInput.value, CMDPInput.value)) {
+            CMDPError.style.display = 'block';
+            errorCount++;
+        } else {
+            CMDPError.style.display = 'none';
+        }
+
+        // MDP 
+        if (!validateMotDePasse(MDPInput.value)) {
+            MDPError.style.display = 'block';
+            errorCount++;
+        } else {
+            MDPError.style.display = 'none';
+        }
+
+        // role 
+        if (!validateRole(roleInput.value)) {
+            roleError.style.display = 'block';
+            errorCount++;
+        } else {
+            roleError.style.display = 'none';
+        }
+
+        // Événement pour le champ Nom
+        if (!validateNom(nomInput.value)) {
+            nomError.style.display = 'block';
+            errorCount++;
+        } else {
+            nomError.style.display = 'none';
+        }
+
+        // Événement pour le champ Prénom
+        if (!validatePrenom(prenomInput.value)) {
+            prenomError.style.display = 'block';
+            errorCount++;
+        } else {
+            prenomError.style.display = 'none';
+        }
+
+        // Événement pour le champ CIN
+        if (!validateCIN(cinInput.value)) {
+            cinError.style.display = 'block';
+            errorCount++;
+        } else {
+            cinError.style.display = 'none';
+        }
+
+        // Événement pour le champ Téléphone
+        if (!validateTel(telInput.value)) {
+            telError.style.display = 'block';
+            errorCount++;
+        } else {
+            telError.style.display = 'none';
+        }
+
+        // Événement pour le champ Email
+        if (!validateEmail(mailInput.value)) {
+            mailError.style.display = 'block';
+            errorCount++;
+        } else {
+            mailError.style.display = 'none';
+        }
+
+        // Si le compteur d'erreurs est supérieur à 0, empêcher l'envoi du formulaire
+        if (errorCount > 0) {
+            event.preventDefault();
+            alert('Le formulaire contient des erreurs, veuillez les corriger.');
+        }
+    });
+
+    // Validation du nom
+    function validateNom(nom) {
+        var nomRegex = /^[a-zA-Z\s]+$/;
+        return nom.length > 3 && nomRegex.test(nom);
+    }
+
+    // Validation du prénom
+    function validatePrenom(prenom) {
+        var prenomRegex = /^[a-zA-Z\s]+$/;
+        return prenom.length > 4 && prenomRegex.test(prenom);
+    }
+
+    // Validation de la CIN
+    function validateCIN(cin) {
+        var cinRegex = /^[0-9]*$/;
+        return cin.length === 8 && cinRegex.test(cin);
+    }
+
+    // Validation du téléphone
+    function validateTel(tel) {
+        var telRegex = /^[0-9]*$/;
+        return tel.length === 8 && telRegex.test(tel);
+    }
+
+    // Validation de l'email
+    function validateEmail(email) {
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    function validateRole(role) {
+        // Vérifier si une option a été sélectionnée
+        return role !== "";
+    }
+
+    function validateMotDePasse(motDePasse) {
+        // Expression régulière pour vérifier si le mot de passe contient au moins un caractère spécial, un chiffre et une lettre
+        var regex = /^(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,}$/;
+        return regex.test(motDePasse);
+    }
+
+    function validateMotDePasse2(motDePasse, motDePasse2) {
+        return motDePasse === motDePasse2;
+    }
+
+    function validateAge(date) {
+        // Convertir la chaîne de date en objet Date
+        var birthDate = new Date(date);
+
+        // Obtenir la date actuelle
+        var today = new Date();
+
+        // Calculer la date il y a 18 ans
+        var eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
+        // Comparer les dates
+        return birthDate <= eighteenYearsAgo;
+    }
+
+    function validateEtablissement(etablissement) {
+        // Expression régulière pour valider l'établissement (que des caractères alphabétiques)
+        var etablissementRegex = /^[a-zA-Z\s]+$/;
+        return etablissementRegex.test(etablissement);
+    }
+});
+</script>
 </body>
 
 </html>

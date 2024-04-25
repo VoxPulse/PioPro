@@ -48,8 +48,8 @@ $tableHTML .= '<td>' . $row['mail'] . '</td>';
 $tableHTML .= '<td>' . $row['tel'] . '</td>';
 
 
-
 $tableHTML .= '<td><button class="btn btn-danger btn-supprimer" data-id="' . $row['id'] . '">Supprimer</button></td>';
+
 $tableHTML .= '<td><button class="btn btn-primary btn-update"
  data-id="' . $row['id'] . '" data-name="' . htmlspecialchars($row['nom']) .
  '" data-prenom="' . htmlspecialchars($row['prenom']) .
@@ -71,6 +71,64 @@ $tableHTML .= '</tr>';
     } catch (PDOException $e) {
         echo 'Échec de connexion : ' . $e->getMessage();
         return ''; // Si la connexion échoue, retourner une chaîne vide
+    }
+}
+
+    //BLOCK 
+    // AFFICHAGE 
+    public function ListBlock()
+{
+    $conn = config::getConnexion();
+    try {
+        $query = $conn->prepare("SELECT * FROM user WHERE Block ='Blocked'");
+        $query->execute();
+        $result = $query->fetchAll();
+        
+        $tableHTML = '<table class="table">';
+        $tableHTML .= '<thead>';
+        $tableHTML .= '<tr>';
+        $tableHTML .= '<th>ID</th>';
+        $tableHTML .= '<th>Bloquer</th>';
+        $tableHTML .= '</tr>';
+        $tableHTML .= '</thead>';
+        $tableHTML .= '<tbody>';
+        
+        
+foreach ($result as $row) {
+    $tableHTML .= '<tr>';
+$tableHTML .= '<td>' . $row['id'] . '</td>';
+$tableHTML .= '<td><button class="btn btn-danger btn-Mod" data-id="'. $row['id'] . '">BLOCK</button></td>';
+$tableHTML .= '</tr>';
+}
+        
+        $tableHTML .= '</tbody>';
+        $tableHTML .= '</table>';
+        
+        return $tableHTML;
+    } catch (PDOException $e) {
+        echo 'Échec de connexion : ' . $e->getMessage();
+        return ''; // Si la connexion échoue, retourner une chaîne vide
+    }
+}
+    //USER 
+    public function blockUserById($userId)
+{
+    $conn = config::getConnexion();
+    try {
+        // Préparer la requête pour mettre à jour l'attribut "blocked" de l'utilisateur
+        $query = $conn->prepare("UPDATE user SET Block = 'Blocked' WHERE id = :userId");
+        $query->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $query->execute();
+
+        // Vérifier si des lignes ont été affectées (si l'utilisateur a été trouvé et mis à jour)
+        if ($query->rowCount() > 0) {
+            return true; // L'utilisateur a été bloqué avec succès
+        } else {
+            return false; // L'utilisateur n'a pas été trouvé ou l'opération a échoué
+        }
+    } catch (PDOException $e) {
+        echo 'Échec de connexion : ' . $e->getMessage();
+        return false; // Si la connexion échoue, retourner false
     }
 }
 
@@ -191,6 +249,7 @@ public function getName($id)
             return false; // En cas d'erreur, retourner false
         }
     }
+
     public function getUserCO($email, $mdp)
 {
     $conn = config::getConnexion();
@@ -203,25 +262,31 @@ public function getName($id)
         
         if ($result > 0) {
             // Il y a des utilisateurs correspondants dans la base de données
-            $roleQuery = $conn->prepare("SELECT role FROM user WHERE mail=:mail AND mdp=:mdp");
+            $roleQuery = $conn->prepare("SELECT role, Block FROM user WHERE mail=:mail AND mdp=:mdp");
             $roleQuery->bindParam(':mail', $email);
             $roleQuery->bindParam(':mdp', $mdp);
             $roleQuery->execute();
-            $userRole = $roleQuery->fetchColumn(); 
+            $userData = $roleQuery->fetch(PDO::FETCH_ASSOC); 
             
-            if ($userRole == 'admin') {
-                return '1'; 
+            $userRole = $userData['role']; 
+            $userState = $userData['Block'];
+
+            if ($userState == 'Blocked') {
+                return 3; // Retourner 3 si l'utilisateur est bloqué
+            } elseif ($userRole == 'admin') {
+                return '1'; // Retourner 1 pour l'administrateur
             } else {
-                return 2; 
+                return 2; // Retourner 2 pour les utilisateurs normaux
             }
         } else {
-            return 0;
+            return 0; // Aucun utilisateur correspondant trouvé
         }
     } catch (PDOException $e) {
         echo 'Échec de connexion : ' . $e->getMessage();
         return -1; // En cas d'erreur, retourner une valeur spéciale
     }
 }
+
 
 
 
