@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     //Supprimer
-    
+  
     var supprimerButtons = document.querySelectorAll('.btn-supprimer');
     supprimerButtons.forEach(function(button) {
         button.addEventListener('click', function() {
@@ -54,6 +54,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+
+
+
 function activerChamps() {
     var inputs = document.querySelectorAll('input');
     var selects = document.querySelectorAll('select');
@@ -65,4 +69,9 @@ function activerChamps() {
     selects.forEach(function(select) {
         select.removeAttribute('disabled');
     });
+    
 }
+//ESEAI
+<script>
+
+</script>

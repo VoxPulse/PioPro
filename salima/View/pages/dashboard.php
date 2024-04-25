@@ -1,13 +1,22 @@
 <?php
 
 include 'C:\wamp64\www\VoxPulse2\VoxPulse\Controller\eventC.php';
+
+
 $E = new eventC();
 $listeevent = $E->ListEvent();
 $nombreEvenements = $E->countEvent();
 $nextEventDate = $E->getNextEventDate();
-$sommeCoutsProchainsEvenements = $E->sumUpcomingEventCosts();
+$sommeCoutsProchainsEvenements = $E->sumEventCosts();
 $nextEventLocation = $E->getNextEventLocation();
-?>  
+
+////////////////////////////////////////////////////////////////participation
+
+$p=new participationC();
+$listparticipation=$p->ListParticipation();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -291,8 +300,9 @@ $nextEventLocation = $E->getNextEventLocation();
                     <div class="numbers">
                       <p class="text-sm mb-0 text-uppercase font-weight-bold"> prochain événement</p>
                       <h5 class="font-weight-bolder">
-                        <?php echo $nextEventDate ?>
                         <?php echo $nextEventLocation ?> 
+                        <br>
+                        <?php echo $nextEventDate?>
                       </h5>
 
                     </div>
@@ -400,135 +410,15 @@ $nextEventLocation = $E->getNextEventLocation();
             <div class="card-header pb-0 p-3">
               <div class="d-flex justify-content-between">
                 <h6 class="mb-2">Tous Les Participants</h6>
+                <button id="btn-add-admin" class="btn btn-primary2">Ajouter Une participation</button>
               </div>
             </div>
             <div class="table-responsive">
               <table class="table align-items-center ">
                 <tbody>
-                  <tr>
-                    <td class="w-30">
-                      <div class="d-flex px-2 py-1 align-items-center">
-                        <div>
-                          <img src="./assets/img/icons/flags/US.png" alt="Country flag">
-                        </div>
-                        <div class="ms-4">
-                          <p class="text-xs font-weight-bold mb-0">Pays:</p>
-                          <h6 class="text-sm mb-0">United States</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Accés:</p>
-                        <h6 class="text-sm mb-0">2500</h6>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Ventes:</p>
-                        <h6 class="text-sm mb-0">$230,900</h6>
-                      </div>
-                    </td>
-                    <td class="align-middle text-sm">
-                      <div class="col text-center">
-                        <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                        <h6 class="text-sm mb-0">29.9%</h6>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="w-30">
-                      <div class="d-flex px-2 py-1 align-items-center">
-                        <div>
-                          <img src="../assets/img/icons/flags/DE.png" alt="Country flag">
-                        </div>
-                        <div class="ms-4">
-                          <p class="text-xs font-weight-bold mb-0">Pays:</p>
-                          <h6 class="text-sm mb-0">Allemagne</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Accés:</p>
-                        <h6 class="text-sm mb-0">3.900</h6>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Ventes:</p>
-                        <h6 class="text-sm mb-0">$440,000</h6>
-                      </div>
-                    </td>
-                    <td class="align-middle text-sm">
-                      <div class="col text-center">
-                        <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                        <h6 class="text-sm mb-0">40.22%</h6>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="w-30">
-                      <div class="d-flex px-2 py-1 align-items-center">
-                        <div>
-                          <img src="../assets/img/icons/flags/GB.png" alt="Country flag">
-                        </div>
-                        <div class="ms-4">
-                          <p class="text-xs font-weight-bold mb-0">Pays:</p>
-                          <h6 class="text-sm mb-0">Grand Bretagne</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Accés:</p>
-                        <h6 class="text-sm mb-0">1.400</h6>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Ventes:</p>
-                        <h6 class="text-sm mb-0">$190,700</h6>
-                      </div>
-                    </td>
-                    <td class="align-middle text-sm">
-                      <div class="col text-center">
-                        <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                        <h6 class="text-sm mb-0">23.44%</h6>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="w-30">
-                      <div class="d-flex px-2 py-1 align-items-center">
-                        <div>
-                          <img src="../assets/img/icons/flags/BR.png" alt="Country flag">
-                        </div>
-                        <div class="ms-4">
-                          <p class="text-xs font-weight-bold mb-0">Pays:</p>
-                          <h6 class="text-sm mb-0">Bresil</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Accés:</p>
-                        <h6 class="text-sm mb-0">562</h6>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Ventes:</p>
-                        <h6 class="text-sm mb-0">$143,960</h6>
-                      </div>
-                    </td>
-                    <td class="align-middle text-sm">
-                      <div class="col text-center">
-                        <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                        <h6 class="text-sm mb-0">32.14%</h6>
-                      </div>
-                    </td>
-                  </tr>
+                
+                  <?php echo $listparticipation; ?>
+                
                 </tbody>
               </table>
             </div>
@@ -735,7 +625,6 @@ $nextEventLocation = $E->getNextEventLocation();
         </div>
         <div class="form-column">
             <div class="form-group">
-            <div id="dateError" class="invalid-feedback">respectez la forme de la date!</div>
                 <label for="date">Date:</label>
                 <input type="date" id="date" name="date">
             </div>
@@ -752,7 +641,7 @@ $nextEventLocation = $E->getNextEventLocation();
         </div>
     </div>
     <div class="button-container">
-        <button type="submit" class="btn btn-primary2 btn-Terminer">Ajouter</button>
+        <button type="submit" class="btn btn-primary3 btn-Terminer">Ajouter</button>
         <button class="btn btn-danger btn-Annuler">Annuler</button>
     </div>
 </form>
@@ -765,7 +654,8 @@ $nextEventLocation = $E->getNextEventLocation();
     <div class="custom-modal">
       <div class="modal-content">
         <h5>Modifier</h5>
-        <form action="UPDATEEVENT.php" method="post"> 
+        <form action="UPDATEEVENT.php" method="post" id="myform"> 
+          
     <div class="form-row">
         <div class="form-column">
             <div class="form-group">
@@ -795,7 +685,7 @@ $nextEventLocation = $E->getNextEventLocation();
         </div>
         <div class="form-column">
             <div class="form-group">
-            <div id="date2Error" class="invalid-feedback">respectez la forme de la date!</div>
+        
                 <label for="D1">Date:</label>
                 <input type="date" id="DATE2" name="Date">
             </div>
@@ -825,6 +715,10 @@ $nextEventLocation = $E->getNextEventLocation();
     var slimOverlay = document.querySelector('.slim');
     var modal = document.querySelector('.custom-modal');
 
+
+    var slim3Overlay = document.querySelector('.slim3');
+    var modal3 = document.querySelector('.custom-modal3');
+
     //Ajout
     var slim2Overlay = document.querySelector('.slim2');
     var modal2 = document.querySelector('.custom-modal2');
@@ -847,7 +741,7 @@ $nextEventLocation = $E->getNextEventLocation();
             // Le reste de votre logique pour le bouton "Modifier"
         });
     });
-
+  });
     //Ajouter
     var Ajouter = document.querySelectorAll('.btn-primary1');
     Ajouter.forEach(function(button) {
@@ -859,24 +753,62 @@ $nextEventLocation = $E->getNextEventLocation();
             
         });
     });
+
+
+     //Ajouter
+     var AjouterP = document.querySelectorAll('.btn-primary2');
+    AjouterP.forEach(function(button) {
+        button.addEventListener('click', function() {
+            slim3Overlay.style.display = 'flex';
+            modal3.style.display = 'block';
+            slim3Overlay.classList.add('blurred');
+            var row = button.closest('tr');
+            
+        });
+    });
     //Supprimer
+
+
+
     
+    //try salima
+    document.addEventListener("DOMContentLoaded", function() {
     var supprimerButtons = document.querySelectorAll('.btn-supprimer');
     supprimerButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function(event) {
+            // Empêcher le comportement par défaut du bouton
+            event.preventDefault();
+
+            // Récupérer l'identifiant de l'événement
             var eventId = button.getAttribute('data-id');
-            fetch('deleteEvent.php?id=' + eventId, {
-                method: 'DELETE'
-            })
-            .then(function(response) {
-                location.reload();
-            })
-            .catch(function(error) {
-                console.error('Une erreur s\'est produite:', error);
-            });
+            
+            // Afficher la boîte de confirmation
+            var confirmation = confirm("Êtes-vous sûr de vouloir supprimer cet événement ?");
+            
+            // Si l'utilisateur confirme la suppression
+            if (confirmation) {
+                // Effectuer la requête de suppression
+                fetch('deleteEvent.php?id=' + eventId, {
+                    method: 'DELETE'
+                })
+                .then(function(response) {
+                    // Recharger la page après la suppression
+                    location.reload();
+                })
+                .catch(function(error) {
+                    // Gérer les erreurs
+                    console.error('Une erreur s\'est produite:', error);
+                });
+            } else {
+                // Si l'utilisateur annule la suppression
+                console.log('Suppression annulée');
+                // Arrêter la propagation de l'événement pour éviter le traitement ultérieur
+                return false;
+            }
         });
     });
 });
+
    </script>
 
   <!--   Core JS Files   -->
@@ -1025,16 +957,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 <script >  document.addEventListener('DOMContentLoaded', function() {
-
-    // Sélection des éléments du formulaire (ajout)
-    var titreInput = document.getElementById('tit');
-    var descriptionInput = document.getElementById('desc');
-    var coutInput = document.getElementById('cout');
-    var dateInput = document.getElementById('date');
-    var lieuInput = document.getElementById('lieu');
-    var statutInput = document.getElementById('statut');
-    var nbPlacesInput = document.getElementById('nbp');
-
+ var myForm = document.getElementById('myform');
+   
 //Sélection des éléments du formulaire (modifier)
 
   var titre2Input = document.getElementById('TIT2');
@@ -1045,15 +969,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var statut2Input = document.getElementById('STATUT2');
   var nbPlaces2Input = document.getElementById('NOMP2');
 
-    // Sélection des éléments d'erreur(ajout)
-    var titreError = document.getElementById('titreError');
-    var descriptionError = document.getElementById('descriptionError');
-    var dateError = document.getElementById('dateError');
-    var coutError = document.getElementById('coutError');
-    var lieuError = document.getElementById('lieuError');
-    var statutError = document.getElementById('statutError');
-    var nbPlacesError = document.getElementById('nb_placesError');
-
+    
 
      // Sélection des éléments d'erreur(MODIFIER)
      var titre2Error = document.getElementById('titre2Error');
@@ -1063,149 +979,84 @@ document.addEventListener('DOMContentLoaded', function() {
     var lieu2Error = document.getElementById('lieu2Error');
     var statut2Error = document.getElementById('statut2Error');
     var nbPlaces2Error = document.getElementById('nb_places2Error');
-
-
-
-    titre2Input.addEventListener('input', function() {
+    myForm.addEventListener('submit', function(event) {
+        // Initialisation du compteur d'erreurs
+        var errors = 0;
+   
         if (!validateTitre(titre2Input.value)) {
+          
             titre2Error.style.display = 'block';
+            errors++;
         } else {
             titre2Error.style.display = 'none';
         }
-    });
-
-
-// Sélection des éléments d'erreur(ajout)
-    var titreError = document.getElementById('titreError');
-    var titre2Error = document.getElementById('titre2Error');
-
-    var descriptionError = document.getElementById('descriptionError');
-    var dateError = document.getElementById('dateError');
-    var coutError = document.getElementById('coutError');
-    var lieuError = document.getElementById('lieuError');
-    var statutError = document.getElementById('statutError');
-    var nbPlacesError = document.getElementById('nb_placesError');
-
-    titre2Input.addEventListener('input', function() {
-        if (!validateTitre(titre2Input.value)) {
-            titre2Error.style.display = 'block';
-        } else {
-            titre2Error.style.display = 'none';
-        }
-    });
-
-
-
-//
-
-    // Événement pour le champ Titre
-    titreInput.addEventListener('input', function() {
-        if (!validateTitre(titreInput.value)) {
-            titreError.style.display = 'block';
-        } else {
-            titreError.style.display = 'none';
-        }
-    });
+    
 
     // Événement pour le champ Description
-    description2Input.addEventListener('input', function() {
+    
         if (!validateDescription(description2Input.value)) {
             description2Error.style.display = 'block';
+            errors++;
         } else {
             description2Error.style.display = 'none';
         }
-    });
-    descriptionInput.addEventListener('input', function() {
-        if (!validateDescription(descriptionInput.value)) {
-            descriptionError.style.display = 'block';
-        } else {
-            descriptionError.style.display = 'none';
-        }
-    });
-    date2Input.addEventListener('input', function() {
+    
+    
+   
         if (!validateDate(date2Input.value)) {
+          
             date2Error.style.display = 'block';
+            errors++;
         } else {
             date2Error.style.display = 'none';
         }
-    });
-    // Événement pour le champ Date
-    dateInput.addEventListener('input', function() {
-        if (!validateDate(dateInput.value)) {
-            dateError.style.display = 'block';
-        } else {
-            dateError.style.display = 'none';
-        }
-    });
+
 
     // Événement pour le champ Lieu
-    lieu2Input.addEventListener('input', function() {
+    
         if (!validateLieu(lieu2Input.value)) {
+        
             lieu2Error.style.display = 'block';
+            errors++;
         } else {
             lieu2Error.style.display = 'none';
         }
-    });
-    // Événement pour le champ Lieu
-    lieuInput.addEventListener('input', function() {
-        if (!validateLieu(lieuInput.value)) {
-            lieuError.style.display = 'block';
-        } else {
-            lieuError.style.display = 'none';
-        }
-    });
 
     // Événement pour le champ Statut
-    statut2Input.addEventListener('input', function() {
+    
         if (!validateStatut(statut2Input.value)) {
+          
             statut2Error.style.display = 'block';
+            errors++;
         } else {
             statut2Error.style.display = 'none';
         }
-    });
-    // Événement pour le champ Statut
-    statutInput.addEventListener('input', function() {
-        if (!validateStatut(statutInput.value)) {
-            statutError.style.display = 'block';
-        } else {
-            statutError.style.display = 'none';
-        }
-    });
+    
     // Événement pour le champ cout
-    cout2Input.addEventListener('input', function() {
+ 
         if (!validateCout(cout2Input.value)) {
+          
             cout2Error.style.display = 'block';
+            errors++;
         } else {
             cout2Error.style.display = 'none';
         }
-    });
-    // Événement pour le champ cout
-    coutInput.addEventListener('input', function() {
-        if (!validateCout(coutInput.value)) {
-            coutError.style.display = 'block';
-        } else {
-            coutError.style.display = 'none';
-        }
-    });
+    
+   
     // Événement pour le champ Nombre de places
-    nbPlaces2Input.addEventListener('input', function() {
+  
         if (!validateNbPlaces(nbPlaces2Input.value)) {
             nbPlaces2Error.style.display = 'block';
+            errors++;
         } else {
             nbPlaces2Error.style.display = 'none';
         }
-    });
-    // Événement pour le champ Nombre de places
-    nbPlacesInput.addEventListener('input', function() {
-        if (!validateNbPlaces(nbPlacesInput.value)) {
-            nbPlacesError.style.display = 'block';
-        } else {
-            nbPlacesError.style.display = 'none';
+    
+        if (errors > 0) {
+            event.preventDefault();
+            alert('Le formulaire contient des erreurs, veuillez les corriger.');
         }
     });
-
-
-
     //LES FONCTION
 
     // Validation du Titre
@@ -1259,6 +1110,447 @@ function validateCout(cout) {
     return coutRegex.test(cout);
 }
 });
+
+
+</script>
+
+
+<script >  document.addEventListener('DOMContentLoaded', function() {
+
+// Sélection des éléments du formulaire (ajout)
+var titreInput = document.getElementById('tit');
+var descriptionInput = document.getElementById('desc');
+var coutInput = document.getElementById('cout');
+var dateInput = document.getElementById('date');
+var lieuInput = document.getElementById('lieu');
+var statutInput = document.getElementById('statut');
+var nbPlacesInput = document.getElementById('nbp');
+
+//Sélection des éléments du formulaire (modifier)
+
+var titre2Input = document.getElementById('TIT2');
+var description2Input = document.getElementById('DESC2');
+var cout2Input = document.getElementById('COUT2');
+var date2Input = document.getElementById('DATE2');
+var lieu2Input = document.getElementById('LIEU2');
+var statut2Input = document.getElementById('STATUT2');
+var nbPlaces2Input = document.getElementById('NOMP2');
+
+// Sélection des éléments d'erreur(ajout)
+var titreError = document.getElementById('titreError');
+var descriptionError = document.getElementById('descriptionError');
+var dateError = document.getElementById('dateError');
+var coutError = document.getElementById('coutError');
+var lieuError = document.getElementById('lieuError');
+var statutError = document.getElementById('statutError');
+var nbPlacesError = document.getElementById('nb_placesError');
+
+
+ // Sélection des éléments d'erreur(MODIFIER)
+ var titre2Error = document.getElementById('titre2Error');
+var description2Error = document.getElementById('description2Error');
+var date2Error = document.getElementById('date2Error');
+var cout2Error = document.getElementById('cout2Error');
+var lieu2Error = document.getElementById('lieu2Error');
+var statut2Error = document.getElementById('statut2Error');
+var nbPlaces2Error = document.getElementById('nb_places2Error');
+
+
+
+titre2Input.addEventListener('input', function() {
+    if (!validateTitre(titre2Input.value)) {
+        titre2Error.style.display = 'block';
+    } else {
+        titre2Error.style.display = 'none';
+    }
+});
+
+
+// Sélection des éléments d'erreur(ajout)
+var titreError = document.getElementById('titreError');
+var titre2Error = document.getElementById('titre2Error');
+
+var descriptionError = document.getElementById('descriptionError');
+var dateError = document.getElementById('dateError');
+var coutError = document.getElementById('coutError');
+var lieuError = document.getElementById('lieuError');
+var statutError = document.getElementById('statutError');
+var nbPlacesError = document.getElementById('nb_placesError');
+
+titre2Input.addEventListener('input', function() {
+    if (!validateTitre(titre2Input.value)) {
+        titre2Error.style.display = 'block';
+    } else {
+        titre2Error.style.display = 'none';
+    }
+});
+
+
+
+//
+
+// Événement pour le champ Titre
+titreInput.addEventListener('input', function() {
+    if (!validateTitre(titreInput.value)) {
+        titreError.style.display = 'block';
+    } else {
+        titreError.style.display = 'none';
+    }
+});
+
+// Événement pour le champ Description
+description2Input.addEventListener('input', function() {
+    if (!validateDescription(description2Input.value)) {
+        description2Error.style.display = 'block';
+    } else {
+        description2Error.style.display = 'none';
+    }
+});
+descriptionInput.addEventListener('input', function() {
+    if (!validateDescription(descriptionInput.value)) {
+        descriptionError.style.display = 'block';
+    } else {
+        descriptionError.style.display = 'none';
+    }
+});
+date2Input.addEventListener('input', function() {
+    if (!validateDate(date2Input.value)) {
+        date2Error.style.display = 'block';
+    } else {
+        date2Error.style.display = 'none';
+    }
+});
+// Événement pour le champ Date
+dateInput.addEventListener('input', function() {
+    if (!validateDate(dateInput.value)) {
+        dateError.style.display = 'block';
+    } else {
+        dateError.style.display = 'none';
+    }
+});
+
+// Événement pour le champ Lieu
+lieu2Input.addEventListener('input', function() {
+    if (!validateLieu(lieu2Input.value)) {
+        lieu2Error.style.display = 'block';
+    } else {
+        lieu2Error.style.display = 'none';
+    }
+});
+// Événement pour le champ Lieu
+lieuInput.addEventListener('input', function() {
+    if (!validateLieu(lieuInput.value)) {
+        lieuError.style.display = 'block';
+    } else {
+        lieuError.style.display = 'none';
+    }
+});
+
+// Événement pour le champ Statut
+statut2Input.addEventListener('input', function() {
+    if (!validateStatut(statut2Input.value)) {
+        statut2Error.style.display = 'block';
+    } else {
+        statut2Error.style.display = 'none';
+    }
+});
+// Événement pour le champ Statut
+statutInput.addEventListener('input', function() {
+    if (!validateStatut(statutInput.value)) {
+        statutError.style.display = 'block';
+    } else {
+        statutError.style.display = 'none';
+    }
+});
+// Événement pour le champ cout
+cout2Input.addEventListener('input', function() {
+    if (!validateCout(cout2Input.value)) {
+        cout2Error.style.display = 'block';
+    } else {
+        cout2Error.style.display = 'none';
+    }
+});
+// Événement pour le champ cout
+coutInput.addEventListener('input', function() {
+    if (!validateCout(coutInput.value)) {
+        coutError.style.display = 'block';
+    } else {
+        coutError.style.display = 'none';
+    }
+});
+// Événement pour le champ Nombre de places
+nbPlaces2Input.addEventListener('input', function() {
+    if (!validateNbPlaces(nbPlaces2Input.value)) {
+        nbPlaces2Error.style.display = 'block';
+    } else {
+        nbPlaces2Error.style.display = 'none';
+    }
+});
+// Événement pour le champ Nombre de places
+nbPlacesInput.addEventListener('input', function() {
+    if (!validateNbPlaces(nbPlacesInput.value)) {
+        nbPlacesError.style.display = 'block';
+    } else {
+        nbPlacesError.style.display = 'none';
+    }
+});
+
+
+
+//LES FONCTION
+
+// Validation du Titre
+function validateTitre(titre) {
+// Expression régulière pour valider le titre (que des lettres)
+var titreRegex = /^[a-zA-Z\s]+$/;
+
+// Vérification si le champ est rempli et contient uniquement des lettres
+return titre.trim() !== '' && titreRegex.test(titre);
+}
+
+// Validation de la Description
+function validateDescription(description) {
+    // Expression régulière pour valider la description (pas de caractères spéciaux)
+    var descriptionRegex = /^[a-zA-Z0-9\s]+$/;
+    return descriptionRegex.test(description);
+}
+
+// Validation de la Date
+function validateDate(date) {
+    // Expression régulière pour valider la date (pas de caractères spéciaux)
+    var dateRegex = /^[a-zA-Z0-9\s]+$/;
+    return dateRegex.test(date);
+}
+
+// Validation du Lieu
+function validateLieu(lieu) {
+// Expression régulière pour valider le lieu (lettres et chiffres)
+var lieuRegex = /^[a-zA-Z0-9\s]+$/;
+return lieuRegex.test(lieu);
+}
+
+// Validation du Nombre de places
+function validateNbPlaces(nbPlaces) {
+// Vérifier si le nombre de places est un nombre entier et inférieur ou égal à 400
+var nbPlacesInt = parseInt(nbPlaces);
+return !isNaN(nbPlacesInt) && /^[0-9]+$/.test(nbPlaces);
+}
+// Validation du Statut
+function validateStatut(statut) {
+// Expression régulière pour valider le statut (que des lettres)
+var statutRegex = /^[a-zA-Z\s]+$/;
+
+// Vérification si le champ est rempli et contient uniquement des lettres
+return statut.trim() !== '' && statutRegex.test(statut);
+}
+// Validation du Coût
+function validateCout(cout) {
+// Expression régulière pour valider uniquement des chiffres
+var coutRegex = /^[0-9]+$/;
+return coutRegex.test(cout);
+}
+});
+
+
+</script>
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+    var supprimerButtons = document.querySelectorAll('.btn-supprimer');
+    supprimerButtons.forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            // Empêcher le comportement par défaut du bouton
+            event.preventDefault();
+
+            // Récupérer l'identifiant de l'événement
+            var eventId = button.getAttribute('data-id');
+            
+            // Afficher la boîte de confirmation
+            var confirmation = confirm("Êtes-vous sûr de vouloir supprimer cet événement ?");
+            
+            // Si l'utilisateur confirme la suppression
+            if (confirmation) {
+                // Effectuer la requête de suppression
+                fetch('deleteEvent.php?id=' + eventId, {
+                    method: 'DELETE'
+                })
+                .then(function(response) {
+                    // Recharger la page après la suppression
+                    location.reload();
+                })
+                .catch(function(error) {
+                    // Gérer les erreurs
+                    console.error('Une erreur s\'est produite:', error);
+                });
+            } else {
+                // Si l'utilisateur annule la suppression
+                console.log('Suppression annulée');
+                // Arrêter la propagation de l'événement pour éviter le traitement ultérieur
+                return false;
+            }
+        });
+    });
+});
+var Ajouter = document.querySelectorAll('.btn-primary1');
+    Ajouter.forEach(function(button) {
+        button.addEventListener('click', function() {
+            slim2Overlay.style.display = 'flex';
+            modal2.style.display = 'block';
+            slim2Overlay.classList.add('blurred');
+            var row = button.closest('tr');
+            
+        });
+    });
+
+
+
+
+<!-- participation -->
+
+
+<!-- Label aout-->
+  <div class="slim3">
+    <div class="custom-modal2">
+      <div class="modal-content">
+        <h5>Ajouter Une participation</h5>
+        <form action="AddParticipation.php" method="post">
+    <div class="form-row">
+        <div class="form-column">
+        <div class="form-group">
+        <div id="nomError" class="invalid-feedback">le nom doit contenir seulement des lettres!</div>
+                <label for="no">nom:</label>
+                <input type="text" id="nom" name="nom">
+            </div>
+            <div class="form-group">
+                <label for="pre">prenom:</label>
+                <div id="prenomError" class="invalid-feedback">le prenom doit contenir seulement des lettres!</div>
+                <input type="text" id="pre" name="pre">
+            </div>
+            <div class="form-group">
+            <div id="emailError" class="invalid-feedback">vous devez respecter la forme des emails!</div>
+                <label for="email">email:</label>
+                <input type="text" id="email" name="email">
+            </div>
+            <div class="form-group">
+                <label for="tel">Statut:</label>
+                <div id="telError" class="invalid-feedback">le numero de telephone doit contenir seulement des chiffres!</div>
+                <input type="tel" id="tel" name="tel">
+            </div>
+        </div>
+        
+            <div class="form-group">
+            <div id="etablissementError" class="invalid-feedback">l'etablissement ne doit pas contenir des caracteres speciaux!</div>
+                <label for="etablissement">Lieu:</label>
+                <input type="text" id="etablissement" name="etablissement">
+            </div>
+           
+    </div>
+    <div class="button-container">
+        <button type="submit" class="btn btn-primary2 btn-Terminer">Ajouter</button>
+        <button class="btn btn-danger btn-Annuler">Annuler</button>
+    </div>
+</form>
+
+      </div>
+    </div>
+  </div>
+  <!-- Label mod-->
+  <div class="slim4">
+    <div class="custom-modal">
+      <div class="modal-content">
+        <h5>Modifier</h5>
+        <form action="UpdateParticipation.php" method="post"> 
+    <div class="form-row">
+        <div class="form-column">
+            <div class="form-group">
+                <label for="Id">Id:</label>
+                <input type="text" id="Id" name="Id">
+            </div>
+            <div class="form-group">
+                <label for="NOM">titre:</label>
+                <div id="nom2Error" class="invalid-feedback">le nom doit contenir que des lettres!</div>
+                <input type="text" id="NOM2" name="NOM">
+            </div>
+            <div class="form-group">
+            <div id="prenom2Error" class="invalid-feedback">le prenom doit contenir que des lettres!</div>
+                <label for="PRENOM">Description:</label>
+                <input type="text" id="PRENOM2" name="PRENOM">
+            </div>
+            <div class="form-group">
+            <div id="email2Error" class="invalid-feedback">l'email doit respecter la forme des emails!</div>
+                <label for="EMAIL">email:</label>
+                <input type="text" id="EMAIL2" name="EMAIL">
+            </div>
+            <div class="form-group">
+            <div id="tel2Error" class="invalid-feedback">le numero de telephone doit contenir seulement des chiffres!</div>
+                <label for="TEL">tel:</label>
+                <input type="text" id="TEL2" name="TEL">
+            </div>
+        </div>
+
+            <div class="form-group">
+            <div id="etablissement2Error" class="invalid-feedback">l'etablissement ne doit pas contenir des lettres speciaux!</div>
+                <label for="L">etablissement:</label>
+                <input type="text" id="ETABLISSEMENT2" name="ETABLISSEMENT">
+            </div>
+            
+    </div>
+    <div class="button-container">
+        <button type="submit" class="btn btn-danger btn-Terminer">Terminer</button>
+        <button class="btn btn-primary btn-Annuler">Annuler</button>
+    </div>
+</form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Label aout-->
+  <div class="slim3">
+    <div class="custom-modal2">
+      <div class="modal-content">
+        <h5>Ajouter Une participation</h5>
+        <form action="AddParticipation.php" method="post">
+    <div class="form-row">
+        <div class="form-column">
+        <div class="form-group">
+        <div id="nomError" class="invalid-feedback">le nom doit contenir seulement des lettres!</div>
+                <label for="nom">nom:</label>
+                <input type="text" id="nom" name="nom">
+            </div>
+            <div class="form-group">
+                <label for="prenom">prenom:</label>
+                <div id="prenomError" class="invalid-feedback">le prenom doit contenir seulement des lettres!</div>
+                <input type="text" id="prenom" name="prenom">
+            </div>
+            <div class="form-group">
+            <div id="emailError" class="invalid-feedback">vous devez respecter la forme des emails!</div>
+                <label for="email">email:</label>
+                <input type="text" id="email" name="email">
+            </div>
+            <div class="form-group">
+                <label for="tel">Statut:</label>
+                <div id="telError" class="invalid-feedback">le numero de telephone doit contenir seulement des chiffres!</div>
+                <input type="tel" id="tel" name="tel">
+            </div>
+        </div>
+        
+            <div class="form-group">
+            <div id="etablissementError" class="invalid-feedback">l'etablissement ne doit pas contenir des caracteres speciaux!</div>
+                <label for="etablissement">Lieu:</label>
+                <input type="text" id="etablissement" name="etablissement">
+            </div>
+           
+    </div>
+    <div class="button-container">
+        <button type="submit" class="btn btn-primary2 btn-Terminer">Ajouter</button>
+        <button class="btn btn-danger btn-Annuler">Annuler</button>
+    </div>
+</form>
+
+      </div>
+    </div>
+  </div>
 </script>
 
 </body>

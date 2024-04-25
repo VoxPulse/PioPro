@@ -1,3 +1,9 @@
+
+<?php
+include 'C:\wamp64\www\VoxPulse2\VoxPulse\Controller\eventC.php';
+$E = new eventC();
+$listeevent = $E->ListEvent();
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -409,7 +415,7 @@ Nous recherchons un Manager des Ventes dynamique pour diriger notre équipe de v
       <div class="container">
         <div class="row mb-5 justify-content-center">
           <div class="col-lg-7 text-center"  data-aos="fade-up" data-aos-delay="">
-            <h2 class="section-title">Nos Programmes</h2>
+            <h2 class="section-title">Nos Evénements</h2>
             <p>Nos programmes offrent une approche holistique pour vous permettre d'acquérir les compétences et connaissances nécessaires pour réussir dans votre domaine professionnel. Avec des cours dynamiques et des ressources de pointe, nous vous préparons à exceller dans votre carrière!</p>
           </div>
         </div>

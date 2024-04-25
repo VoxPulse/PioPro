@@ -1,7 +1,7 @@
 <?php
 include 'C:\wamp64\www\VoxPulse2\VoxPulse\Model\config.php';
 
-class eventC
+class participationC
 {
     // AFFICHAGE 
     public function ListParticipation()
@@ -47,95 +47,6 @@ class eventC
     } catch (PDOException $e) {
         echo 'Échec de connexion : ' . $e->getMessage();
         return ''; // Si la connexion échoue, retourner une chaîne vide
-    }
-}
-
-
-    //Count users 
-    public function countUsers()
-{
-    $conn = config::getConnexion();
-    try {
-        $query = $conn->prepare("SELECT COUNT(*) as num_users from user");
-        $query->execute();
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-
-        // Récupérer le nombre d'utilisateurs
-        $numUsers = $result['num_users'];
-        
-        return $numUsers; // Retourner le nombre d'utilisateurs
-        
-    } catch (PDOException $e) {
-        echo 'Échec de connexion : ' . $e->getMessage();
-        return 0; // Si la connexion échoue, retourner 0
-    }
-}
-//Inscription Aujourd'hui 
-public function NouveauInscription()
-{
-    $conn = config::getConnexion();
-    try {
-        // Obtenir la date actuelle
-        $date_crea = date("Y-m-d");
-
-        $query = $conn->prepare("SELECT COUNT(*) as num_users from user WHERE date_Crea=:date_crea");
-        $query->bindParam(':date_crea', $date_crea, PDO::PARAM_STR);
-        $query->execute();
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-
-        // Récupérer le nombre d'utilisateurs
-        $numUsers = $result['num_users'];
-        
-        return $numUsers; // Retourner le nombre d'utilisateurs
-        
-    } catch (PDOException $e) {
-        echo 'Échec de connexion : ' . $e->getMessage();
-        return 0; // Si la connexion échoue, retourner 0
-    }
-}
-//LastLogin 
-public function LastLogin()
-{
-    $conn = config::getConnexion();
-    try {
-        // Obtenir la date actuelle
-        $current_date = date("Y-m-d");
-
-        $query = $conn->prepare("SELECT COUNT(*) as num_users from user WHERE DATE(dernier_login) = :current_date");
-        $query->bindParam(':current_date', $current_date, PDO::PARAM_STR);
-        $query->execute();
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-
-        // Récupérer le nombre d'utilisateurs
-        $numUsers = $result['num_users'];
-        
-        return $numUsers; // Retourner le nombre d'utilisateurs
-        
-    } catch (PDOException $e) {
-        echo 'Échec de connexion : ' . $e->getMessage();
-        return 0; // Si la connexion échoue, retourner 0
-    }
-}
-//
-// Users Online 
-public function UsersOnline()
-{
-    $conn = config::getConnexion();
-    try {
-        $query = $conn->prepare("SELECT COUNT(*) as num_users from user WHERE statut=:statut ");
-        $statut="enligne";
-        $query->bindParam(':statut',$statut); 
-        $query->execute();
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-
-        // Récupérer le nombre d'utilisateurs
-        $numUsers = $result['num_users'];
-        
-        return $numUsers; // Retourner le nombre d'utilisateurs
-        
-    } catch (PDOException $e) {
-        echo 'Échec de connexion : ' . $e->getMessage();
-        return 0; // Si la connexion échoue, retourner 0
     }
 }
 
