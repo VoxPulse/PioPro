@@ -7,7 +7,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../../images/logo 1.png">
   <title>
-    Argon Dashboard 2 by Creative Tim
+    PioPro Dashboard
   </title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -29,7 +29,7 @@
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html " target="_blank">
         <img src="../../images/logo 1.png" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold">PioPro Dashboard 2</span>
+        <span class="ms-1 font-weight-bold">PioPro Dashboard</span>
       </a>
     </div>
     <hr class="horizontal dark mt-0">
@@ -243,38 +243,13 @@
               <div class="row">
                 <div class="col-8">
                   <div class="numbers">
-                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Money</p>
-                    <h5 class="font-weight-bolder">
-                      $53,000
-                    </h5>
-                    <p class="mb-0">
-                      <span class="text-success text-sm font-weight-bolder">+55%</span>
-                      since yesterday
-                    </p>
-                  </div>
-                </div>
-                <div class="col-4 text-end">
-                  <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                    <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-body p-3">
-              <div class="row">
-                <div class="col-8">
-                  <div class="numbers">
-                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Users</p>
+                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Utilisateurs Aujourd'hui</p>
                     <h5 class="font-weight-bolder">
                       2,300
                     </h5>
                     <p class="mb-0">
                       <span class="text-success text-sm font-weight-bolder">+3%</span>
-                      since last week
+                      depuis la semaine derniere
                     </p>
                   </div>
                 </div>
@@ -293,13 +268,13 @@
               <div class="row">
                 <div class="col-8">
                   <div class="numbers">
-                    <p class="text-sm mb-0 text-uppercase font-weight-bold">New Clients</p>
+                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Nouveaux Reacteurs Forum</p>
                     <h5 class="font-weight-bolder">
                       +3,462
                     </h5>
                     <p class="mb-0">
                       <span class="text-danger text-sm font-weight-bolder">-2%</span>
-                      since last quarter
+                      depuis Janvier 2024
                     </p>
                   </div>
                 </div>
@@ -318,12 +293,12 @@
               <div class="row">
                 <div class="col-8">
                   <div class="numbers">
-                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Sales</p>
+                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Avis Constructifs</p>
                     <h5 class="font-weight-bolder">
-                      $103,430
+                      103,430
                     </h5>
                     <p class="mb-0">
-                      <span class="text-success text-sm font-weight-bolder">+5%</span> than last month
+                      <span class="text-success text-sm font-weight-bolder">+5%</span> que le mois Dernier
                     </p>
                   </div>
                 </div>
@@ -341,7 +316,7 @@
         <div class="col-lg-7 mb-lg-0 mb-4">
           <div class="card z-index-2 h-100">
             <div class="card-header pb-0 pt-3 bg-transparent">
-              <h6 class="text-capitalize">Sales overview</h6>
+              <h6 class="text-capitalize">Interaction Mois Mai</h6>
               <p class="text-sm mb-0">
                 <i class="fa fa-arrow-up text-success"></i>
                 <span class="font-weight-bold">4% more</span> in 2021
@@ -406,7 +381,7 @@
           <div class="card ">
             <div class="card-header pb-0 p-3">
               <div class="d-flex justify-content-between">
-                <h6 class="mb-2">Sales by Country</h6>
+                <h6 class="mb-2">Interactions Par Pays</h6>
               </div>
             </div>
             <div class="table-responsive">
@@ -419,26 +394,20 @@
                           <img src="../assets/img/icons/flags/US.png" alt="Country flag">
                         </div>
                         <div class="ms-4">
-                          <p class="text-xs font-weight-bold mb-0">Country:</p>
+                          <p class="text-xs font-weight-bold mb-0">Pays:</p>
                           <h6 class="text-sm mb-0">United States</h6>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Sales:</p>
+                        <p class="text-xs font-weight-bold mb-0">Utilisateurs:</p>
                         <h6 class="text-sm mb-0">2500</h6>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Value:</p>
-                        <h6 class="text-sm mb-0">$230,900</h6>
                       </div>
                     </td>
                     <td class="align-middle text-sm">
                       <div class="col text-center">
-                        <p class="text-xs font-weight-bold mb-0">Bounce:</p>
+                        <p class="text-xs font-weight-bold mb-0">Interactions:</p>
                         <h6 class="text-sm mb-0">29.9%</h6>
                       </div>
                     </td>
@@ -450,26 +419,21 @@
                           <img src="../assets/img/icons/flags/DE.png" alt="Country flag">
                         </div>
                         <div class="ms-4">
-                          <p class="text-xs font-weight-bold mb-0">Country:</p>
+                          <p class="text-xs font-weight-bold mb-0">Pays:</p>
                           <h6 class="text-sm mb-0">Germany</h6>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Sales:</p>
+                        <p class="text-xs font-weight-bold mb-0">Utilisateurs:</p>
                         <h6 class="text-sm mb-0">3.900</h6>
                       </div>
                     </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Value:</p>
-                        <h6 class="text-sm mb-0">$440,000</h6>
-                      </div>
-                    </td>
+                    
                     <td class="align-middle text-sm">
                       <div class="col text-center">
-                        <p class="text-xs font-weight-bold mb-0">Bounce:</p>
+                        <p class="text-xs font-weight-bold mb-0">Interactions:</p>
                         <h6 class="text-sm mb-0">40.22%</h6>
                       </div>
                     </td>
@@ -481,26 +445,21 @@
                           <img src="../assets/img/icons/flags/GB.png" alt="Country flag">
                         </div>
                         <div class="ms-4">
-                          <p class="text-xs font-weight-bold mb-0">Country:</p>
+                          <p class="text-xs font-weight-bold mb-0">Pays:</p>
                           <h6 class="text-sm mb-0">Great Britain</h6>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Sales:</p>
+                        <p class="text-xs font-weight-bold mb-0">Utilisateurs:</p>
                         <h6 class="text-sm mb-0">1.400</h6>
                       </div>
                     </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Value:</p>
-                        <h6 class="text-sm mb-0">$190,700</h6>
-                      </div>
-                    </td>
+                    
                     <td class="align-middle text-sm">
                       <div class="col text-center">
-                        <p class="text-xs font-weight-bold mb-0">Bounce:</p>
+                        <p class="text-xs font-weight-bold mb-0">Interactions:</p>
                         <h6 class="text-sm mb-0">23.44%</h6>
                       </div>
                     </td>
@@ -512,26 +471,21 @@
                           <img src="../assets/img/icons/flags/BR.png" alt="Country flag">
                         </div>
                         <div class="ms-4">
-                          <p class="text-xs font-weight-bold mb-0">Country:</p>
+                          <p class="text-xs font-weight-bold mb-0">Pays:</p>
                           <h6 class="text-sm mb-0">Brasil</h6>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Sales:</p>
+                        <p class="text-xs font-weight-bold mb-0">Utilisateurs:</p>
                         <h6 class="text-sm mb-0">562</h6>
                       </div>
                     </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">Value:</p>
-                        <h6 class="text-sm mb-0">$143,960</h6>
-                      </div>
-                    </td>
+                    
                     <td class="align-middle text-sm">
                       <div class="col text-center">
-                        <p class="text-xs font-weight-bold mb-0">Bounce:</p>
+                        <p class="text-xs font-weight-bold mb-0">Interactions:</p>
                         <h6 class="text-sm mb-0">32.14%</h6>
                       </div>
                     </td>
@@ -613,7 +567,7 @@
           <?php
               if(isset($_GET['id']))
               {
-                require_once('C:\wamp64\www\projetV1\Controllers\PublicationC.php');
+                require_once('C:\wamp64\www\projetV4\Controllers\PublicationC.php');
                 $pub1=new PublicationC();
                 $id = $_GET['id'];
                 $row = $pub1->getPublicationById($id);
@@ -633,7 +587,7 @@
           <?php
               if(isset($_GET['id']))
               {
-                require_once('C:\wamp64\www\projetV1\Controllers\PublicationC.php');
+                require_once('C:\wamp64\www\projetV4\Controllers\PublicationC.php');
                 $pub1=new PublicationC();
                 $id = $_GET['id'];
                 $row = $pub1->getPublicationById($id);
@@ -655,21 +609,35 @@
           ?>
         </div>
         <div class="card ">
-            <div class="card-header pb-0 p-3">
-              <div class="d-flex justify-content-between">
-                <h6 class="mb-2">Les Publications</h6>
-              </div>
+          <div class="card-header pb-0 p-3">
+            <div class="d-flex justify-content-between">
+              <h6 class="mb-2">Les Publications</h6>
             </div>
-            <div class="table-responsive">
-
-        <?php
-            require_once('C:\wamp64\www\projetV1\Controllers\PublicationC.php');
-            $pub1=new PublicationC();
-            $pub1->ListPublication();
-        ?>
+          </div>
+          <div class="table-responsive">
+              <?php
+                  require_once('C:\wamp64\www\projetV4\Controllers\PublicationC.php');
+                  $pub1=new PublicationC();
+                  $pub1->ListPublication();
+              ?>
+          </div>
         </div>
-      </div>
-      
+        <!--
+        <div class="card ">
+          <div class="card-header pb-0 p-3">
+            <div class="d-flex justify-content-between">
+              <h6 class="mb-2">Les Commentaires</h6>
+            </div>
+          </div>
+          <div class="table-responsive">
+              <?php
+                  require_once('C:\wamp64\www\projetV4\Controllers\PublicationC.php');
+                  $pub1=new PublicationC();
+                  $pub1->ListPublication();
+              ?>
+          </div>
+        </div>
+            -->
       <footer class="footer pt-3  ">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">

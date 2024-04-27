@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Ask PioPro</title>
+    <title>PioPro Forum</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -86,12 +86,12 @@
     <div class="container">
       <div class="welcome-demop102 text-center">
         <h1><br><br></br></br></h1>
-        <h2>Welcome to PioPro  Forum</h2>
+        <h2>Bienvenue sur le forum PioPro</h2>
         <p>
-          Welcome to our online forum! <br>
-          We're thrilled to have you join our community. </br>
-          Whether you're here to share your expertise, seek advice,or simply connect <br>
-          with like-minded individuals, you've come to the right place.</br>
+          Bienvenue sur notre forum en ligne ! <br>
+          Nous sommes ravis que vous rejoigniez notre communauté. </br>
+          Que vous soyez ici pour partager votre expertise, demander des conseils ou simplement vous<br>
+          connecter avec des personnes partageant les mêmes idées, vous êtes au bon endroit.</br>
         </p>
         
         <div class="overlay" id="overlay"></div>
@@ -112,7 +112,7 @@
           <?php
               if(isset($_GET['id']))
               {
-                require_once('C:\wamp64\www\projetV2\Controllers\PublicationC.php');
+                require_once('C:\wamp64\www\projetV4\Controllers\PublicationC.php');
                 $pub1=new PublicationC();
                 $id = $_GET['id'];
                 $row = $pub1->getPublicationById($id);
@@ -142,7 +142,7 @@
           <?php 
           if(isset($_GET['id']))
           {
-            require_once('C:\wamp64\www\projetV2\Controllers\PublicationC.php');
+            require_once('C:\wamp64\www\projetV4\Controllers\PublicationC.php');
             $pub1=new PublicationC();
             $id = $_GET['id'];
             $row = $pub1->getPublicationById($id);
@@ -159,7 +159,7 @@
           }
           ?>
            
-          <form action="submit_publication.php?<?php if (isset($id)){echo "id=update";} ?>" method="POST" id="publier">
+           <form action="submit_publication.php?<?php if (isset($id)){echo "id=update";} ?>" method="POST" id="publier">
            <input type="hidden" name="id" value="<?php if (isset($id)){echo $_GET['id'];}?>">
             <div class="userId-part940">
                 <span class="form-description43">User ID* </span>
@@ -194,7 +194,7 @@
                 ?>
               </button> 
             </div>
-          </form>         
+          </form>       
         </div>
         
       </div>
@@ -208,7 +208,7 @@
         <div class="col-md-9">
           <div id="main">
             <input id="tab1" type="radio" name="tabs" checked />
-            <label for="tab1">Recent Question</label>
+            <label for="tab1">Publications Récentes</label>
             <input id="tab2" type="radio" name="tabs" />
             <label for="tab2">Most Response</label>
             <input id="tab3" type="radio" name="tabs" />
@@ -224,7 +224,7 @@
                 if(isset($_GET['id_comment']))
                 {
                 
-                  require_once('C:\wamp64\www\projetV2\Controllers\commentaireC.php');
+                  require_once('C:\wamp64\www\projetV4\Controllers\commentaireC.php');
                   $comment1=new commentaireC();
                   $id_comment = $_GET['id_comment'];
                   $row = $comment1->getCommentById($id_comment);
@@ -4328,8 +4328,8 @@
   <script src="js/aos.js"></script>
   <script src="js/jquery.fancybox.min.js"></script>
   <script src="js/jquery.sticky.js"></script>
-  <script src="js/comment.js"></script>
-
+  <script src="js/controlePub.js"></script>
+  <script src="js/controleComment.js"></script>
   <script src="js/main.js"></script>
 
   <!-- Script JavaScript pour gérer l'interaction avec les statuts -->

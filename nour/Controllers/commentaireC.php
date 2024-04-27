@@ -12,18 +12,22 @@ class commentaireC
             $result = $query->fetchAll();
             foreach ($result as $row) 
             {
-                echo "<div class='comment'>";
+                echo "<div class='comment' id='comment-" . $row['id'] . "'>";
+                    
                     echo "<span class='comment-author'>" . htmlspecialchars($row['id_user']) . "</span>";
                     echo "<div class='comment-body'>" . htmlspecialchars($row['contenu']) . "</div>";
-                    echo'<div class="comment-menu">
-                            <span class="comment-dots" onclick="toggleMenu(this)" >⋮</span>
-                            <div class="comment-actions" style="display: none;">
-                            <a href="index.php?id_comment='. $row['id'] .'&showComment=true ">Modifier</a>
-                            <a href="index.php?id_comment=' . $row['id'] . '&showPopupComment=true">Supprimer</a>
-                            </div>
-                        </div>';
-                echo "</div>";
+                    echo "<span style='font-size:10px;padding: 4px 8px;position: relative;'>" . htmlspecialchars($row['date_crea']) . "</span>";
                 
+
+                    echo '<div class="comment-menu">
+                        <span class="comment-dots" onclick="toggleMenu(this)">⋮</span>
+                        <div class="comment-actions" style="display: none;">
+                        <a href="index.php?edit_comment=' . $row['id'] . '&edit_comment_pub=' . $row['id_publication'] . '#postSection' . $row['id_publication'] . '">Modifier</a>
+                            <a href="index.php?id_comment=' . $row['id'] . '&showPopupComment=true">Supprimer</a>
+                        </div>
+                    </div>';
+
+                echo "</div>"; 
             }
         } 
         catch (PDOException $e) {
@@ -34,7 +38,7 @@ class commentaireC
     //AJOUT 
     public function addComment( $comment)
     {
-        require_once 'C:\wamp64\www\projetV2\Models\config.php';
+        require_once 'C:\wamp64\www\projetV4\Models\config.php';
         $conn = config::getConnexion();
 
         $contenu=$comment->getContenu();
@@ -54,7 +58,7 @@ class commentaireC
     //supp
     public function DeleteComment($id)
     {
-        require_once 'C:\wamp64\www\projetV2\Models\config.php';
+        require_once 'C:\wamp64\www\projetV4\Models\config.php';
         $conn = config::getConnexion();
         try {
             $query = $conn->prepare("DELETE FROM commentaire WHERE id=:id");
@@ -67,7 +71,7 @@ class commentaireC
     }
     public function getCommentById($id)
     {
-        require_once 'C:\wamp64\www\projetV2\Models\config.php';
+        require_once 'C:\wamp64\www\projetV4\Models\config.php';
         $conn = config::getConnexion();
         try {
             $query = $conn->prepare("SELECT * FROM commentaire WHERE id = :id");
@@ -79,5 +83,43 @@ class commentaireC
             return false; 
         }
     }
+    // UPDATE
+    public function UpdateComment($comment,$id)
+    {
+        require_once 'C:\wamp64\www\projetV4\Models\config.php';
+        $conn = config::getConnexion();
+        $contenu=$comment->getContenu();
+        $id_user=$comment->getId_user();
+        $post_id=$comment->getId_publication();
+        $conn = config::getConnexion();
+        try {
+            $query = $conn->prepare("UPDATE commentaire SET  contenu=:contenu , id_user=:id_user , id_publication=:id_publication WHERE id=:id");
+            $query->bindParam(':id', $id);
+            $query->bindParam(':contenu', $contenu);
+            $query->bindParam(':id_user', $id_user);
+            $query->bindParam(':id_publication', $post_id);
+            $query->execute();
+            echo $query->rowCount() . ' records updated successfully';
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    //nb comment
+    function getCommentCount($postId) {
+        require_once 'C:\wamp64\www\projetV4\Models\config.php';
+        $conn = config::getConnexion();
+    
+        try {
+            $query = $conn->prepare("SELECT * FROM commentaire WHERE id_publication = :id_publication");
+            $query->bindParam(':id_publication', $postId, PDO::PARAM_INT);
+            $query->execute();
+            $nb = $query->rowCount(); 
+            return $nb;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return 0;
+        }
+    }
+    
 }
 ?>

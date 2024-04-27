@@ -367,31 +367,9 @@ document.addEventListener("click", function (event) {
   }
 });
 
-var urlParams = new URLSearchParams(window.location.search);
-if (urlParams.get("showQuestion") === "true") {
-  showQuestionForm();
-}
-function showQuestionForm() {
-  var overlay = document.getElementById("overlay");
-  var formContainer = document.getElementById("questionForm");
-
-  overlay.style.display = "block";
-  formContainer.style.display = "block";
-}
 if (urlParams.get("showPopup1") === "true") {
   showPopup1();
 }
-
-function hideQuestionForm() {
-  var overlay = document.getElementById("overlay");
-  var formContainer = document.getElementById("questionForm");
-  overlay.style.display = "none";
-  formContainer.style.display = "none";
-  var originalUrl = window.location.href;
-  var baseUrl = originalUrl.split("?")[0]; //  retirer les paramètres GET
-  history.pushState({}, "", baseUrl);
-}
-
 function showPopup1() {
   var overlay = document.getElementById("overlay");
   var formContainer = document.getElementById("questionForm1");
@@ -409,98 +387,3 @@ function hideConfirmationPopup() {
   var baseUrl = originalUrl.split("?")[0]; //  retirer les paramètres GET
   history.pushState({}, "", baseUrl);
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-  function validerId_user() {
-    var id_userInput = document.getElementById("form_id_user");
-    var id_user = id_userInput.value;
-    var id_userError = document.getElementById("form_user_idError");
-
-    var regex = /^\d{1,8}$/;
-
-    if (!regex.test(id_user)) {
-      if (id_user.length === 0) {
-        id_userError.innerText = "L'ID utilisateur est requis.";
-      } else if (id_user.length > 8) {
-        id_userError.innerText =
-          "L'ID utilisateur ne doit pas dépasser 8 chiffres.";
-      } else {
-        id_userError.innerText =
-          "L'ID utilisateur ne doit contenir que des chiffres.";
-      }
-      id_userError.style.color = "red";
-      id_userInput.style.borderColor = "red"; // Update border color
-      console.log("Validation failed for ID user.");
-      return false;
-    } else {
-      id_userError.innerText = "Correct";
-      id_userError.style.color = "green";
-      id_userInput.style.borderColor = "green"; // Update border color
-      console.log("Validation passed for ID user.");
-      return true;
-    }
-  }
-
-  function validerTitre() {
-    var titreInput = document.getElementById("form_titre");
-    var titre = titreInput.value;
-    var titreError = document.getElementById("form_titreError");
-
-    if (titre.trim() === "") {
-      titreError.innerText = "Le titre est requis.";
-      titreError.style.color = "red";
-      titreInput.style.borderColor = "red"; // Update border color
-      console.log("Validation failed for Titre.");
-      return false;
-    } else {
-      titreError.innerText = "Correct";
-      titreError.style.color = "green";
-      titreInput.style.borderColor = "green"; // Update border color
-      console.log("Validation passed for Titre.");
-      return true;
-    }
-  }
-
-  function validerContenu() {
-    var contenuInput = document.getElementById("txtEditor");
-    if (!contenuInput) {
-      console.error("Textarea element 'txtEditor' not found.");
-      return false;
-    }
-    var contenu = contenuInput.value;
-    var contenuError = document.getElementById("form_contenuError");
-
-    if (contenu.trim() === "") {
-      contenuError.innerText = "Le contenu est requis.";
-      contenuError.style.color = "red";
-      contenuInput.style.borderColor = "red"; // Update border color
-      console.log("Validation failed for Contenu.");
-      return false;
-    } else {
-      console.log("Validation passed for Contenu.");
-      contenuError.innerText = "Correct";
-      contenuError.style.color = "green";
-      contenuInput.style.borderColor = "green";
-      return true;
-    }
-  }
-
-  var form = document.getElementById("publier");
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-    console.log("Form submission attempted.");
-
-    // Collect validation results for all fields
-    var idUserValid = validerId_user();
-    var titreValid = validerTitre();
-    var contenuValid = validerContenu();
-
-    // Check if all validations pass
-    if (idUserValid && titreValid && contenuValid) {
-      form.submit();
-      hideQuestionForm();
-    } else {
-      console.log("Form submission prevented due to validation errors.");
-    }
-  });
-});
