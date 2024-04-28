@@ -20,6 +20,7 @@
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
   <link id="pagestyle" href="../assets/css/dash.css" rel="stylesheet" />
+  
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
@@ -563,11 +564,11 @@
           </div>
         </div>
         <div class="overlay" id="overlay"></div>
-        <div class="form-container" id="questionForm">
+        <div class="form-container" id="questionForm" onclick="hideConfirmationPopup()">
           <?php
               if(isset($_GET['id']))
               {
-                require_once('C:\wamp64\www\projetV4\Controllers\PublicationC.php');
+                require_once('C:\wamp64\www\projetV5\Controllers\PublicationC.php');
                 $pub1=new PublicationC();
                 $id = $_GET['id'];
                 $row = $pub1->getPublicationById($id);
@@ -587,7 +588,7 @@
           <?php
               if(isset($_GET['id']))
               {
-                require_once('C:\wamp64\www\projetV4\Controllers\PublicationC.php');
+                require_once('C:\wamp64\www\projetV5\Controllers\PublicationC.php');
                 $pub1=new PublicationC();
                 $id = $_GET['id'];
                 $row = $pub1->getPublicationById($id);
@@ -595,7 +596,7 @@
                 {
                     echo '<h5>Veuillez confirmer</h5>
                     <p>Voulez-vous vraiment supprimer cet élément ?</p>
-                    <button onclick="hideConfirmationPopup()" style="background-color: #f44336; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; margin-right: 10px;">Annuler</button>
+                    <button onclick="hideConfirmationPopup1()" style="background-color: #f44336; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; margin-right: 10px;">Annuler</button>
                     <button style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">
                         <a href="delete_publication.php?id='.$id .'" style="color: inherit; text-decoration: none;">Supprimer</a>
                     </button>'
@@ -616,28 +617,80 @@
           </div>
           <div class="table-responsive">
               <?php
-                  require_once('C:\wamp64\www\projetV4\Controllers\PublicationC.php');
+                  require_once('C:\wamp64\www\projetV5\Controllers\PublicationC.php');
                   $pub1=new PublicationC();
                   $pub1->ListPublication();
               ?>
           </div>
         </div>
-        <!--
+
         <div class="card ">
           <div class="card-header pb-0 p-3">
             <div class="d-flex justify-content-between">
-              <h6 class="mb-2">Les Commentaires</h6>
+              <h6 class="mb-2">Les Commentaire</h6>
             </div>
           </div>
-          <div class="table-responsive">
-              <?php
-                  require_once('C:\wamp64\www\projetV4\Controllers\PublicationC.php');
-                  $pub1=new PublicationC();
-                  $pub1->ListPublication();
-              ?>
-          </div>
+        <div class="table-responsive" id="commentsSection">
+            <?php
+                require_once('C:\wamp64\www\projetV5\Controllers\commentaireC.php');
+                if (isset($_GET['pub_id'])) {
+                    $publicationId = intval($_GET['pub_id']);
+                    $comment1 = new commentaireC();  
+                    $comment1->listComments($publicationId);
+                } else {
+                    echo "Click on a publication row to view its comments.";
+                }
+            ?>
         </div>
-            -->
+        </div>
+        <div class="form-container" id="PopupComment" onclick="hideConfirmationPopupComment()">
+          <?php
+              if(isset($_GET['id_comment']))
+              {
+                require_once('C:\wamp64\www\projetV5\Controllers\commentaireC.php');
+                $comment1=new commentaireC();
+                $id = $_GET['id_comment'];
+                $row = $comment1->getCommentById($id);
+                if ($row !== false) 
+                {
+                    $contenu=$row['contenu'];
+                    echo '<h5>Commentaire: <p>'.$contenu.'</p></h5>';
+                } 
+                else 
+                {
+                    echo "Publication not found.";
+                }
+              }  
+          ?>
+        </div>
+        <div class="form-container" id="PopupComment1">
+          <?php
+              if(isset($_GET['id_comment_supp']))
+              {
+                require_once('C:\wamp64\www\projetV5\Controllers\commentaireC.php');
+                $comment1=new commentaireC();
+                $id = $_GET['id_comment_supp'];
+                $id_pub=$_GET['idpub_comment_supp'];
+                $row = $comment1->getCommentById($id);
+                if ($row !== false) 
+                {
+                    echo '<h5>Veuillez confirmer</h5>
+                    <p>Voulez-vous vraiment supprimer cet élément ?</p>
+                    <button onclick="hideConfirmationPopupComment1()" style="background-color: #f44336; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; margin-right: 10px;">Annuler</button>
+                    <button style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">
+                        <a href="delete_comment.php?id_comment='.$id .'&idpub_comment_supp='.$id_pub.'" style="color: inherit; text-decoration: none;">Supprimer</a>
+                    </button>'
+                    ;
+                } 
+                else 
+                {
+                    echo "commentaire not found.";
+                }
+              }  
+          ?>
+        </div>
+        
+            
       <footer class="footer pt-3  ">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">
@@ -751,6 +804,7 @@
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/chartjs.min.js"></script>
   <script src="../assets/js/dash.js"></script>
+  <script src="../js/tablesForum.js"></script>
   <script>
     var ctx1 = document.getElementById("chart-line").getContext("2d");
 

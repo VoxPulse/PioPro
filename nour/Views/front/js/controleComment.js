@@ -14,39 +14,40 @@ function toggleMenu(element) {
   element.style.display = "block";
 }
 
-// Dummy functions for modify and delete
-function modifyComment(commentId) {
-  console.log("Modify comment with ID:", commentId);
-  // Additional logic here
-}
 
-function deleteComment(commentId) {
-  console.log("Delete comment with ID:", commentId);
-  // Additional logic here
-}
+
+
+
 var urlParams = new URLSearchParams(window.location.search);
-if (urlParams.get("showPopupComment") === "true") {
+if (urlParams.get("showPopupComment") === "true") 
+{
   showPopupComment();
   console.log("show");
 }
 
-function showPopupComment() {
+function showPopupComment() 
+{
   var overlay = document.getElementById("overlay");
   var formContainer = document.getElementById("commentForm");
 
   overlay.style.display = "block";
   formContainer.style.display = "block";
 }
-function hideConfirmationPopupComment() {
+function hideConfirmationPopupComment() 
+{
   var overlay = document.getElementById("overlay");
   var formContainer = document.getElementById("commentForm");
 
   overlay.style.display = "none";
   formContainer.style.display = "none";
   var originalUrl = window.location.href;
-  var baseUrl = originalUrl.split("?")[0]; //  retirer les paramètres GET
+  var baseUrl = originalUrl.split("?")[0]; 
   history.pushState({}, "", baseUrl);
 }
+
+
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
   console.log("DOM fully loaded and parsed");

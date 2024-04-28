@@ -1,4 +1,5 @@
 <?php
+require_once('C:\wamp64\www\projetV5\Controllers\PublicationC.php');
 class commentaireC
 {
     //AFFICHAGE front
@@ -23,7 +24,7 @@ class commentaireC
                         <span class="comment-dots" onclick="toggleMenu(this)">⋮</span>
                         <div class="comment-actions" style="display: none;">
                         <a href="index.php?edit_comment=' . $row['id'] . '&edit_comment_pub=' . $row['id_publication'] . '#postSection' . $row['id_publication'] . '">Modifier</a>
-                            <a href="index.php?id_comment=' . $row['id'] . '&showPopupComment=true">Supprimer</a>
+                            <a href="index.php?id_comment=' . $row['id'] .'&delete_comment_pub=' . $row['id_publication'] .'&showPopupComment=true">Supprimer</a>
                         </div>
                     </div>';
 
@@ -34,11 +35,74 @@ class commentaireC
             echo 'Échec de la connexion : ' . $e->getMessage();
         }
     }
+    //AFFICHAGE back
+    public function listComments($id_publication)
+    {
+        $conn = config::getConnexion();
+        try {
+            $query = $conn->prepare("SELECT * FROM commentaire WHERE id_publication = :id_publication");
+            $query->bindParam(':id_publication', $id_publication, PDO::PARAM_INT);
+            $query->execute();
+            $result = $query->fetchAll();
+            echo '<table class="table align-items-center ">
+            <tbody>
+            <tr>
+                <th >
+                <div class=""text-center"">
+                    <h6 class="text-sm mb-0"> ID</h6>
+                </div>
+                </th>
+                <th>
+                <div class="text-center">
+                    <h6 class="text-sm mb-0">Contenu</h6>
+                </div>
+                </th>
+                <th >
+                <div class="col text-center">
+                    <h6 class="text-sm mb-0">Date création</h6>
+                </div>
+                </th>
+                <th >
+                <div class="col text-center">
+                    <h6 class="text-sm mb-0">ID user</h6>
+                </div>
+                </th>
+                
+                <th >
+                <div class="col text-center">
+                    <h6 class="text-sm mb-0">Supprimer</h6>
+                </div>
+                </th>
+            </tr>';
+            foreach ($result as $row) 
+            {
+                echo '<tr>';
+                echo '<td class="align-middletext-sm" ">
+                <div class="col text-center">' . $row['id'] . '</div></td>';
+                echo '<td class="align-middletext-sm" style="max-width: 20px;white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;">
+                <div class="col text-center" ><a href="dashboard.php?id_comment=' . $row['id'] .'&showPopupComment=true ">'. $row['contenu'] .'</a></div></td>';
+                echo '<td class="align-middletext-sm">
+                <div class="col text-center">' . $row['date_crea'] . '</div></td>';
+                echo '<td class="align-middletext-sm">
+                <div class="col text-center">' . $row['id_user'] . '</div></td>';
+                echo'<td class="align-middletext-sm">
+                <div class="col text-center"><a href="dashboard.php?id_comment_supp=' . $row['id'] . '&idpub_comment_supp=' . $row['id_publication'] .'&showPopupComment1=true"><img src="../assets/img/icons/delete (1).png" alt="delete"  /></a></div></td>';
+                echo '</tr>';
+            }
+            echo '</tbody>
+            </table>';
+        } 
+        catch (PDOException $e) {
+            echo 'Échec de la connexion : ' . $e->getMessage();
+        }
+    }
     
     //AJOUT 
     public function addComment( $comment)
     {
-        require_once 'C:\wamp64\www\projetV4\Models\config.php';
+        require_once 'C:\wamp64\www\projetV5\Models\config.php';
         $conn = config::getConnexion();
 
         $contenu=$comment->getContenu();
@@ -58,7 +122,7 @@ class commentaireC
     //supp
     public function DeleteComment($id)
     {
-        require_once 'C:\wamp64\www\projetV4\Models\config.php';
+        require_once 'C:\wamp64\www\projetV5\Models\config.php';
         $conn = config::getConnexion();
         try {
             $query = $conn->prepare("DELETE FROM commentaire WHERE id=:id");
@@ -71,7 +135,7 @@ class commentaireC
     }
     public function getCommentById($id)
     {
-        require_once 'C:\wamp64\www\projetV4\Models\config.php';
+        require_once 'C:\wamp64\www\projetV5\Models\config.php';
         $conn = config::getConnexion();
         try {
             $query = $conn->prepare("SELECT * FROM commentaire WHERE id = :id");
@@ -86,7 +150,7 @@ class commentaireC
     // UPDATE
     public function UpdateComment($comment,$id)
     {
-        require_once 'C:\wamp64\www\projetV4\Models\config.php';
+        require_once 'C:\wamp64\www\projetV5\Models\config.php';
         $conn = config::getConnexion();
         $contenu=$comment->getContenu();
         $id_user=$comment->getId_user();
@@ -106,7 +170,7 @@ class commentaireC
     }
     //nb comment
     function getCommentCount($postId) {
-        require_once 'C:\wamp64\www\projetV4\Models\config.php';
+        require_once 'C:\wamp64\www\projetV5\Models\config.php';
         $conn = config::getConnexion();
     
         try {

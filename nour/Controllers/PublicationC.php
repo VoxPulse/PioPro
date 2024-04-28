@@ -1,5 +1,5 @@
 <?php
-include 'C:\wamp64\www\projetV4\Models\config.php';
+include 'C:\wamp64\www\projetV5\Models\config.php';
 
 class PublicationC
 {
@@ -15,7 +15,7 @@ class PublicationC
             echo 'echec de connexion:' . $e->getMessage();
         }
   
-        echo '<table class="table align-items-center ">
+        echo '<table id="publicationsTable" class="table align-items-center ">
         <tbody>
           <tr>
             <th >
@@ -61,7 +61,7 @@ class PublicationC
             </th>
           </tr>';
         foreach ($result as $row) {
-            echo '<tr>';
+            echo '<tr data-pub-id="' . $row['id'] . '">';
             echo '<td class="align-middletext-sm" ">
             <div class="col text-center">' . $row['id'] . '</div></td>';
             echo '<td class="align-middletext-sm" ">
@@ -101,7 +101,7 @@ class PublicationC
             $rowCom = false;
             if(isset($_GET['edit_comment']))
             {
-                require_once('C:\wamp64\www\projetV4\Controllers\commentaireC.php');
+                require_once('C:\wamp64\www\projetV5\Controllers\commentaireC.php');
                 $comment1=new commentaireC();
                 $id_com = $_GET['edit_comment'];
                 $rowCom = $comment1->getCommentById($id_com);
@@ -242,13 +242,26 @@ class PublicationC
         $titre=$pub->getTitre();
         $contenu=$pub->getContenu();
         $id_user=$pub->getId_user();
-        $conn = config::getConnexion();
         try {
             $query = $conn->prepare("UPDATE publication SET titre=:titre , contenu=:contenu ,id_user=:id_user  WHERE id=:id");
             $query->bindParam(':id', $id);
             $query->bindParam(':titre', $titre);
             $query->bindParam(':contenu', $contenu);
             $query->bindParam(':id_user', $id_user);
+            $query->execute();
+            echo $query->rowCount() . ' records updated successfully';
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    public function UpdatePublicationNbComment($id,$nbComment)
+    {
+        
+        $conn = config::getConnexion();
+        try {
+            $query = $conn->prepare("UPDATE publication SET nb_comment=:nb_comment  WHERE id=:id");
+            $query->bindParam(':id', $id);
+            $query->bindParam(':nb_comment', $nbComment);
             $query->execute();
             echo $query->rowCount() . ' records updated successfully';
         } catch (PDOException $e) {

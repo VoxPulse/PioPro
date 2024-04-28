@@ -1,7 +1,7 @@
 <!-- submit_publication.php -->
 <?php
-    require_once('C:\wamp64\www\projetV4\Models\publication.php');
-    require_once('C:\wamp64\www\projetV4\Controllers\PublicationC.php');
+    require_once('C:\wamp64\www\projetV5\Models\publication.php');
+    require_once('C:\wamp64\www\projetV5\Controllers\PublicationC.php');
     $pub=new Publication($_POST['titre'],$_POST['contenu'],$_POST['id_user']);
     $pub1=new PublicationC();
     $id=$_POST['id'];
