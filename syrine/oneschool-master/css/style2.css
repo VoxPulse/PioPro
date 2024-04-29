@@ -1,0 +1,67 @@
+/* Style du formulaire */
+
+.custom-modal {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .modal-content {
+    text-align: center;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  /* Style des boutons */
+  .button-container {
+    margin-top: 20px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+  }
+  
+  .btn-danger:hover {
+    background-color: #c82333;
+  }
+  
+  /* Style des champs de formulaire */
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  /* Style du titre */
+  h5 {
+    margin-top: 0;
+  }
+  
+  /* Style de la bordure autour du formulaire */
+  .custom-modal {
+    border: 2px solid #ccc;
+  }
+  

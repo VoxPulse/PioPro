@@ -1,0 +1,109 @@
+<?php
+class Entretiens
+{
+    private int $id;
+    private string $date;
+    private string $heure;
+    private string $statut;
+    private string $url;
+    private int $id_user;
+    private int $offre_emploi;
+    public static function getoffreemploifromentretiens()
+    {
+        try {
+            $pdo = config::getConnexion();
+            $sql = "SELECT offre_emploi.id_offre
+                FROM offre_emploi
+                JOIN entretiens ON offre_emploi.id_offre = entretiens.id_offre";
+
+            $query = $pdo->prepare($sql);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_CLASS, 'entretiens');
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    /*public function __construct($id, $date, $heure, $statut, $url, $id_user, $offre_emploi)
+    {
+
+        $this->id = $id;
+        $this->date = $date;
+        $this->heure = $heure;
+        $this->statut = $statut;
+        $this->url = $url;
+        $this->id_user = $id_user;
+        $this->offre_emploi = $offre_emploi;
+    }*/
+
+    // Setter pour l'ID
+    public function setId(int $id): void {
+        $this->id = $id;
+    }
+
+    // Getter pour l'ID
+    public function getId(): int {
+        return $this->id;
+    }
+
+    // Setter pour le titre
+    public function setdate(string $date): void {
+        $this->date = $date;
+    }
+
+    // Getter pour le titre
+    public function getdate(): string {
+        return $this->date;
+    }
+
+    // Setter pour la heure
+    public function setheure(string $heure): void {
+        $this->heure = $heure;
+    }
+
+    // Getter pour la heure
+    public function getheure(): string {
+        return $this->heure;
+    }
+
+    // Setter pour la statut
+    public function setstatut(string $statut): void {
+        $this->statut = $statut;
+    }
+
+    // Getter pour la statut
+    public function getstatut(): string {
+        return $this->statut;
+    }
+
+    // Setter pour le url
+    public function seturl(string $url): void {
+        $this->url = $url;
+    }
+
+    // Getter pour le url
+    public function geturl(): string {
+        return $this->url;
+    }
+
+    // Setter pour la catégorie
+    public function setid_user(int $id_user): void {
+        $this->id_user = $id_user;
+    }
+
+    // Getter pour la catégorie
+    public function getid_user(): int {
+        return $this->id_user;
+    }
+    // Setter pour la catégorie
+    public function setoffre_emploi(int $offre_emploi): void {
+        $this->offre_emploi = $offre_emploi;
+    }
+
+    // Getter pour la catégorie
+    public function getoffre_emploi(): int {
+        return $this->offre_emploi;
+    }
+    
+}
+?>
