@@ -568,7 +568,7 @@
           <?php
               if(isset($_GET['id']))
               {
-                require_once('C:\wamp64\www\projetV5\Controllers\PublicationC.php');
+                require_once('C:\wamp64\www\projetV6\Controllers\PublicationC.php');
                 $pub1=new PublicationC();
                 $id = $_GET['id'];
                 $row = $pub1->getPublicationById($id);
@@ -588,7 +588,7 @@
           <?php
               if(isset($_GET['id']))
               {
-                require_once('C:\wamp64\www\projetV5\Controllers\PublicationC.php');
+                require_once('C:\wamp64\www\projetV6\Controllers\PublicationC.php');
                 $pub1=new PublicationC();
                 $id = $_GET['id'];
                 $row = $pub1->getPublicationById($id);
@@ -617,7 +617,7 @@
           </div>
           <div class="table-responsive">
               <?php
-                  require_once('C:\wamp64\www\projetV5\Controllers\PublicationC.php');
+                  require_once('C:\wamp64\www\projetV6\Controllers\PublicationC.php');
                   $pub1=new PublicationC();
                   $pub1->ListPublication();
               ?>
@@ -632,7 +632,7 @@
           </div>
         <div class="table-responsive" id="commentsSection">
             <?php
-                require_once('C:\wamp64\www\projetV5\Controllers\commentaireC.php');
+                require_once('C:\wamp64\www\projetV6\Controllers\commentaireC.php');
                 if (isset($_GET['pub_id'])) {
                     $publicationId = intval($_GET['pub_id']);
                     $comment1 = new commentaireC();  
@@ -647,7 +647,7 @@
           <?php
               if(isset($_GET['id_comment']))
               {
-                require_once('C:\wamp64\www\projetV5\Controllers\commentaireC.php');
+                require_once('C:\wamp64\www\projetV6\Controllers\commentaireC.php');
                 $comment1=new commentaireC();
                 $id = $_GET['id_comment'];
                 $row = $comment1->getCommentById($id);
@@ -667,7 +667,7 @@
           <?php
               if(isset($_GET['id_comment_supp']))
               {
-                require_once('C:\wamp64\www\projetV5\Controllers\commentaireC.php');
+                require_once('C:\wamp64\www\projetV6\Controllers\commentaireC.php');
                 $comment1=new commentaireC();
                 $id = $_GET['id_comment_supp'];
                 $id_pub=$_GET['idpub_comment_supp'];

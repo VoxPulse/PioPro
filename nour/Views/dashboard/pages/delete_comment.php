@@ -7,7 +7,7 @@
 </head>
 <body>
         <?php
-            require_once('C:\wamp64\www\projetV5\Controllers\commentaireC.php');
+            require_once('C:\wamp64\www\projetV6\Controllers\commentaireC.php');
             $comment1=new commentaireC();
             $id = $_GET['id_comment'];
             $comment1->DeleteComment($id);

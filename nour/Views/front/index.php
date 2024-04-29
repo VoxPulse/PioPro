@@ -24,6 +24,7 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/commentaire.css">
+    <link rel="stylesheet" href="css/voice.css">
     <link rel="icon" type="image/png" href="../images/logo 1.png">
     <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
   </head>
@@ -112,7 +113,7 @@
           <?php
               if(isset($_GET['id']))
               {
-                require_once('C:\wamp64\www\projetV5\Controllers\PublicationC.php');
+                require_once('C:\wamp64\www\projetV6\Controllers\PublicationC.php');
                 $pub1=new PublicationC();
                 $id = $_GET['id'];
                 $row = $pub1->getPublicationById($id);
@@ -142,7 +143,7 @@
           <?php 
           if(isset($_GET['id']))
           {
-            require_once('C:\wamp64\www\projetV5\Controllers\PublicationC.php');
+            require_once('C:\wamp64\www\projetV6\Controllers\PublicationC.php');
             $pub1=new PublicationC();
             $id = $_GET['id'];
             $row = $pub1->getPublicationById($id);
@@ -225,7 +226,7 @@
                   if(isset($_GET['id_comment']))
                   {
                   
-                    require_once('C:\wamp64\www\projetV5\Controllers\commentaireC.php');
+                    require_once('C:\wamp64\www\projetV6\Controllers\commentaireC.php');
                     $comment1=new commentaireC();
                     $id_comment = $_GET['id_comment'];
                     $row = $comment1->getCommentById($id_comment);
@@ -1221,7 +1222,7 @@
   <script src="js/controlePub.js"></script>
   <script src="js/controleComment.js"></script>
   <script src="js/main.js"></script>
-
+  <script src="js/vrecorder.js"></script>
   <!-- Script JavaScript pour gérer l'interaction avec les statuts -->
   
   

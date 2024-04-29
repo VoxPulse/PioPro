@@ -1,5 +1,6 @@
 .commentSection {
     margin: 20px auto;
+    text-align: right;
 }
 
 .commentSection form {
@@ -44,8 +45,8 @@
     max-width: 100px;
     max-height: 30px;
     margin-top: 10px;
-    margin-left: 10px;
     transition: background-color 0.3s ease;
+    display: inline-block; 
 }
 
 .commentSection .send_Comment:hover {
@@ -127,3 +128,4 @@
     display: none;
     z-index: 1000;
   }
+

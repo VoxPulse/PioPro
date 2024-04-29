@@ -1,5 +1,5 @@
 <?php
-include 'C:\wamp64\www\projetV5\Models\config.php';
+include 'C:\wamp64\www\projetV6\Models\config.php';
 
 class PublicationC
 {
@@ -101,7 +101,7 @@ class PublicationC
             $rowCom = false;
             if(isset($_GET['edit_comment']))
             {
-                require_once('C:\wamp64\www\projetV5\Controllers\commentaireC.php');
+                require_once('C:\wamp64\www\projetV6\Controllers\commentaireC.php');
                 $comment1=new commentaireC();
                 $id_com = $_GET['edit_comment'];
                 $rowCom = $comment1->getCommentById($id_com);
@@ -156,7 +156,7 @@ class PublicationC
                         </div>  
                         <div class="commentSection">
                         
-                        <form action="submit_comment.php' . ((isset($_GET['edit_comment']) && $_GET['edit_comment'] == $rowCom['id']) ? '?id=update' : '') . '#postSection' . $uniqueId . '" method="POST" id="pubComment' . $uniqueId . '">';
+                        <form action="submit_comment.php' . ((isset($_GET['edit_comment']) && $_GET['edit_comment'] == $rowCom['id']) ? '?id=update' : '') . '#postSection' . $uniqueId . '" method="POST" id="pubComment' . $uniqueId . '" enctype="multipart/form-data">';
                             echo "<input type='hidden' name='comment_id' ";if (isset($rowCom['id'])){echo 'value="'.$rowCom['id'].'"';}echo">";
                             echo '
                             <input type="hidden" name="post_id" value="'.$uniqueId.'">
@@ -169,6 +169,8 @@ class PublicationC
                                 <input type="text" name="form_comment_contenu" id="form_comment_contenu'.$uniqueId.'" placeholder="Commentez..." value ="'; if ((isset($_GET['edit_comment']))&& ($_GET['edit_comment'] == $rowCom['id'])&&($_GET['edit_comment_pub'] == $row['id'])){echo $contenu_comment;} echo'" >
                                 <span id="form_comment_contenuError'.$uniqueId.'" class="form_comment_contenuError error"></span>
                             </div>
+                            <div class="display-audio" id="display-audio'.$uniqueId.'" ></div>
+                            <div class="controllers" id="controllers'.$uniqueId.'"> </div>
                             <button type="submit" class="send_Comment">Commenter</button>
                         </form>
                             

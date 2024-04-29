@@ -1,5 +1,5 @@
 <?php
-require_once('C:\wamp64\www\projetV5\Controllers\PublicationC.php');
+require_once('C:\wamp64\www\projetV6\Controllers\PublicationC.php');
 class commentaireC
 {
     //AFFICHAGE front
@@ -17,6 +17,10 @@ class commentaireC
                     
                     echo "<span class='comment-author'>" . htmlspecialchars($row['id_user']) . "</span>";
                     echo "<div class='comment-body'>" . htmlspecialchars($row['contenu']) . "</div>";
+
+                    if (!empty($row['audio_path'])) {
+                        echo "<audio controls><source src='" . htmlspecialchars($row['audio_path']) . "' type='audio/ogg'></audio>";
+                    }
                     echo "<span style='font-size:10px;padding: 4px 8px;position: relative;'>" . htmlspecialchars($row['date_crea']) . "</span>";
                 
 
@@ -24,7 +28,7 @@ class commentaireC
                         <span class="comment-dots" onclick="toggleMenu(this)">⋮</span>
                         <div class="comment-actions" style="display: none;">
                         <a href="index.php?edit_comment=' . $row['id'] . '&edit_comment_pub=' . $row['id_publication'] . '#postSection' . $row['id_publication'] . '">Modifier</a>
-                            <a href="index.php?id_comment=' . $row['id'] .'&delete_comment_pub=' . $row['id_publication'] .'&showPopupComment=true">Supprimer</a>
+                        <a href="index.php?id_comment=' . $row['id'] .'&delete_comment_pub=' . $row['id_publication'] .'&showPopupComment=true">Supprimer</a>
                         </div>
                     </div>';
 
@@ -100,57 +104,74 @@ class commentaireC
     }
     
     //AJOUT 
-    public function addComment( $comment)
+    public function addComment($comment, $audioFile = null)
     {
-        require_once 'C:\wamp64\www\projetV5\Models\config.php';
+        require_once 'C:\wamp64\www\projetV6\Models\config.php';
         $conn = config::getConnexion();
-
-        $contenu=$comment->getContenu();
-        $id_user=$comment->getId_user();
-        $post_id=$comment->getId_publication();
-        $conn = config::getConnexion();
+    
+        $contenu = $comment->getContenu();
+        $id_user = $comment->getId_user();
+        $post_id = $comment->getId_publication();
+        
+        $audioPath = null;
+        if ($audioFile && $audioFile['error'] == UPLOAD_ERR_OK) {
+            $uploadDir = 'uploads/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            $fileName = uniqid('audio_') . '.ogg';
+            $filePath = $uploadDir . $fileName;
+            if (move_uploaded_file($audioFile['tmp_name'], $filePath)) {
+                $audioPath = $filePath;
+            }
+        }
+    
         try {
-            $requete = $conn->prepare("INSERT INTO commentaire (contenu, id_user, id_publication ) VALUES (:contenu,:id_user, :id_publication)");
+            $requete = $conn->prepare("INSERT INTO commentaire (contenu, id_user, id_publication, audio_path) VALUES (:contenu, :id_user, :id_publication, :audio_path)");
             $requete->bindParam(':contenu', $contenu);
             $requete->bindParam(':id_user', $id_user);
             $requete->bindParam(':id_publication', $post_id);
+            $requete->bindParam(':audio_path', $audioPath);
             $requete->execute();
         } catch (PDOException $e) {
             echo 'Échec de connexion : ' . $e->getMessage();
         }
     }
+    
     //supp
     public function DeleteComment($id)
     {
-        require_once 'C:\wamp64\www\projetV5\Models\config.php';
+        require_once 'C:\wamp64\www\projetV6\Models\config.php';
         $conn = config::getConnexion();
+
         try {
-            $query = $conn->prepare("DELETE FROM commentaire WHERE id=:id");
+            $query = $conn->prepare("SELECT audio_path FROM commentaire WHERE id = :id");
             $query->bindParam(':id', $id);
             $query->execute();
-            echo $query->rowCount() . 'records deleted successfully';
+            $result = $query->fetch(PDO::FETCH_ASSOC);
+            $audioPath = $result['audio_path'];
+
+            $query = $conn->prepare("DELETE FROM commentaire WHERE id = :id");
+            $query->bindParam(':id', $id);
+            $query->execute();
+
+            if ($query->rowCount() > 0) {
+                echo $query->rowCount() . ' records deleted successfully';
+                if ($audioPath && file_exists($audioPath)) {
+                    unlink($audioPath);
+                    echo " and the audio file has been deleted.";
+                }
+            }
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
-    public function getCommentById($id)
-    {
-        require_once 'C:\wamp64\www\projetV5\Models\config.php';
-        $conn = config::getConnexion();
-        try {
-            $query = $conn->prepare("SELECT * FROM commentaire WHERE id = :id");
-            $query->execute(array(':id' => $id));
-            $result = $query->fetch(PDO::FETCH_ASSOC);
-            return $result;
-        } catch (PDOException $e) {
-            echo 'echec de connexion:' . $e->getMessage();
-            return false; 
-        }
-    }
+
+    
     // UPDATE
     public function UpdateComment($comment,$id)
     {
-        require_once 'C:\wamp64\www\projetV5\Models\config.php';
+        require_once 'C:\wamp64\www\projetV6\Models\config.php';
         $conn = config::getConnexion();
         $contenu=$comment->getContenu();
         $id_user=$comment->getId_user();
@@ -168,9 +189,23 @@ class commentaireC
             echo $e->getMessage();
         }
     }
+    public function getCommentById($id)
+    {
+        require_once 'C:\wamp64\www\projetV6\Models\config.php';
+        $conn = config::getConnexion();
+        try {
+            $query = $conn->prepare("SELECT * FROM commentaire WHERE id = :id");
+            $query->execute(array(':id' => $id));
+            $result = $query->fetch(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            echo 'echec de connexion:' . $e->getMessage();
+            return false; 
+        }
+    }
     //nb comment
     function getCommentCount($postId) {
-        require_once 'C:\wamp64\www\projetV5\Models\config.php';
+        require_once 'C:\wamp64\www\projetV6\Models\config.php';
         $conn = config::getConnexion();
     
         try {
