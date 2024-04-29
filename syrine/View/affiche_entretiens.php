@@ -58,7 +58,11 @@
   <script>
     function redirigerVersAutreFichier() {
         // Redirige vers un autre fichier
+<<<<<<< HEAD
         window.location.href = "ajout_entretiensView.html";
+=======
+        window.location.href = "ajout_*entretiensView.html";
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
     }
 </script>
 </head>

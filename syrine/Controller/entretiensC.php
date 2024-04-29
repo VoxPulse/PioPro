@@ -21,20 +21,32 @@ class EntretiensC
             echo 'Échec de connexion : ' . $e->getMessage();
         }
     }
+<<<<<<< HEAD
     public function addentretiens($id , $date , $heure , $statut , $url , $id_user, $id_offre)
+=======
+    public function addentretiens($id , $date , $heure , $statut , $url , $id_user, $id_off)
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
     {
         $conn = config::getConnexion();
         try 
         {
             $requete = $conn->prepare("INSERT INTO entretiens
+<<<<<<< HEAD
          (id, date , heure, statut, url ,  id_user, id_offre) VALUES (:id, :date , :heure, :statut , :url, :id_user, :id_offre )");
+=======
+         (id, date , heure, statut, url ,  id_user, id_off) VALUES (:id, :date , :heure, :statut , :url, :id_user, :id_off )");
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
             $requete->bindParam(':id', $id);
             $requete->bindParam(':date', $date);
             $requete->bindParam(':heure', $heure);
             $requete->bindParam(':statut', $statut);
             $requete->bindParam(':url', $url);
             $requete->bindParam(':id_user', $id_user);
+<<<<<<< HEAD
             $requete->bindParam(':id_offre', $id_offre);
+=======
+            $requete->bindParam(':id_off', $id_off);
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
             if($requete->execute());
             echo 'entretiens
          ajouté avec succès';
@@ -44,20 +56,32 @@ class EntretiensC
             echo 'Échec de connexion : ' . $e->getMessage();
         }
     }    
+<<<<<<< HEAD
     public function updateentretiens($id , $date , $heure , $statut , $url , $id_user, $id_offre)
+=======
+    public function updateentretiens($id , $date , $heure , $statut , $url , $id_user, $id_off)
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
     {
         $conn = config::getConnexion();
         try 
         {
             $requete = $conn->prepare("UPDATE entretiens
+<<<<<<< HEAD
          SET date = :date, heure = :heure, statut = :statut, url = :url , id_user=:id_user, id_offre=:id_offre  WHERE id = :id");
+=======
+         SET date = :date, heure = :heure, statut = :statut, url = :url , id_user=:id_user, id_off=:id_off  WHERE id = :id");
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
             $requete->bindParam(':id', $id);
             $requete->bindParam(':date', $date);
             $requete->bindParam(':heure', $heure);
             $requete->bindParam(':statut', $statut);
             $requete->bindParam(':url', $url);
             $requete->bindParam(':id_user', $id_user);
+<<<<<<< HEAD
             $requete->bindParam(':id_offre', $id_offre);
+=======
+            $requete->bindParam(':id_off', $id_off);
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
             if ($requete->execute()) 
             {
                 echo 'entretiens
@@ -123,7 +147,11 @@ class EntretiensC
             $entretiens
         ->setid_user ( $resultat['id_user'] );
         $entretiens
+<<<<<<< HEAD
         ->setid_offre ( $resultat['id_offre'] );
+=======
+        ->setid_off ( $resultat['id_off'] );
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
         }
         else
         {

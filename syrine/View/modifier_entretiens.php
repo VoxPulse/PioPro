@@ -117,7 +117,11 @@ if($entretiens->getId() != "")
     $statut=$entretiens->getstatut();
     $url=$entretiens->geturl();
     $id_user=$entretiens->getid_user();
+<<<<<<< HEAD
     $id_offre=$entretiens->getid_offre();
+=======
+    $id_off=$entretiens->getid_off();
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
 }
 ?>
 <div">
@@ -168,8 +172,13 @@ if($entretiens->getId() != "")
                         </td>
                         <td>
                             <div class="form-group">
+<<<<<<< HEAD
                                 <label for="id_offre">id_user:</label>
                                 <input type="text" id="id_offre" name="id_offre" value="<?php echo $id_offre; ?>">
+=======
+                                <label for="id_off">id_user:</label>
+                                <input type="text" id="id_off" name="id_off" value="<?php echo $id_off; ?>">
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
                             </div>
                         </td>
                     </tr>

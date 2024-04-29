@@ -7,6 +7,7 @@ class Entretiens
     private string $statut;
     private string $url;
     private int $id_user;
+<<<<<<< HEAD
     private int $offre_emploi;
     public static function getoffreemploifromentretiens()
     {
@@ -35,6 +36,9 @@ class Entretiens
         $this->id_user = $id_user;
         $this->offre_emploi = $offre_emploi;
     }*/
+=======
+    private int $id_off;
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
 
     // Setter pour l'ID
     public function setId(int $id): void {
@@ -95,6 +99,7 @@ class Entretiens
     public function getid_user(): int {
         return $this->id_user;
     }
+<<<<<<< HEAD
     // Setter pour la catégorie
     public function setoffre_emploi(int $offre_emploi): void {
         $this->offre_emploi = $offre_emploi;
@@ -105,5 +110,15 @@ class Entretiens
         return $this->offre_emploi;
     }
     
+=======
+    public function setid_off(int $id_off): void {
+        $this->id_off = $id_off;
+    }
+
+    // Getter pour la catégorie
+    public function getid_off(): int {
+        return $this->id_off;
+    }
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
 }
 ?>

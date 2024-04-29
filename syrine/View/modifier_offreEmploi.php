@@ -148,7 +148,11 @@ if($offre_emploi->getId() != "")
                         <td>
                             <div class="form-group">
                                 <label for="date_fin">date_fin:</label>
+<<<<<<< HEAD
                                 <input type="date" id="date_fin" name="date_fin" value="<?php echo $date_fin; ?>">
+=======
+                                <input type="text" id="date_fin" name="date_fin" value="<?php echo $date_fin; ?>">
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
                             </div>
                         </td>
                     </tr>

@@ -24,8 +24,17 @@
         $tableHTML .= '<td>' . $row['date_fin'] . '</td>';
         $tableHTML .= '<td>' . $row['salaire'] . '</td>';
         $tableHTML .= '<td>' . $row['categorie'] . '</td>';
+<<<<<<< HEAD
         $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "' onclick='return confirmDelete();'>Supprimer</a></td>";
        /* $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "'>suprimer</a></td>" ;*/
+=======
+<<<<<<< HEAD
+        $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "' onclick='return confirmDelete();'>Supprimer</a></td>";
+       /* $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "'>suprimer</a></td>" ;*/
+=======
+        $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "'>suprimer</a></td>" ;
+>>>>>>> 355c956eac4eef2648e55fce1160df4743d97bdc
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
         $tableHTML .= "<td > <a class='btn btn-primary' href='modifier_offreEmploi.php?id=" . $row['id']. "'>modifier</a></td>" ;
         $tableHTML .= '</tr>';
     }
@@ -353,11 +362,18 @@
   <div class="card-header pb-0 pt-3 bg-transparent d-flex justify-content-between align-items-center">
     <h6 class="text-capitalize m-0"> Tous Les Utilisateurs</h6>
     <!-- Ajout du bouton -->
+<<<<<<< HEAD
     <button class="btn btn-success" onclick="redirigerVersAutreFichier()" >Ajouter Un offre</button>
     <button class="btn btn-success" onclick="trierPardate()" >Trier</button>
 </div>
 
     <div class="card-body p-3" style="max-height: 300px; overflow-y: auto;">
+=======
+    <button class="btn btn-success" onclick="redirigerVersAutreFichier()" >Ajouter Un  offre</button>
+</div>
+
+    <div class="card-body p-3" style="max-height: 280px; overflow-y: auto;">
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
       <table class="table align-items-center ">
         <tbody>
           <?php echo $tableHTML;?> 
