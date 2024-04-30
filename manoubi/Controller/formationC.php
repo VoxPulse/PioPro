@@ -1,13 +1,13 @@
 <?php
-include 'C:\wamp64\www\piopro2\VoxPulse\Model\formation.php';
+require_once 'C:\wamp64\www\piopro2\VoxPulse\Model\formation.php';
 class FormationC
 {
-    public function afficher()
+    public function afficher($atr)
     {
         $conn = config::getConnexion();
         try 
         {
-            $requete = $conn->prepare("SELECT * FROM formation");
+            $requete = $conn->prepare("SELECT * FROM formation order by $atr ASC");
             $requete->execute();
             
             // Utilisation de fetchAll pour récupérer les résultats sous forme de tableau
@@ -122,6 +122,25 @@ class FormationC
             $formation->id = "";
         }
         return $formation ;
+    }
+    public function recherche($recherche , $atr)
+    {
+        $conn = config::getConnexion();
+        try 
+        {
+            // Préparez la requête SQL avec la clause WHERE pour la recherche dans la colonne "description"
+            $requete = $conn->prepare("SELECT * FROM formation WHERE $atr LIKE :recherche");
+            $requete->bindValue(':recherche', '%' . $recherche . '%', PDO::PARAM_STR);
+            $requete->execute();
+
+            // Utilisation de fetchAll pour récupérer les résultats sous forme de tableau
+            $resultats = $requete->fetchAll(PDO::FETCH_ASSOC);
+            return $resultats;
+        }
+        catch (PDOException $e) 
+        {
+            echo 'Échec de connexion : ' . $e->getMessage();
+        }
     }
 }
 ?>

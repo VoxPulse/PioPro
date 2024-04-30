@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head>  
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="./img/apple-icon.png">
@@ -20,11 +20,8 @@
   <!-- CSS Files -->
   <link id="pagestyle" href="./css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
   <script>
-
-    function controleSaisie_offreEmploi() {
-      var lert_decr = document.getElementById("lert_decr");
-      var lert_duree = document.getElementById("lert_duree");
-      var lert_prix = document.getElementById("lert_prix");
+    function controleSaisie_offreEmploi() 
+    {
       var id = document.getElementById("id");
       var description = document.getElementById("description");
       var duree = document.getElementById("duree");
@@ -41,61 +38,25 @@
       }
       if(description.value=="" || /^[a-zA-Z]+$/.test(description.value)==false)
       {
-        i=1;
         description.style.border = "2px solid red";
-        lert_decr.style.color = "red";
-        if(description.value=="")
-        {
-          lert_decr.textContent = "veiller remplir cette champ";
-        }
+        i=1;
       }
-      else
-      {
-        description.style.border = "2px solid green";
-        lert_decr.style.color = "green";
-        lert_decr.textContent = "bien";
-      }
-      if(duree.value=="" || (duree.value<8 && duree.value>15))
+      if(duree.value=="" )
       {
         duree.style.border = "2px solid red";
-        lert_duree.style.color = "red";
         i=1;
-        if(duree.value=="")
-        {
-          lert_duree.textContent = "veiller remplir cette champ";
-        }
       }
-      else
+      if(prix.value=="" )
       {
-        duree.style.border = "2px solid green";
-        lert_duree.style.color = "green";
-        lert_duree.textContent = "bien";
-      }
-      if(prix.value=="" || (prix.value<200 && prix.value>100))
-      {
-        i=1;
         prix.style.border = "2px solid red";
-        lert_prix.style.color = "red";
-        if(prix.value=="")
-        {
-          lert_prix.textContent = "veiller remplir cette champ";
-        }
-      }
-      else
-      {
-        prix.style.border = "2px solid green";
-        lert_prix.style.color = "green";
-        lert_prix.textContent = "bien";
+        i=1;
       }
       if(i==1)
       {
+        alert("veiller remplir tous les champs");
         return false;
       }
-      id.value="";
-      description.value="";
-      duree.value="";
-      prix.value="";
-      image.value="";
+      
       return true;
     }
   </script>
@@ -211,9 +172,9 @@
               
             </div>
             <div class="card-body">
-              <form action="ajoutFormation.php" method="post" onsubmit="return controleSaisie_offreEmploi();">
+              <form action="ajout_contenue.php" method="post" onsubmit="return controleSaisie_offreEmploi();">
                 <div class="d-flex align-items-center">
-                  <p class="mb-0">Ajout Formation</p>
+                  <p class="mb-0">Ajout continue</p>
                   <button type="submit" class="btn btn-primary btn-sm ms-auto">Ajout</button>
                 </div>
                   <p class="text-uppercase text-sm">Information sur la Formation</p>
@@ -226,32 +187,25 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="example-text-input" class="form-control-label">description</label>
+                      <label for="example-text-input" class="form-control-label">url</label>
                       
-                      <input class="form-control" type="text"  id="description" name="description">
-                      <p id="lert_decr" >la description ne pas contenir des lettre</p>
+                      <input class="form-control" type="text"  id="url" name="url">
+                      <p id="lert_decr" ></p>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="example-text-input" class="form-control-label">duree</label>
-                      <input class="form-control" type="number" id="duree" name="duree">
-                      <p id="lert_duree" >doit etre superieur a 2</p>
+                      <label for="example-text-input" class="form-control-label">type</label>
+                      <input class="form-control" type="text" id="type" name="type">
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="example-text-input" class="form-control-label">prix</label>
-                      <input class="form-control" type="number" id="prix" name="prix" >
-                      <p id="lert_prix">le prix doi etre entre 200dt et 100dt</p>
+                      <label for="example-text-input" class="form-control-label">id_F</label>
+                      <input class="form-control" type="number" id="id_F" name="id_F" >
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="example-text-input" class="form-control-label">image</label>
-                      <input class="form-control" type="file" id="image" name="image">
-                    </div>
-                  </div>
                 </form>
               </div>
              

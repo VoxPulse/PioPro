@@ -1,5 +1,5 @@
 <?php
-include 'C:\wamp64\www\TEST\Model\config.php';
+require_once 'C:\wamp64\www\TEST\Model\config.php';
 class UserC
 {
     // AFFICHAGE 

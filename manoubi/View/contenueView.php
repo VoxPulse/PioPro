@@ -1,25 +1,16 @@
 
 <?php
-    include 'C:\wamp64\www\piopro2\VoxPulse\Controller\formationC.php';
-    $formation = new FormationC();
-    if(isset($_GET['option']))
-    {
-        $resultat=$formation->afficher($_GET['option']);
-        $char = $_GET['option'] ;
-    }
-    else
-    {
-        $resultat=$formation->afficher("id");
-        $char = "id" ;
-    }
+    include 'C:\wamp64\www\piopro2\VoxPulse\Controller\contenueC.php';
+    $contenue = new contenueC();
+    
+    $resultat=$contenue->afficher("url");
     $tableHTML = '<table class="table">';
     $tableHTML .= '<thead>';
     $tableHTML .= '<tr>';
     $tableHTML .= '<th>ID</th>';
-    $tableHTML .= '<th>description</th>';
-    $tableHTML .= '<th>duree</th>';
-    $tableHTML .= '<th>prix</th>';
-    $tableHTML .= '<th>image</th>';
+    $tableHTML .= '<th>type</th>';
+    $tableHTML .= '<th>url</th>';
+    $tableHTML .= '<th>id_f</th>';
     $tableHTML .= '</tr>';
     $tableHTML .= '</thead>';
     $tableHTML .= '<tbody>';
@@ -27,12 +18,11 @@
     {
         $tableHTML .= '<tr>';
         $tableHTML .= '<td>' . $row['id'] . '</td>';
-        $tableHTML .= '<td>' . $row['description'] . '</td>';
-        $tableHTML .= '<td>' . $row['duree'] . '</td>';
-        $tableHTML .= '<td>' . $row['prix'] . '</td>';
-        $tableHTML .= '<td>' . $row['image'] . '</td>';
-        $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimerformation.php?id=" . $row['id']. "'>suprimer</a></td>" ;
-        $tableHTML .= "<td > <a class='btn btn-primary' href='modifierFormationView.php?id=" . $row['id']. "'>modifier</a></td>" ;
+        $tableHTML .= '<td>' . $row['type'] . '</td>';
+        $tableHTML .= '<td>' . $row['url'] . '</td>';
+        $tableHTML .= '<td>' . $row['id_formation'] . '</td>';
+        $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimercontenue.php?id=" . $row['id']. "'>suprimer</a></td>" ;
+        $tableHTML .= "<td > <a class='btn btn-primary' href='modifiercontenueView.php?id=" . $row['id']. "'>modifier</a></td>" ;
         $tableHTML .= '</tr>';
     }
     
@@ -62,27 +52,10 @@
   <!-- Supprimer-->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    function redirigerVersAutreFichier() 
-    {
-        window.location.href = "ajoutForlation.html";
+    function redirigerVersAutreFichier() {
+        window.location.href = "ajout.php";
     }
 </script>
-<script>
-        // Récupération de la balise select
-        var selectElement = document.getElementById("choix");
-
-        // Ajout d'un écouteur d'événement pour l'événement "change"
-        selectElement.addEventListener("change", function() 
-        {
-            // Fonction à exécuter lorsque la sélection change
-            var selectedOption = selectElement.value;
-            console.log("Option sélectionnée :", selectedOption);
-            var url = "formationvVew.php?option=" + encodeURIComponent(selectedOption);
-            
-            // Redirection vers la nouvelle page avec la variable
-            window.location.href = url;
-        });
-    </script>
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
@@ -370,22 +343,10 @@
       <div class="row mt-4">
       <div class="col-lg-7 mb-lg-0 mb-4">
   <div class="card z-index-2 h-100">
-  <div class="card-header pb-0 p-3">
-      <select id="choix" name="choix">
-            <option value="id">id</option>
-            <option value="description">description</option>
-            <option value="duree">duree</option>
-            <option value="prix">prix</option>
-       </select>
-  </div>
-  <div class="form-group">
-    <label for="example-text-input" class="form-control-label">recherche</label>
-    <input class="form-control" type="text" id="recherche" name="recherche">
-  </div>
   <div class="card-header pb-0 pt-3 bg-transparent d-flex justify-content-between align-items-center">
-    <h6 class="text-capitalize m-0"> Tous Les Utilisateurs</h6>
+    <h6 class="text-capitalize m-0"> Tous contenue</h6>
     <!-- Ajout du bouton -->
-    <button class="btn btn-success" onclick="redirigerVersAutreFichier()">Ajouter Un Administrateur</button>
+    <button class="btn btn-success" onclick="redirigerVersAutreFichier()">Ajouter Un contenue</button>
 </div>
 
     <div class="card-body p-3" style="max-height: 280px; overflow-y: auto;">
@@ -987,60 +948,3 @@
 </body>
 
 </html>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var selectElement = document.getElementById("choix");
-        var char = "<?php echo $char; ?>"; // Inclure la variable PHP dans le script JavaScript
-        console.log(char);
-        selectElement.value =char;
-        selectElement.addEventListener("change", function() {
-            var selectedOption = selectElement.value;
-            console.log("Option sélectionnée :", selectedOption);
-            var currentUrl = window.location.href;
-            var url = currentUrl.split('?')[0] + "?option=" + encodeURIComponent(selectedOption);
-            
-            // Redirection vers la même page avec la variable
-            window.location.href = url;
-        });
-        
-        const searchInput = document.getElementById("recherche");
-        const rows = document.querySelectorAll("tbody tr");
-        
-        searchInput.addEventListener("keyup", function (event) {
-            const q = event.target.value.toLowerCase();
-            rows.forEach((row) => {
-                let found = false;
-                if(selectElement.value == "id") {
-                    row.querySelectorAll("td:nth-child(1)").forEach((cell) => {
-                        if (cell.textContent.toLowerCase().includes(q)) {
-                            found = true;
-                        }
-                    });
-                }
-                else if(selectElement.value == "description") {
-                    row.querySelectorAll("td:nth-child(2)").forEach((cell) => {
-                        if (cell.textContent.toLowerCase().includes(q)) {
-                            found = true;
-                        }
-                    });
-                }
-                else if(selectElement.value == "duree") {
-                    row.querySelectorAll("td:nth-child(3)").forEach((cell) => {
-                        if (cell.textContent.toLowerCase().includes(q)) {
-                            found = true;
-                        }
-                    });
-                }
-                else if(selectElement.value == "prix") {
-                    row.querySelectorAll("td:nth-child(4)").forEach((cell) => {
-                        if (cell.textContent.toLowerCase().includes(q)) {
-                            found = true;
-                        }
-                    });
-                }
-                row.style.display = found ? "table-row" : "none";
-            });
-        });
-    });
-</script>
-

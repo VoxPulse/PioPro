@@ -10,12 +10,8 @@ $prix = $_POST['prix'];
 $image = $_POST['image'];
 
 // Attribution des valeurs à l'instance de Formation en utilisant les méthodes setter
-$formation->setId($id);
-$formation->setDescription($description);
-$formation->setDuree($duree);
-$formation->setPrix($prix);
-$formation->setImage($image);
+
 $formationC = new FormationC();
 $formationC->addFormation($_POST['id'] , $_POST['description'] , $_POST['duree'] , $_POST['prix'] , $_POST['image']);
-header("Location: formationvVew.php");
+//header("Location: formationvVew.php");
 ?>
