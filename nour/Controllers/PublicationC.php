@@ -1,5 +1,6 @@
 <?php
-include 'C:\wamp64\www\projetV6\Models\config.php';
+include __DIR__ . '/../Models/config.php';
+
 
 class PublicationC
 {
@@ -101,7 +102,7 @@ class PublicationC
             $rowCom = false;
             if(isset($_GET['edit_comment']))
             {
-                require_once('C:\wamp64\www\projetV6\Controllers\commentaireC.php');
+                require_once('commentaireC.php');
                 $comment1=new commentaireC();
                 $id_com = $_GET['edit_comment'];
                 $rowCom = $comment1->getCommentById($id_com);

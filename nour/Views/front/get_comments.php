@@ -6,8 +6,8 @@
 </head>
 <body>
         <?php
-            require_once('C:\wamp64\www\projetV6\Models\commentaire.php');
-            require_once('C:\wamp64\www\projetV6\Controllers\commentaireC.php');
+            require_once __DIR__ . '/../../Models/commentaire.php';
+            require_once __DIR__ . '/../../Controllers/commentaireC.php';
          
             function listComments($id_pub) 
             {

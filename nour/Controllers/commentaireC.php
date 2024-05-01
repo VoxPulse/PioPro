@@ -1,5 +1,5 @@
 <?php
-require_once('C:\wamp64\www\projetV6\Controllers\PublicationC.php');
+require_once('PublicationC.php');
 class commentaireC
 {
     //AFFICHAGE front
@@ -62,6 +62,12 @@ class commentaireC
                 </div>
                 </th>
                 <th >
+                <th>
+                <div class="text-center">
+                    <h6 class="text-sm mb-0">Vocal</h6>
+                </div>
+                </th>
+                <th >
                 <div class="col text-center">
                     <h6 class="text-sm mb-0">Date création</h6>
                 </div>
@@ -88,6 +94,12 @@ class commentaireC
                 text-overflow: ellipsis;">
                 <div class="col text-center" ><a href="dashboard.php?id_comment=' . $row['id'] .'&showPopupComment=true ">'. $row['contenu'] .'</a></div></td>';
                 echo '<td class="align-middletext-sm">
+                <div class="col text-center">' ;
+                if (!empty($row['audio_path'])) {
+                    echo "<audio controls><source src='../../front/" . htmlspecialchars($row['audio_path']) . "' type='audio/ogg'></audio>";
+                } 
+                echo '</div></td>';
+                echo '<td class="align-middletext-sm">
                 <div class="col text-center">' . $row['date_crea'] . '</div></td>';
                 echo '<td class="align-middletext-sm">
                 <div class="col text-center">' . $row['id_user'] . '</div></td>';
@@ -106,7 +118,7 @@ class commentaireC
     //AJOUT 
     public function addComment($comment, $audioFile = null)
     {
-        require_once 'C:\wamp64\www\projetV6\Models\config.php';
+        require_once __DIR__ . '/../Models/config.php';
         $conn = config::getConnexion();
     
         $contenu = $comment->getContenu();
@@ -141,18 +153,34 @@ class commentaireC
     //supp
     public function DeleteComment($id)
     {
-        require_once 'C:\wamp64\www\projetV6\Models\config.php';
+        require_once __DIR__ . '/../Models/config.php';
         $conn = config::getConnexion();
-
+        $test=false;
         try {
+            if($id[0]=="*")
+            {    
+                $idR=substr($id,1);
+                $test=true;
+            }
+            else
+            {   
+                $idR=$id;
+            }
             $query = $conn->prepare("SELECT audio_path FROM commentaire WHERE id = :id");
-            $query->bindParam(':id', $id);
+            $query->bindParam(':id', $idR);
             $query->execute();
             $result = $query->fetch(PDO::FETCH_ASSOC);
-            $audioPath = $result['audio_path'];
+            if($test==true)
+            {
+                $audioPath = "../../front/".$result['audio_path'];
+            }
+            else
+            {
+                $audioPath = $result['audio_path'];
+            }
 
             $query = $conn->prepare("DELETE FROM commentaire WHERE id = :id");
-            $query->bindParam(':id', $id);
+            $query->bindParam(':id', $idR);
             $query->execute();
 
             if ($query->rowCount() > 0) {
@@ -171,7 +199,7 @@ class commentaireC
     // UPDATE
     public function UpdateComment($comment,$id)
     {
-        require_once 'C:\wamp64\www\projetV6\Models\config.php';
+        require_once __DIR__ . '/../Models/config.php';
         $conn = config::getConnexion();
         $contenu=$comment->getContenu();
         $id_user=$comment->getId_user();
@@ -191,7 +219,7 @@ class commentaireC
     }
     public function getCommentById($id)
     {
-        require_once 'C:\wamp64\www\projetV6\Models\config.php';
+        require_once __DIR__ . '/../Models/config.php';
         $conn = config::getConnexion();
         try {
             $query = $conn->prepare("SELECT * FROM commentaire WHERE id = :id");
@@ -205,7 +233,7 @@ class commentaireC
     }
     //nb comment
     function getCommentCount($postId) {
-        require_once 'C:\wamp64\www\projetV6\Models\config.php';
+        require_once __DIR__ . '/../Models/config.php';
         $conn = config::getConnexion();
     
         try {

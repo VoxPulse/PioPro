@@ -7,7 +7,7 @@
 </head>
 <body>
         <?php
-            require_once('C:\wamp64\www\projetV6\Controllers\PublicationC.php');
+            require_once('..\..\..\Controllers\PublicationC.php');
             $pub1=new PublicationC();
             $id = $_GET['id'];
             $pub1->DeletePublication($id);
