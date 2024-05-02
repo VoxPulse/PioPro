@@ -12,6 +12,10 @@ if(isset($_POST['nom1'], $_POST['prenom1'], $_POST['Cin1'], $_POST['mail1'], $_P
     $telephone = $_POST['Tel']; // Correction de la syntaxe
     $role = "Admin";
     $motdepasse = $_POST['MotdePasse1'];
+
+    // Hashage du mot de passe
+    $motdepasse_hash = password_hash($motdepasse, PASSWORD_DEFAULT);
+
     $etablissement = "root";
     // Obtention de la date d'aujourd'hui
     $dateAujourdhui = date("Y-m-d H:i:s");
@@ -19,7 +23,7 @@ if(isset($_POST['nom1'], $_POST['prenom1'], $_POST['Cin1'], $_POST['mail1'], $_P
     $Block = "Unblocked";
     $statut = "N/D";
     // Ajout de l'utilisateur avec les données récupérées
-    $E->AddUser($nom, $prenom, $cin, $telephone, $email, $role, $motdepasse, $etablissement, $ddn, $dateAujourdhui, $Block, $statut);
+    $E->AddUser($nom, $prenom, $cin, $telephone, $email, $role, $motdepasse_hash, $etablissement, $ddn, $dateAujourdhui, $Block, $statut);
 
     // Redirection vers une autre page après l'ajout de l'utilisateur
     header('Location: dashboard.php');

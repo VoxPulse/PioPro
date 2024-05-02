@@ -87,7 +87,7 @@
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-4 text-sm mx-auto">
                     Vous n'avez pas de Compte?
-                    <a href="../View/sign-up.html" class="text-primary text-gradient font-weight-bold">Créer un </a>
+                    <a href="sign-up.php" class="text-primary text-gradient font-weight-bold">Créer un </a>
                   </p>
                   <p class="mb-4 text-sm mx-auto">
                     Mot de passe oublié?

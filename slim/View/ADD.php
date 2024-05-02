@@ -15,6 +15,7 @@ if(isset($_POST['nom'], $_POST['prenom'], $_POST['cin'], $_POST['telephone'], $_
     $email = $_POST['email'];
     $role = $_POST['role'];
     $motdepasse = $_POST['motdepasse'];
+
     $ddn = $_POST['ddn'];
     $etablissement = $_POST['etablissement'];
 

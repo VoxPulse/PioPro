@@ -1,3 +1,8 @@
+<?php
+
+//FORM SUBMISSION 
+include_once 'submit.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,6 +23,14 @@
   <!-- CSS Files -->
   <link id="pagestyle" href="./css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
   <link rel="icon" type="image/png" href="./oneschool-master/images/logo 1.png">
+  <!--Captcha-->
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+  <script>
+    function onSubmit(token)
+    {
+    document.getElementbyId("myForm").submit();
+    }
+  </script>
 </head>
 
 <body>
@@ -172,8 +185,10 @@
                     J'accepte <a href="javascript:;" class="text-dark font-weight-bolder">les termes et les conditions</a>
                   </label>
                 </div>
+                <input type="hidden" name="submit_frm" value="1">
                 <div class="text-center">
-                  <button type="submit" data-acti id="btnInscription" class="btn bg-gradient-dark w-100 my-4 mb-2">S'inscrire</button>
+                  <button  
+                    type="submit" data-acti id="btnInscription" class="btn bg-gradient-dark w-100 my-4 mb-2">S'inscrire</button>
                 </div>
                 <div class="text-center">
                   <p class="text-sm mt-3 mb-0">Vous avez déjà un compte ? <a href="./sign-in.html" class="text-dark font-weight-bolder">Connectez-vous</a></p>
@@ -433,6 +448,12 @@
         return etablissementRegex.test(etablissement);
     }
 });
+</script>
+<script>
+  <!-- Replace the variables below. -->
+  function onSubmit(token) {
+    document.getElementById("demo-form").submit();
+  }
 </script>
 </body>
 

@@ -6,8 +6,31 @@ $UserOnline = $E->UsersOnline();
 $NewUsers = $E->NouveauInscription();
 $LastLogin = $E->LastLogin();
 $ListUser = $E->ListUser();
-$listBlock= $E->ListBlock();
-//deux boutons
+$listBlock = $E->ListBlock();
+$listUnBlock = $E->ListUnBlock();
+
+$bdd = new PDO('mysql:host=localhost;dbname=piopro','root', '');
+$allusers = $bdd->query('SELECT * FROM user ');
+// RECHERCHE
+if (isset($_GET['searchInput'])) {
+    $Rech = htmlspecialchars($_GET['searchInput']);
+    $allusers = $bdd->query('SELECT * FROM user WHERE cin LIKE "%' . $Rech . '%"  ORDER BY id ASC');
+}
+
+$bdd1 = new PDO('mysql:host=localhost;dbname=piopro', 'root', '');
+// TRI
+$allusers1 = $bdd1->query('SELECT * FROM user');
+if (isset($_GET['tri'])) {
+  $T = $_GET['tri'];
+  if ($T == "cin") {
+      $allusers1 = $bdd1->query('SELECT * FROM user ORDER BY cin ASC');
+  } else if ($T == "id") {
+      $allusers1 = $bdd1->query('SELECT * FROM user ORDER BY id ASC');
+  } elseif ($T == "ALF") {
+      $allusers1 = $bdd1->query('SELECT * FROM user ORDER BY nom ASC');
+  }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,7 +89,7 @@ $listBlock= $E->ListBlock();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="../pages/tables.html">
+          <a class="nav-link " href="/salima/dashboard.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
             </div>
@@ -336,123 +359,194 @@ $listBlock= $E->ListBlock();
 
       </div>
       <div class="row mt-4">
-        <div class="col-lg-7 mb-lg-0 mb-4">
+        <div class="col-lg-6">
           <div class="card ">
             <div class="card-header pb-0 p-3">
               <div class="d-flex justify-content-between">
-                <h6 class="mb-2">Accés par pays</h6>
+                <h6 style="font-weight: bold; color: red;" class="mb-2">Bloquer Les Utilisateurs</h6>
               </div>
             </div>
             <div class="table-responsive">
               <table class="table align-items-center ">
                 <tbody>
-                <?php echo $listBlock; ?>
+                  <?php echo $listBlock; ?>
                 </tbody>
               </table>
             </div>
           </div>
         </div>
-        <div class="col-lg-5">
+        <div class="col-lg-6">
           <div class="card">
             <div class="card-header pb-0 p-3">
-              <h6 style="font-weight: bold; color: red;" class="mb-0">Signal</h6>
-            </div>
-            <div class="card-body p-3">
-              <ul class="list-group">
-                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                  <div class="d-flex align-items-center">
-                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                      <i class="ni ni-mobile-button text-white opacity-10"></i>
-                    </div>
-                    <div class="d-flex flex-column">
-                      <h6 class="mb-1 text-dark text-sm">Notifications d'accès depuis de nouveaux appareils</h6>
-                      <span class="text-xs"><span class="font-weight-bold"></span></span>
-                    </div>
-                  </div>
-                  <div class="d-flex">
-                    <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i class="ni ni-bold-right" aria-hidden="true"></i></button>
-                  </div>
-                </li>
-                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                  <div class="d-flex align-items-center">
-                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                      <i class="ni ni-tag text-white opacity-10"></i>
-                    </div>
-                    <div class="d-flex flex-column">
-                      <h6 class="mb-1 text-dark text-sm">Activité des appareils</h6>
-                      <span class="text-xs"><span class="font-weight-bold"></span></span>
-                    </div>
-                  </div>
-                  <div class="d-flex">
-                    <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i class="ni ni-bold-right" aria-hidden="true"></i></button>
-                  </div>
-                </li>
-                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                  <div class="d-flex align-items-center">
-                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                      <i class="ni ni-box-2 text-white opacity-10"></i>
-                    </div>
-                    <div class="d-flex flex-column">
-                      <h6 class="mb-1 text-dark text-sm">Statut de la connexion réseau</h6>
-                      <span class="text-xs"><span class="font-weight-bold"></span></span>
-                    </div>
-                  </div>
-                  <div class="d-flex">
-                    <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i class="ni ni-bold-right" aria-hidden="true"></i></button>
-                  </div>
-                </li>
-                <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
-                  <div class="d-flex align-items-center">
-                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                      <i class="ni ni-satisfied text-white opacity-10"></i>
-                    </div>
-                    <div class="d-flex flex-column">
-                      <h6 class="mb-1 text-dark text-sm">Gestion des sessions actives</h6>
-                      <span class="text-xs font-weight-bold"></span>
-                    </div>
-                  </div>
-                  <div class="d-flex">
-                    <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i class="ni ni-bold-right" aria-hidden="true"></i></button>
-                  </div>
-                </li>
-              </ul>
+              <h6 style="font-weight: bold; color: red;" class="mb-2">Débloquer Les Utilisateurs</h6>
+              <table class="table align-items-center ">
+                <tbody>
+                  <?php echo $listUnBlock; ?>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
-      </div>
-      <footer class="footer pt-3  ">
-        <div class="container-fluid">
-          <div class="row align-items-center justify-content-lg-between">
-            <div class="col-lg-6 mb-lg-0 mb-4">
-              <div class="copyright text-center text-sm text-muted text-lg-start">
-                © <script>
-                  document.write(new Date().getFullYear())
-                </script>,
-                made with <i class="fa fa-heart"></i> by
-                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">VoxPulse</a>
-                for a better web.
+        <div class="row mt-4">
+          <div class="col-lg-6">
+            <div class="card">
+              <form method="GET">
+                <div class="card-header pb-0 p-3">
+                  <h6 class="mb-2" style="font-weight: bold; color: red;">Rechercher un utilisateur par sa carte d'identité nationale</h6>
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="searchInput" name="searchInput" placeholder="Entrez la carte d'identite de l'utilisateur">
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table align-items-center">
+                      <button type="Submit" class="btn btn-link text-dark p-0 fixed-plugin-close-button">Rechercher</button>
+                      <tbody>
+                        <?php
+                        if ($allusers->rowCount() > 0) {
+                        ?>
+                          <table class="table">
+                            <thead class="thead-dark">
+                              <tr>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Date de naissance</th>
+                                <th>Tel</th>
+                                <th>Mail</th>
+                                <th>Role</th>
+                                <th>Etablissemet</th>
+                                <th>ST BLOCK</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <?php
+                              while ($user = $allusers->fetch()) {
+                              ?>
+                                <tr>
+                                  <td><?= $user['nom'] ?></td>
+                                  <td><?= $user['prenom'] ?></td>
+                                  <td><?= $user['date_n'] ?></td>
+                                  <td><?= $user['tel'] ?></td>
+                                  <td><?= $user['mail'] ?></td>
+                                  <td><?= $user['role'] ?></td>
+                                  <td><?= $user['etab'] ?></td>
+                                  <td><?= $user['Block'] ?></td>
+                                </tr>
+                              <?php
+                              }
+                              ?>
+                            </tbody>
+                          </table>
+                        <?php
+                        } else {
+                        ?>
+                          <p>Aucun utilisateur trouvé</p>
+                        <?php
+                        }
+                        ?>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="card">
+              <form method="GET">
+                <div class="card-header pb-0 p-3">
+                  <h6 class="mb-2" style="font-weight: bold; color: red;">Trier par  titre </h6>
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="tri" name="tri" placeholder="Ecrivez le titre ">
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table align-items-center">
+                      <button type="Submit" class="btn btn-link text-dark p-0 fixed-plugin-close-button">Trier</button>
+                      <tbody>
+                        <?php
+                        if ($allusers1->rowCount() > 0) {
+                        ?>
+                          <table class="table">
+                            <thead class="thead-dark">
+                              <tr>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Date de naissance</th>
+                                <th>Tel</th>
+                                <th>Mail</th>
+                                <th>Role</th>
+                                <th>Etablissemet</th>
+                                <th>ST BLOCK</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <?php
+                              while ($user=$allusers1->fetch()) {
+                              ?>
+                                <tr>
+                                  <td><?= $user['nom'] ?></td>
+                                  <td><?= $user['prenom'] ?></td>
+                                  <td><?= $user['date_n'] ?></td>
+                                  <td><?= $user['tel'] ?></td>
+                                  <td><?= $user['mail'] ?></td>
+                                  <td><?= $user['role'] ?></td>
+                                  <td><?= $user['etab'] ?></td>
+                                  <td><?= $user['Block'] ?></td>
+                                </tr>
+                              <?php
+                              }
+                              ?>
+                            </tbody>
+                          </table>
+                        <?php
+                        } else {
+                        ?>
+                          <p>Aucun utilisateur trouvé</p>
+                        <?php
+                        }
+                        ?>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <footer class="footer pt-3  ">
+          <div class="container-fluid">
+            <div class="row align-items-center justify-content-lg-between">
+              <div class="col-lg-6 mb-lg-0 mb-4">
+                <div class="copyright text-center text-sm text-muted text-lg-start">
+                  © <script>
+                    document.write(new Date().getFullYear())
+                  </script>,
+                  made with <i class="fa fa-heart"></i> by
+                  <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">VoxPulse</a>
+                  for a better web.
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                  <li class="nav-item">
+                    <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Vox Pulse </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
+                  </li>
+                </ul>
               </div>
             </div>
-            <div class="col-lg-6">
-              <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Vox Pulse </a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
-                </li>
-              </ul>
-            </div>
           </div>
-        </div>
-      </footer>
-    </div>
+        </footer>
+      </div>
   </main>
   <div class="fixed-plugin">
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
@@ -531,7 +625,7 @@ $listBlock= $E->ListBlock();
     <div class="custom-modal2">
       <div class="modal-content">
         <h5>Ajouter Un Administrateur</h5>
-        <form action="ADDUSER.php" method="post" id ="MYFORM2">
+        <form action="ADDUSER.php" method="post" id="MYFORM2">
           <div style="display: flex;">
             <!-- Première colonne -->
             <div style="flex: 1;">
@@ -669,7 +763,6 @@ $listBlock= $E->ListBlock();
       </div>
     </div>
   </div>
-
   <script>
     // Sélectionner les boutons supprimer
     var supprimerButtons = document.querySelectorAll('.btn-supprimer');
@@ -862,276 +955,276 @@ $listBlock= $E->ListBlock();
     });
   </script>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    
-    var myForm = document.getElementById('Form4');
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
 
-    //
-    var nom2Input = document.getElementById('upNom');
-    var prenom2Input = document.getElementById('PR');
-    var Date2Input = document.getElementById('DDN');
-    var Cin2Input = document.getElementById('cin');
-    var Tel2Input = document.getElementById('tel');
-    var Mail2Input = document.getElementById('email');
-    var MDP2Input = document.getElementById('mdp');
-    var ETAB = document.getElementById('etab');
+      var myForm = document.getElementById('Form4');
 
-    //
-    var nom2Error = document.getElementById('NI');
-    var prenom2Error = document.getElementById('PI');
-    var Date2Error = document.getElementById('DNI');
-    var Cin2Error = document.getElementById('CINI');
-    var Tel2Error = document.getElementById('TI');
-    var Mail2Error = document.getElementById('MI');
-    var MDP2Error = document.getElementById('MDI');
-    var ETABError = document.getElementById('EI');
+      //
+      var nom2Input = document.getElementById('upNom');
+      var prenom2Input = document.getElementById('PR');
+      var Date2Input = document.getElementById('DDN');
+      var Cin2Input = document.getElementById('cin');
+      var Tel2Input = document.getElementById('tel');
+      var Mail2Input = document.getElementById('email');
+      var MDP2Input = document.getElementById('mdp');
+      var ETAB = document.getElementById('etab');
 
-    myForm.addEventListener('submit', function(event) {
+      //
+      var nom2Error = document.getElementById('NI');
+      var prenom2Error = document.getElementById('PI');
+      var Date2Error = document.getElementById('DNI');
+      var Cin2Error = document.getElementById('CINI');
+      var Tel2Error = document.getElementById('TI');
+      var Mail2Error = document.getElementById('MI');
+      var MDP2Error = document.getElementById('MDI');
+      var ETABError = document.getElementById('EI');
+
+      myForm.addEventListener('submit', function(event) {
         // Initialisation du compteur d'erreurs
         var errors = 0;
-    // Ajout d'écouteurs d'événements pour chaque champ d'entrée pour la validation en temps réel
-      if (!validateNom(ETAB.value)) {
-        ETABError.style.display = 'block';
-        errors++;
-      } else {
-        ETABError.style.display = 'none';
-      }
-
-      if (!validateMotDePasse(MDP2Input.value)) {
-        MDP2Error.style.display = 'block';
-        errors++;
-      } else {
-        MDP2Error.style.display = 'none';
-      }
-
-    // Événement pour le champ Nom
-
-    // Événement pour le champ Nom
-    Mail2Input.addEventListener('input', function() {
-      if (!validateEmail(Mail2Input.value)) {
-        Mail2Error.style.display = 'block';
-        errors++;
-      } else {
-        Mail2Error.style.display = 'none';
-      }
-    });
-    // Événement pour le champ Nom
-
-      if (!validateCIN(Tel2Input.value)) {
-        Tel2Error.style.display = 'block';
-        errors++;
-      } else {
-        Tel2Error.style.display = 'none';
-      }
-
-
-
-    // Événement pour le champ Nom
-      if (!validateCIN(Cin2Input.value)) {
-        Cin2Error.style.display = 'block';
-        errors++;
-      } else {
-        Cin2Error.style.display = 'none';
-      }
-
-
-      if (!validateNom(nom2Input.value)) {
-        nom2Error.style.display = 'block';
-        errors++;
-      } else {
-        nom2Error.style.display = 'none';
-      }
-
-    // Événement pour le champ Nom
-
-    //prenom
-
-      if (!validateNom(prenom2Input.value)) {
-        prenom2Error.style.display = 'block';
-        errors++;
-      } else {
-        prenom2Error.style.display = 'none';
-      }
-
-
-    //Date
-
-      if (!validateAge(Date2Input.value)) {
-        Date2Error.style.display = 'block';
-        errors++;
-      } else {
-        Date2Error.style.display = 'none';
-      }
-
-      if (errors > 0) {
-            event.preventDefault();
-            alert('Le formulaire contient des erreurs, veuillez les corriger.');
+        // Ajout d'écouteurs d'événements pour chaque champ d'entrée pour la validation en temps réel
+        if (!validateNom(ETAB.value)) {
+          ETABError.style.display = 'block';
+          errors++;
+        } else {
+          ETABError.style.display = 'none';
         }
+
+        if (!validateMotDePasse(MDP2Input.value)) {
+          MDP2Error.style.display = 'block';
+          errors++;
+        } else {
+          MDP2Error.style.display = 'none';
+        }
+
+        // Événement pour le champ Nom
+
+        // Événement pour le champ Nom
+        Mail2Input.addEventListener('input', function() {
+          if (!validateEmail(Mail2Input.value)) {
+            Mail2Error.style.display = 'block';
+            errors++;
+          } else {
+            Mail2Error.style.display = 'none';
+          }
+        });
+        // Événement pour le champ Nom
+
+        if (!validateCIN(Tel2Input.value)) {
+          Tel2Error.style.display = 'block';
+          errors++;
+        } else {
+          Tel2Error.style.display = 'none';
+        }
+
+
+
+        // Événement pour le champ Nom
+        if (!validateCIN(Cin2Input.value)) {
+          Cin2Error.style.display = 'block';
+          errors++;
+        } else {
+          Cin2Error.style.display = 'none';
+        }
+
+
+        if (!validateNom(nom2Input.value)) {
+          nom2Error.style.display = 'block';
+          errors++;
+        } else {
+          nom2Error.style.display = 'none';
+        }
+
+        // Événement pour le champ Nom
+
+        //prenom
+
+        if (!validateNom(prenom2Input.value)) {
+          prenom2Error.style.display = 'block';
+          errors++;
+        } else {
+          prenom2Error.style.display = 'none';
+        }
+
+
+        //Date
+
+        if (!validateAge(Date2Input.value)) {
+          Date2Error.style.display = 'block';
+          errors++;
+        } else {
+          Date2Error.style.display = 'none';
+        }
+
+        if (errors > 0) {
+          event.preventDefault();
+          alert('Le formulaire contient des erreurs, veuillez les corriger.');
+        }
+      });
+
+
+
+      // Validation du nom
+      function validateNom(nom) {
+        var nomRegex = /^[a-zA-Z\s]+$/;
+        return nom.length > 3 && nomRegex.test(nom);
+      }
+
+      //Validation du prenom 
+      function validatePrenom(prenom) {
+        var nomRegex = /^[a-zA-Z\s]+$/;
+        return prenom.length > 3 && nomRegex.test(prenom);
+      }
+
+      //Date
+      function validateAge(date) {
+        // Convertir la chaîne de date en objet Date
+        var birthDate = new Date(date);
+
+        // Obtenir la date actuelle
+        var today = new Date();
+
+        // Calculer la date il y a 18 ans
+        var eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
+        // Comparer les dates
+        return birthDate <= eighteenYearsAgo;
+      }
+
+      //CIN 
+      function validateCIN(cin) {
+        var cinRegex = /^[0-9]*$/;
+        return cin.length === 8 && cinRegex.test(cin);
+      }
+
+      //Tel 
+      function validateTel(cin) {
+        var cinRegex = /^[0-9]*$/;
+        return cin.length === 8 && cinRegex.test(cin);
+      }
+
+      //EMAIL 
+      function validateEmail(email) {
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
+
+      //MDP
+      function validateMotDePasse(motDePasse) {
+        // Expression régulière pour vérifier si le mot de passe contient au moins un caractère spécial, un chiffre et une lettre
+        var regex = /^(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,}$/;
+        return regex.test(motDePasse);
+      }
     });
+  </script>
 
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
 
-    // Validation du nom
-    function validateNom(nom) {
-      var nomRegex = /^[a-zA-Z\s]+$/;
-      return nom.length > 3 && nomRegex.test(nom);
-    }
+      var myForm = document.getElementById('MYFORM2');
+      var errors = 0; // Variable pour compter les erreurs
 
-    //Validation du prenom 
-    function validatePrenom(prenom) {
-      var nomRegex = /^[a-zA-Z\s]+$/;
-      return prenom.length > 3 && nomRegex.test(prenom);
-    }
+      // Sélection des éléments du formulaire
+      var nomInput = document.getElementById('NN');
+      var prenomInput = document.getElementById('PP');
+      var DateInput = document.getElementById('DD');
+      var CinInput = document.getElementById('CC');
+      var TelInput = document.getElementById('TT');
+      var MailInput = document.getElementById('EM');
+      var MDPInput = document.getElementById('MP');
 
-    //Date
-    function validateAge(date) {
-      // Convertir la chaîne de date en objet Date
-      var birthDate = new Date(date);
+      // Sélection des éléments d'erreur
+      var nomError = document.getElementById('NE');
+      var prenomError = document.getElementById('PE');
+      var DateError = document.getElementById('DE');
+      var CinError = document.getElementById('CE');
+      var TelError = document.getElementById('TE');
+      var MailError = document.getElementById('EE');
+      var MDPError = document.getElementById('EP');
 
-      // Obtenir la date actuelle
-      var today = new Date();
-
-      // Calculer la date il y a 18 ans
-      var eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
-
-      // Comparer les dates
-      return birthDate <= eighteenYearsAgo;
-    }
-
-    //CIN 
-    function validateCIN(cin) {
-      var cinRegex = /^[0-9]*$/;
-      return cin.length === 8 && cinRegex.test(cin);
-    }
-
-    //Tel 
-    function validateTel(cin) {
-      var cinRegex = /^[0-9]*$/;
-      return cin.length === 8 && cinRegex.test(cin);
-    }
-
-    //EMAIL 
-    function validateEmail(email) {
-      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailRegex.test(email);
-    }
-
-    //MDP
-    function validateMotDePasse(motDePasse) {
-      // Expression régulière pour vérifier si le mot de passe contient au moins un caractère spécial, un chiffre et une lettre
-      var regex = /^(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,}$/;
-      return regex.test(motDePasse);
-    }
-  });
-</script>
-
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    
-    var myForm = document.getElementById('MYFORM2');
-    var errors = 0; // Variable pour compter les erreurs
-
-    // Sélection des éléments du formulaire
-    var nomInput = document.getElementById('NN');
-    var prenomInput = document.getElementById('PP');
-    var DateInput = document.getElementById('DD');
-    var CinInput = document.getElementById('CC');
-    var TelInput = document.getElementById('TT');
-    var MailInput = document.getElementById('EM');
-    var MDPInput = document.getElementById('MP');
-
-    // Sélection des éléments d'erreur
-    var nomError = document.getElementById('NE');
-    var prenomError = document.getElementById('PE');
-    var DateError = document.getElementById('DE');
-    var CinError = document.getElementById('CE');
-    var TelError = document.getElementById('TE');
-    var MailError = document.getElementById('EE');
-    var MDPError = document.getElementById('EP');
-
-    myForm.addEventListener('submit', function(event) {
+      myForm.addEventListener('submit', function(event) {
         // Initialisation du compteur d'erreurs
         var errorCount = 0;
 
         // Validation du mot de passe
         if (!validateMotDePasse(MDPInput.value)) {
-            MDPError.style.display = 'block';
-            errors++;
+          MDPError.style.display = 'block';
+          errors++;
         } else {
-            MDPError.style.display = 'none';
+          MDPError.style.display = 'none';
         }
 
         // Validation de l'email
         if (!validateEmail(MailInput.value)) {
-            MailError.style.display = 'block';
-            errors++;
+          MailError.style.display = 'block';
+          errors++;
         } else {
-            MailError.style.display = 'none';
+          MailError.style.display = 'none';
         }
 
         // Validation du numéro de téléphone
         if (!validateTel(TelInput.value)) {
-            TelError.style.display = 'block';
-            errors++;
+          TelError.style.display = 'block';
+          errors++;
         } else {
-            TelError.style.display = 'none';
+          TelError.style.display = 'none';
         }
 
         // Validation du numéro de carte d'identité
         if (!validateCIN(CinInput.value)) {
-            CinError.style.display = 'block';
-            errors++;
+          CinError.style.display = 'block';
+          errors++;
         } else {
-            CinError.style.display = 'none';
+          CinError.style.display = 'none';
         }
 
         // Validation du nom
         if (!validateNom(nomInput.value)) {
-            nomError.style.display = 'block';
-            errors++;
+          nomError.style.display = 'block';
+          errors++;
         } else {
-            nomError.style.display = 'none';
+          nomError.style.display = 'none';
         }
 
         // Validation du prénom
         if (!validatePrenom(prenomInput.value)) {
-            prenomError.style.display = 'block';
-            errors++;
+          prenomError.style.display = 'block';
+          errors++;
         } else {
-            prenomError.style.display = 'none';
+          prenomError.style.display = 'none';
         }
 
         // Validation de la date de naissance
         if (!validateAge(DateInput.value)) {
-            DateError.style.display = 'block';
-            errors++;
+          DateError.style.display = 'block';
+          errors++;
         } else {
-            DateError.style.display = 'none';
+          DateError.style.display = 'none';
         }
 
         // Si le compteur d'erreurs est supérieur à 0, empêcher l'envoi du formulaire
         if (errors > 0) {
-            event.preventDefault();
-            alert('Le formulaire contient des erreurs, veuillez les corriger.');
+          event.preventDefault();
+          alert('Le formulaire contient des erreurs, veuillez les corriger.');
         }
-    });
+      });
 
-    // Validation du nom
-    function validateNom(nom) {
+      // Validation du nom
+      function validateNom(nom) {
         var nomRegex = /^[a-zA-Z\s]+$/;
         return nom.length > 3 && nomRegex.test(nom);
-    }
+      }
 
-    // Validation du prénom
-    function validatePrenom(prenom) {
+      // Validation du prénom
+      function validatePrenom(prenom) {
         var prenomRegex = /^[a-zA-Z\s]+$/;
         return prenom.length > 3 && prenomRegex.test(prenom);
-    }
+      }
 
-    // Validation de la date de naissance
-    function validateAge(date) {
+      // Validation de la date de naissance
+      function validateAge(date) {
         // Convertir la chaîne de date en objet Date
         var birthDate = new Date(date);
         // Obtenir la date actuelle
@@ -1140,34 +1233,34 @@ $listBlock= $E->ListBlock();
         var eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
         // Comparer les dates
         return birthDate <= eighteenYearsAgo;
-    }
+      }
 
-    // Validation du numéro de carte d'identité
-    function validateCIN(cin) {
+      // Validation du numéro de carte d'identité
+      function validateCIN(cin) {
         var cinRegex = /^[0-9]*$/;
         return cin.length === 8 && cinRegex.test(cin);
-    }
+      }
 
-    // Validation du numéro de téléphone
-    function validateTel(tel) {
+      // Validation du numéro de téléphone
+      function validateTel(tel) {
         var telRegex = /^[0-9]*$/;
         return tel.length === 8 && telRegex.test(tel);
-    }
+      }
 
-    // Validation de l'email
-    function validateEmail(email) {
+      // Validation de l'email
+      function validateEmail(email) {
         var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
-    }
+      }
 
-    // Validation du mot de passe
-    function validateMotDePasse(motDePasse) {
+      // Validation du mot de passe
+      function validateMotDePasse(motDePasse) {
         // Expression régulière pour vérifier si le mot de passe contient au moins un caractère spécial, un chiffre et une lettre
         var regex = /^(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,}$/;
         return regex.test(motDePasse);
-    }
-});
-</script>
+      }
+    });
+  </script>
 
   <script>
     var supprimerButtons = document.querySelectorAll('.btn-supprimer');
@@ -1248,112 +1341,139 @@ $listBlock= $E->ListBlock();
   </script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-    var slimOverlay = document.querySelector('.slim');
-    var modal = document.querySelector('.custom-modal');
+      var slimOverlay = document.querySelector('.slim');
+      var modal = document.querySelector('.custom-modal');
 
-    // Ajout
-    var slim2Overlay = document.querySelector('.slim2');
-    var modal2 = document.querySelector('.custom-modal2');
-    
-    // Suppression
-    var salimOverlay = document.querySelector('.salim');
-    var modal3 = document.querySelector('.custom-modal');
+      // Ajout
+      var slim2Overlay = document.querySelector('.slim2');
+      var modal2 = document.querySelector('.custom-modal2');
 
-    // Ajouter
-    var AjouterButtons = document.querySelectorAll('.btn-primary1');
-    AjouterButtons.forEach(function(button) {
+      // Suppression
+      var salimOverlay = document.querySelector('.salim');
+      var modal3 = document.querySelector('.custom-modal');
+      // Bloquer
+      var slim3Overlay = document.querySelector('.slim3');
+      var modal3 = document.querySelector('.custom-modal3');
+
+      // Ajouter
+      var AjouterButtons = document.querySelectorAll('.btn-primary1');
+      AjouterButtons.forEach(function(button) {
         button.addEventListener('click', function() {
-            slim2Overlay.style.display = 'flex';
-            modal2.style.display = 'block';
-            slim2Overlay.classList.add('blurred');
+          slim2Overlay.style.display = 'flex';
+          modal2.style.display = 'block';
+          slim2Overlay.classList.add('blurred');
         });
-    });
+      });
 
-    // Modifier
-    var modifierButtons = document.querySelectorAll('.btn-primary');
-    modifierButtons.forEach(function(button) {
+      // Modifier
+      var modifierButtons = document.querySelectorAll('.btn-primary');
+      modifierButtons.forEach(function(button) {
         button.addEventListener('click', function() {
-            var userId = button.getAttribute('data-id');
-            // Effectuer une requête GET vers le fichier PHP avec l'ID de l'utilisateur dans l'URL
-            fetch('GETUSER.php?id=' + userId, {
-                method: 'GET'
-            }).then(function(response) {
-                // Traitez la réponse ici si nécessaire
-            }).catch(function(error) {
-                console.error('Erreur lors de la requête fetch :', error);
-            });
-            slimOverlay.style.display = 'flex';
-            modal.style.display = 'block';
-            slimOverlay.classList.add('blurred');
+          var userId = button.getAttribute('data-id');
+          // Effectuer une requête GET vers le fichier PHP avec l'ID de l'utilisateur dans l'URL
+          fetch('GETUSER.php?id=' + userId, {
+            method: 'GET'
+          }).then(function(response) {
+            // Traitez la réponse ici si nécessaire
+          }).catch(function(error) {
+            console.error('Erreur lors de la requête fetch :', error);
+          });
+          slimOverlay.style.display = 'flex';
+          modal.style.display = 'block';
+          slimOverlay.classList.add('blurred');
         });
-    });
+      });
 
-    // Supprimer
-    var supprimerButtons = document.querySelectorAll('.btn-supprimer');
-    supprimerButtons.forEach(function(button) {
+      // Supprimer
+      var supprimerButtons = document.querySelectorAll('.btn-supprimer');
+      supprimerButtons.forEach(function(button) {
         button.addEventListener('click', function() {
-            var userId = button.getAttribute('data-id');
-            // Afficher une boîte de dialogue de confirmation
-            var confirmation = prompt("Voulez-vous vraiment supprimer cet utilisateur ? Répondez par 'oui' ou 'non'.");
-            if (confirmation !== null) {
-                var confirmationLowerCase = confirmation.toLowerCase();
-                if (confirmationLowerCase === "oui") {
-                    fetch('../delete_user.php?id=' + userId, {
-                        method: 'DELETE'
-                    })
-                    .then(function(response) {
-                        location.reload(); // Recharger la page après suppression
-                    })
-                    .catch(function(error) {
-                        console.error('Une erreur s\'est produite:', error);
-                    });
-                } else if (confirmationLowerCase === "non") {
-                    console.log("Suppression annulée.");
-                } else {
-                    alert("Réponse invalide. Veuillez répondre par 'oui' ou 'non'.");
-                }
+          var userId = button.getAttribute('data-id');
+          // Afficher une boîte de dialogue de confirmation
+          var confirmation = prompt("Voulez-vous vraiment supprimer cet utilisateur ? Répondez par 'oui' ou 'non'.");
+          if (confirmation !== null) {
+            var confirmationLowerCase = confirmation.toLowerCase();
+            if (confirmationLowerCase === "oui") {
+              fetch('../delete_user.php?id=' + userId, {
+                  method: 'DELETE'
+                })
+                .then(function(response) {
+                  location.reload(); // Recharger la page après suppression
+                })
+                .catch(function(error) {
+                  console.error('Une erreur s\'est produite:', error);
+                });
+            } else if (confirmationLowerCase === "non") {
+              console.log("Suppression annulée.");
             } else {
-                console.log("Boîte de dialogue fermée.");
+              alert("Réponse invalide. Veuillez répondre par 'oui' ou 'non'.");
             }
+          } else {
+            console.log("Boîte de dialogue fermée.");
+          }
         });
-    });
+      });
 
-    // Bloquer
-    var BlockButtons = document.querySelectorAll('.btn-Mod');
-    BlockButtons.forEach(function(button) {
+      // Bloquer
+      var Bloquer = document.querySelectorAll('.btn-primary3');
+      Bloquer.forEach(function(button) {
         button.addEventListener('click', function() {
-            var userId = button.getAttribute('data-id');
-            fetch('BLOCK.php?id=' + userId, {
-                method: 'POST'
-            }).then(function(response) {
-                if (response.ok) {
-                    console.log('L\'utilisateur a été bloqué avec succès.');
-                } else {
-                    console.error('Erreur lors du blocage de l\'utilisateur.');
-                }
-            }).catch(function(error) {
-                console.error('Erreur lors de la requête fetch :', error);
-            });
+          var userId = button.getAttribute('data-id');
+          // Rediriger vers une autre page avec l'ID de l'utilisateur dans l'URL
+          window.location.href = 'BLOCK.php?id=' + userId;
         });
-    });
+      });
 
-    // Fonction pour activer les champs
-    function activerChamps() {
+      var DBloquer = document.querySelectorAll('.btn-primary4');
+      DBloquer.forEach(function(button) {
+        button.addEventListener('click', function() {
+          var userId = button.getAttribute('data-id');
+          // Rediriger vers une autre page avec l'ID de l'utilisateur dans l'URL
+          window.location.href = 'DEBLOCK.php?id=' + userId;
+        });
+      });
+
+      // Fonction pour activer les champs
+      function activerChamps() {
         var inputs = document.querySelectorAll('input');
         var selects = document.querySelectorAll('select');
-        
+
         inputs.forEach(function(input) {
-            input.removeAttribute('disabled');
+          input.removeAttribute('disabled');
         });
 
         selects.forEach(function(select) {
-            select.removeAttribute('disabled');
+          select.removeAttribute('disabled');
         });
-    }
-});
-
+      }
+    });
   </script>
-  
+
+  <!--Recherche-->
+  <script>
+    // Fonction pour effectuer une recherche en utilisant AJAX
+    function searchUser() {
+      var searchInput = document.getElementById('searchInput').value; // Récupérer la valeur de l'entrée de recherche
+      var xhttp = new XMLHttpRequest(); // Créer un nouvel objet XMLHttpRequest
+
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          // Mettre à jour le contenu de la table avec les résultats de la recherche
+          document.getElementById('userList').innerHTML = this.responseText;
+        }
+      };
+
+      // Envoyer une requête GET au serveur avec la valeur de recherche
+      xhttp.open("GET", "search_user.php?q=" + searchInput, true);
+      xhttp.send();
+    }
+
+    // Ajouter un écouteur d'événement pour détecter les changements dans l'entrée de recherche
+    document.getElementById('searchInput').addEventListener('input', function() {
+      searchUser(); // Appeler la fonction de recherche à chaque changement dans l'entrée de recherche
+    });
+  </script>
+
 </body>
 
 </html>
