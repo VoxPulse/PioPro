@@ -15,58 +15,7 @@ table tr:hover {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent noir */
-  z-index: 1000;}
-  .slim4 {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent noir */
   z-index: 1000;
-}
-.slim2 {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent noir */
-  z-index: 1000;
-}
-.slim3 {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent noir */
-  z-index: 1000;
-}
-.ajout {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent noir */
-  z-index: 1000;
-}
-.custom-modal-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #f9f9f9;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
-  width: 90%;
 }
 
 .custom-modal {
@@ -81,37 +30,11 @@ table tr:hover {
   max-width: 800px;
   width: 90%;
 }
-.custom-modal2 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #f9f9f9;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
-  width: 90%;
-}
 
-.custom-modal3 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #f9f9f9;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
-  width: 90%;
-}
 .modal-content {
   text-align: center;
 }
-.modal-content2 {
-  text-align: center;
-}
+
 .form-group {
   margin-bottom: 20px;
 }
@@ -191,27 +114,4 @@ table tr:hover {
     display: none;
 }
 
-#overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Couleur de fond semi-transparente */
-  backdrop-filter: blur(5px); /* Flou sur le fond */
-  z-index: 999; /* Pour que l'overlay soit au-dessus de tout le reste */
-  display: none; /* Initialement caché */
-}
-
-#centeredLabel {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  z-index: 1000; /* Pour que l'étiquette soit au-dessus de l'overlay */
-  display: none; /* Initialement caché */
-}
 /* Fin des styles.css */

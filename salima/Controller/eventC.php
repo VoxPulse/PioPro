@@ -1,10 +1,10 @@
 <?php
-include 'C:\wamp64\www\VoxPulse2\VoxPulse\Model\config.php';
+include 'C:\wamp64\www\VoxPulse\VoxPulse\Model\config.php';
 
 class eventC
 {
     // AFFICHAGE 
-    public function ListEvent()
+    public function ListUser()
 {
     $conn = config::getConnexion();
     try {
@@ -17,41 +17,25 @@ class eventC
         $tableHTML .= '<tr>';
         $tableHTML .= '<th>Photo</th>';
         $tableHTML .= '<th>ID</th>';
-        $tableHTML .= '<th>Titre</th>';
-        $tableHTML .= '<th>Description</th>';
-        $tableHTML .= '<th>Cout</th>';
-        $tableHTML .= '<th>Statut</th>';
-        $tableHTML .= '<th>Date</th>';
-        $tableHTML .= '<th>Lieu</th>';
-        $tableHTML .= '<th>Nombre de places</th>';
-        $tableHTML .= '<th>Action</th>'; // Nouvelle colonne pour les boutons d'action
+        $tableHTML .= '<th>Nom</th>';
+        $tableHTML .= '<th>Mail</th>';
+        $tableHTML .= '<th>Tel</th>';
         $tableHTML .= '</tr>';
         $tableHTML .= '</thead>';
         $tableHTML .= '<tbody>';
         
-        foreach ($result as $row) {
-            $tableHTML .= '<tr>';
-            $tableHTML .= '<td><img src="' . $row['img'] . '" alt="Image"></td>';
-            $tableHTML .= '<td>' . $row['id'] . '</td>';
-            $tableHTML .= '<td>' . $row['titre'] . '</td>';
-            $tableHTML .= '<td>' . $row['description'] . '</td>';
-            $tableHTML .= '<td>' . $row['cout'] . '</td>';
-            $tableHTML .= '<td>' . $row['statut'] . '</td>';
-            $tableHTML .= '<td>' . $row['date'] . '</td>';
-            $tableHTML .= '<td>' . $row['lieu'] . '</td>';
-            $tableHTML .= '<td>' . $row['nb_places'] . '</td>';
-            $tableHTML .= '<td><button class="btn btn-danger btn-supprimer" data-id="' . $row['id'] . '">Supprimer</button></td>';
-            $tableHTML .= '<td><button class="btn btn-primary btn-update"
-            data-id="' . $row['id'] . 
-            '" data-titre="' . htmlspecialchars($row['titre']) .
-            '" data-description="' . htmlspecialchars($row['description']) .
-            '" data-cout="' . htmlspecialchars($row['cout']) .
-            '" data-statut="' . htmlspecialchars($row['statut']) . 
-            '" data-date="' . htmlspecialchars($row['date']) .
-            '" data-lieu="' . htmlspecialchars($row['lieu']) .
-            '" data-nb_places="' . htmlspecialchars($row['nb_places']) . '">Update</button></td>';
-            $tableHTML .= '</tr>';
-        }
+        
+foreach ($result as $row) {
+    $tableHTML .= '<tr>';
+$tableHTML .= '<td><img src="' . $row['img'] . '" alt="Image"></td>';
+$tableHTML .= '<td>' . $row['id'] . '</td>';
+$tableHTML .= '<td>' . $row['nom'] . '</td>';
+$tableHTML .= '<td>' . $row['mail'] . '</td>';
+$tableHTML .= '<td>' . $row['tel'] . '</td>';
+$tableHTML .= '<td><button class="btn btn-danger btn-supprimer" data-id="' . $row['id'] . '">Supprimer</button></td>';
+$tableHTML .= '<td><button class="btn btn-primary" data-id="' . $row['id'] . '">Modifier</button></td>';
+$tableHTML .= '</tr>';
+}
         
         $tableHTML .= '</tbody>';
         $tableHTML .= '</table>';
@@ -63,29 +47,8 @@ class eventC
     }
 }
 
-//cout des prochains evenements
-public function sumUpcomingEventCosts()
-{
-    $conn = config::getConnexion(); // Assurez-vous que config::getConnexion() retourne une connexion PDO valide à votre base de données
-
-    try {
-        $query = $conn->prepare("SELECT SUM(cout) AS total_cost FROM event WHERE date >= CURDATE()");
-        $query->execute();
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-
-        // Récupérer la somme des coûts des événements
-        $totalCost = $result['total_cost'];
-
-        return $totalCost; // Retourner la somme des coûts des événements
-
-    } catch (PDOException $e) {
-        echo 'Échec de connexion : ' . $e->getMessage();
-        return 0; // Si la connexion échoue, retourner 0
-    }
-}
-
     //Count users 
-    public function countEvent()
+    public function countUsers()
 {
     $conn = config::getConnexion();
     try {
@@ -126,67 +89,46 @@ public function NouveauInscription()
         return 0; // Si la connexion échoue, retourner 0
     }
 }
-//prochain evenement (lieu)
-public function getNextEventLocation()
+//LastLogin 
+public function LastLogin()
 {
-    $conn = config::getConnexion(); // Assurez-vous que config::getConnexion() retourne une connexion PDO valide à votre base de données
-
+    $conn = config::getConnexion();
     try {
-        $query = $conn->prepare("SELECT lieu FROM event WHERE date >= CURDATE() ORDER BY date ASC LIMIT 1");
+        // Obtenir la date actuelle
+        $current_date = date("Y-m-d");
+
+        $query = $conn->prepare("SELECT COUNT(*) as num_users from user WHERE DATE(dernier_login) = :current_date");
+        $query->bindParam(':current_date', $current_date, PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch(PDO::FETCH_ASSOC);
 
-        if ($result) {
-            return $result['lieu']; // Retourner le lieu du prochain événement
-        } else {
-            return null; // S'il n'y a pas d'événement trouvé, retourner null
-        }
-
+        // Récupérer le nombre d'utilisateurs
+        $numUsers = $result['num_users'];
+        
+        return $numUsers; // Retourner le nombre d'utilisateurs
+        
     } catch (PDOException $e) {
         echo 'Échec de connexion : ' . $e->getMessage();
-        return null; // Si la connexion échoue, retourner null
+        return 0; // Si la connexion échoue, retourner 0
     }
 }
 
-//prochain event(date)
-public function getNextEventDate()
+// Users Online 
+public function UsersOnline()
 {
-    $conn = config::getConnexion(); // Assurez-vous que config::getConnexion() retourne une connexion PDO valide à votre base de données
-
+    $conn = config::getConnexion();
     try {
-        $query = $conn->prepare("SELECT date FROM event WHERE date >= CURDATE() ORDER BY date ASC LIMIT 1");
+        $query = $conn->prepare("SELECT COUNT(*) as num_users from user WHERE statut=:statut ");
+        $statut="enligne";
+        $query->bindParam(':statut',$statut); 
         $query->execute();
         $result = $query->fetch(PDO::FETCH_ASSOC);
 
-        if ($result) {
-            return $result['date']; // Retourner la date du prochain événement
-        } else {
-            return null; // S'il n'y a pas d'événement trouvé, retourner null
-        }
-
-    } catch (PDOException $e) {
-        echo 'Échec de connexion : ' . $e->getMessage();
-        return null; // Si la connexion échoue, retourner null
-    }
-}
-
-
-
-//cout total
-public function sumEventCosts()
-{
-    $conn = config::getConnexion(); // Assurez-vous que config::getConnexion() retourne une connexion PDO valide à votre base de données
-
-    try {
-        $query = $conn->prepare("SELECT SUM(cout) AS total_cost FROM event");
-        $query->execute();
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-
-        // Récupérer la somme des coûts des événements
-        $totalCost = $result['total_cost'];
-
-        return $totalCost; // Retourner la somme des coûts des événements
-
+        // Récupérer le nombre d'utilisateurs
+        $numUsers = $result['num_users'];
+        
+        return $numUsers; // Retourner le nombre d'utilisateurs
+        
     } catch (PDOException $e) {
         echo 'Échec de connexion : ' . $e->getMessage();
         return 0; // Si la connexion échoue, retourner 0
@@ -194,174 +136,12 @@ public function sumEventCosts()
 }
 
 
-
-    // GET event BY ID
-    public function getEventById($id)
-    {
-        $conn = config::getConnexion();
-        try {
-            $query = $conn->prepare("SELECT * FROM event WHERE id=:id ");
-            $query->bindParam(':id', $id);
-            $query->execute();
-            $result = $query->fetchAll();
-            return $result; // Retourner le résultat de la requête
-        } catch (PDOException $e) {
-            echo 'Échec de connexion : ' . $e->getMessage();
-            return false; // En cas d'erreur, retourner false
-        }
-    }
-    
-    // SUPPRESSION 
-    public function DeleteEvent($id)
-    {
-        $conn = config::getConnexion();
-        try {
-            $query = $conn->prepare("DELETE FROM event WHERE id=:id");
-            $query->bindParam(':id', $id);
-            $query->execute();
-            echo $query->rowCount() . ' enregistrements supprimés avec succès';
-        } catch (PDOException $e) {
-            echo 'Échec de connexion : ' . $e->getMessage();
-        }
-    }
-    
-    // AJOUT 
-    public function AddEvent($titre,$description, $cout, $statut, $date, $lieu, $nb_places)
-{
-    try {
-        $conn = config::getConnexion();
-        $requete = $conn->prepare("INSERT INTO event (titre,description, cout, statut, date, lieu, nb_places) VALUES (:titre,:description, :cout, :statut, :date, :lieu, :nb_places)");
-        $requete->bindParam(':titre', $titre);
-        $requete->bindParam(':description', $description);
-        $requete->bindParam(':cout', $cout);
-        $requete->bindParam(':statut', $statut);
-        $requete->bindParam(':date', $date);
-        $requete->bindParam(':lieu', $lieu);
-        $requete->bindParam(':nb_places', $nb_places);
-        $requete->execute();
-        echo 'Événement ajouté avec succès';
-    } catch (PDOException $e) {
-        echo 'Erreur de connexion : ' . $e->getMessage();
-    }
-}
-    // UPDATE
-    public function UpdateEvent($id,$img,$titre, $description, $cout, $statut, $date, $lieu, $nb_places)
-    {
-        $conn = config::getConnexion();
-        try {
-            $query = $conn->prepare("UPDATE event SET img=:img ,titre=:titre, description=:description , cout=:cout , statut=:statut ,date=:date, lieu=:lieu, nb_places=:nb_places WHERE id=:id");
-            $query->bindParam(':id', $id);
-            $query->bindParam(':img', $img);
-            $query->bindParam(':titre', $titre);
-            $query->bindParam(':description', $description);
-            $query->bindParam(':cout', $cout);
-            $query->bindParam(':statut', $statut);
-            $query->bindParam(':date', $date);
-            $query->bindParam(':lieu', $lieu);
-            $query->bindParam(':nb_places', $nb_places);
-            $query->execute();
-            echo $query->rowCount() . ' enregistrements mis à jour avec succès';
-        } catch (PDOException $e) {
-            echo 'Échec de connexion : ' . $e->getMessage();
-        }
-    }
-
-
-
-// Définir la fonction pour récupérer le titre par ID
-function getTitleById() {
-    $id = 35; // ID de l'événement fixé à 35
-
-    try {
-        // Établir la connexion à la base de données
-        $conn = config::getConnexion();
-
-        // Préparer la requête SQL
-        $query = $conn->prepare("SELECT titre FROM event WHERE id = :id");
-
-        // Exécuter la requête en liant le paramètre :id
-        $query->bindParam(':id', $id);
-        $query->execute();
-
-        // Récupérer le résultat
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-
-        // Vérifier si le résultat est valide
-        if ($result) {
-            return $result['titre']; // Retourner le titre
-        } else {
-            return null; // Si aucun résultat trouvé, retourner null
-        }
-    } catch (PDOException $e) {
-        // Gérer les erreurs de connexion à la base de données
-        echo 'Échec de connexion : ' . $e->getMessage();
-        return null; // Retourner null en cas d'erreur
-    }
-}
-}
-
-///////////////////////////////////////////////participation/////////////////////////////////////////////////////////////////////////////////
-
-
-
-class participationC
-{
-    // AFFICHAGE 
-    public function ListParticipation()
-    {
-        $conn = config::getConnexion();
-        try {
-            $query = $conn->prepare("SELECT * FROM participation");
-            $query->execute();
-            $result = $query->fetchAll();
-            
-            $tableHTML = '<table class="table">';
-            $tableHTML .= '<thead>';
-            $tableHTML .= '<tr>';
-            $tableHTML .= '<th>Image</th>';
-            $tableHTML .= '<th>id</th>';
-            $tableHTML .= '<th>nom</th>';
-            $tableHTML .= '<th>prenom</th>';
-            $tableHTML .= '<th>email</th>';
-            $tableHTML .= '<th>tel</th>';
-            $tableHTML .= '<th>etablissement</th>';
-            $tableHTML .= '<th>Action</th>'; // Nouvelle colonne pour les boutons d'action
-            $tableHTML .= '</tr>';
-            $tableHTML .= '</thead>';
-            $tableHTML .= '<tbody>';
-            
-            foreach ($result as $row) {
-                $tableHTML .= '<tr>';
-                //$tableHTML .= '<td><img src="' . $row['img'] . '" alt="Image"></td>';
-                $tableHTML .= '<td>' . $row['id'] . '</td>';
-                $tableHTML .= '<td>' . $row['nom'] . '</td>';
-                $tableHTML .= '<td>' . $row['prenom'] . '</td>';
-                $tableHTML .= '<td>' . $row['email'] . '</td>';
-                $tableHTML .= '<td>' . $row['tel'] . '</td>';
-                $tableHTML .= '<td>' . $row['etablissement'] . '</td>';
-                $tableHTML .= '<td><button class="btn btn-danger btn-supprimer" data-id="' . $row['id'] . '">Supprimer</button></td>';
-                $tableHTML .= '<td><button class="btn btn-primary" data-id="' . $row['id'] . '">Modifier</button></td>';
-                $tableHTML .= '</tr>';
-            }
-            
-            $tableHTML .= '</tbody>';
-            $tableHTML .= '</table>';
-            
-            return $tableHTML;
-        } catch (PDOException $e) {
-            error_log('Échec de connexion : ' . $e->getMessage());
-            return ''; // Si la connexion échoue, retourner une chaîne vide
-        }
-    }
-    
-
-
     // GET USER BY ID
-    public function getParticipationById($id)
+    public function getUserById($id)
     {
         $conn = config::getConnexion();
         try {
-            $query = $conn->prepare("SELECT * FROM participation WHERE id=:id ");
+            $query = $conn->prepare("SELECT * FROM user WHERE id=:id ");
             $query->bindParam(':id', $id);
             $query->execute();
             $result = $query->fetchAll();
@@ -373,11 +153,11 @@ class participationC
     }
     
     // SUPPRESSION 
-    public function DeleteParticipation($id)
+    public function DeleteUser($id)
     {
         $conn = config::getConnexion();
         try {
-            $query = $conn->prepare("DELETE FROM participation WHERE id=:id");
+            $query = $conn->prepare("DELETE FROM user WHERE id=:id");
             $query->bindParam(':id', $id);
             $query->execute();
             echo $query->rowCount() . ' enregistrements supprimés avec succès';
@@ -387,35 +167,52 @@ class participationC
     }
     
     // AJOUT 
-    public function AddParticipation($nom, $prenom, $email, $tel, $etablissement)
+    public function AddUser($type_pack, $nom, $prenom, $cin, $tel, $mail, $role, $img, $mdp, $statut, $etab, $date_n, $date_crea, $dernier_login)
     {
         $conn = config::getConnexion();
         try {
-            $requete = $conn->prepare("INSERT INTO participation (nom,prenom, email,tel,etablissement)");
+            $requete = $conn->prepare("INSERT INTO user (type_pack,nom, prenom,cin,tel,mail,role,mdp,statut,etab,date_n,date_crea, dernier_login) VALUES (:type_pack,:nom, :prenom, :cin,:tel,:mail,:role,:img,:mdp,:statut,:etab,:date_n,:date_crea,:dernier_login)");
+            $requete->bindParam(':type_pack', $type_pack);
             $requete->bindParam(':nom', $nom);
             $requete->bindParam(':prenom', $prenom);
-            $requete->bindParam(':email', $email);
+            $requete->bindParam(':cin', $cin);
             $requete->bindParam(':tel', $tel);
-            $requete->bindParam(':etablissement', $etablissement);
+            $requete->bindParam(':mail', $mail);
+            $requete->bindParam(':role', $role);
+            $requete->bindParam(':img', $img);
+            $requete->bindParam(':mdp', $mdp);
+            $requete->bindParam(':date_crea', $date_crea);
+            $requete->bindParam(':date_n', $date_n);
+            $requete->bindParam(':dernier_login', $dernier_login);
+            $requete->bindParam(':statut', $statut);
+            $requete->bindParam(':type_pack', $type_pack);
+            $requete->bindParam(':etab', $etab);
             $requete->execute();
-            echo 'evenement ajouté avec succès';
+            echo 'User ajouté avec succès';
         } catch (PDOException $e) {
             echo 'Échec de connexion : ' . $e->getMessage();
         }
     }
     
     // UPDATE
-    public function UpdateParticipation($id,$nom, $prenom, $email, $tel, $etablissement)
+    public function UpdateUser($id,$type_pack, $nom, $prenom, $cin, $tel, $mail, $role, $img, $mdp, $statut, $etab, $date_n,)
     {
         $conn = config::getConnexion();
         try {
-            $query = $conn->prepare("UPDATE participation SET nom=:nom , prenom=:prenom , email=:email , tel=:tel ,etablissement=:etablissement WHERE id=:id");
+            $query = $conn->prepare("UPDATE user SET type_pack=:type_pack , nom=:nom , prenom=:prenom , cin=:cin ,tel=:tel, mail=:mail, role=:role , img=:img, mdp=:mdp, statut=:statut , etab=:etab , date_n=:date_n  WHERE id=:id");
             $query->bindParam(':id', $id);
+            $query->bindParam(':type_pack', $type_pack);
             $query->bindParam(':nom', $nom);
             $query->bindParam(':prenom', $prenom);
-            $query->bindParam(':email', $email);
+            $query->bindParam(':cin', $cin);
             $query->bindParam(':tel', $tel);
-            $query->bindParam(':etablissement', $etablissement);
+            $query->bindParam(':mail', $mail);
+            $query->bindParam(':role', $role);
+            $query->bindParam(':img', $img);
+            $query->bindParam(':mdp', $mdp);
+            $query->bindParam(':statut', $statut);
+            $query->bindParam(':etab', $etab);
+            $query->bindParam(':date_n', $date_n);
             $query->execute();
             echo $query->rowCount() . ' enregistrements mis à jour avec succès';
         } catch (PDOException $e) {
@@ -424,7 +221,3 @@ class participationC
     }
 }
 ?>
-
-
-
-

@@ -1,6 +1,6 @@
 <?php
 class Event{
-    private string $img,$titre $statut, $lieu, $description;
+    private string $img, $statut, $lieu, $description;
     private int $id, $nb_places;
     private float $cout;
     private DateTime date;
@@ -93,29 +93,9 @@ class Event{
         return $this;
     }
    
-     /**
-     * Get the value of titre
-     */ 
-    public function getTitre()
-    {
-        return $this->titre;
-    }
-
-    /**
-     * Set the value of titre
-     *
-     * @return  self
-     */ 
-    public function setTitre($titre)
-    {
-        $this->titre = $titre;
-
-        return $this;
-    }
-    public function __construct(int $id, string $titre, string $description, string $img, float $cout, string $statut, DateTime $date, string $lieu, int $nb_places)
+    public function __construct(int $id,  string $description, string $img, float $cout, string $statut, DateTime $date, string $lieu, int $nb_places)
     {
         $this->id=$id;
-        $this->titre=$titre;
         $this->description=$description;
         $this->img=$img;
         $this->cout=$cout;
@@ -125,7 +105,5 @@ class Event{
         $this->nb_places=$nb_places;
         
     }
-
-   
 }
 ?>
