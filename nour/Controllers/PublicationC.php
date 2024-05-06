@@ -5,11 +5,19 @@ include __DIR__ . '/../Models/config.php';
 class PublicationC
 {
     // AFFICHAGE back
-    public function ListPublication()
+    public function ListPublication($sortField , $sortDirection ) 
     {
         $conn = config::getConnexion();
         try {
-            $query = $conn->prepare("SELECT * from publication ");
+            // Validate and sanitize input parameters
+            $allowedSortFields = ['date_crea', 'nb_comment'];
+            $allowedSortDirections = ['ASC', 'DESC'];
+            $sortField = in_array($sortField, $allowedSortFields) ? $sortField : 'date_crea';
+            $sortDirection = in_array($sortDirection, $allowedSortDirections) ? $sortDirection : 'DESC';
+    
+            // Construct the SQL query with dynamic sorting
+            $query = $conn->prepare("SELECT * FROM publication ORDER BY $sortField $sortDirection");
+    
             $query->execute();
             $result = $query->fetchAll();
         } catch (PDOException $e) {

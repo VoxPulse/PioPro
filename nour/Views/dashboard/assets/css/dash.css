@@ -22,3 +22,44 @@
     max-width: 700px;
     align-items: center;
   }
+  .tableaux
+{
+    margin-top: 50px;
+}
+.sort-form {
+    display: flex;
+    align-items: center;
+    
+}
+
+.sort-form select, .sort-form button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 25px;
+}
+
+.sort-form button {
+    background-color: #83e800;
+    color: rgb(19, 19, 19);
+    border-color: #83e800;
+    border-radius: 20px;
+    
+}
+.card{
+  margin-top: 10px;c
+}
+
+/* Responsive and visual tweaks */
+.sort-form select:focus, .sort-form button:focus {
+    outline: none;
+    border-color: #0056b3;
+}
+
+.sort-form button:hover {
+    background-color: #83e800;
+    border-color: #83e800;
+}
