@@ -87,11 +87,19 @@ class PublicationC
         </table>';
     }
     //AFFICHAGE front
-    public function afficherPub()
+    public function afficherPub($sortField , $sortDirection ) 
     {
         $conn = config::getConnexion();
         try {
-            $query = $conn->prepare("SELECT * from publication ");
+            // Validate and sanitize input parameters
+            $allowedSortFields = ['date_crea', 'nb_comment'];
+            $allowedSortDirections = ['ASC', 'DESC'];
+            $sortField = in_array($sortField, $allowedSortFields) ? $sortField : 'date_crea';
+            $sortDirection = in_array($sortDirection, $allowedSortDirections) ? $sortDirection : 'DESC';
+    
+            // Construct the SQL query with dynamic sorting
+            $query = $conn->prepare("SELECT * FROM publication ORDER BY $sortField $sortDirection");
+    
             $query->execute();
             $result = $query->fetchAll();
         } catch (PDOException $e) {
@@ -156,7 +164,7 @@ class PublicationC
                             </button>
                         </div>  
                         <div class="commentSection">
-                        
+
                         <form action="submit_comment.php' . ((isset($_GET['edit_comment']) && $_GET['edit_comment'] == $rowCom['id']) ? '?id=update' : '') . '#postSection' . $uniqueId . '" method="POST" id="pubComment' . $uniqueId . '" enctype="multipart/form-data">';
                             echo "<input type='hidden' name='comment_id' ";if (isset($rowCom['id'])){echo 'value="'.$rowCom['id'].'"';}echo">";
                             echo '
