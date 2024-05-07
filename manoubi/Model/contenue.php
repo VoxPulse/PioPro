@@ -4,7 +4,7 @@ class Contenue
 {
     private string $id;
     private string $url;
-    private int $type;
+    private string $type;
     private float $id_F;
 
     /**

@@ -22,7 +22,7 @@
         $tableHTML .= '<td>' . $row['url'] . '</td>';
         $tableHTML .= '<td>' . $row['id_formation'] . '</td>';
         $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimercontenue.php?id=" . $row['id']. "'>suprimer</a></td>" ;
-        $tableHTML .= "<td > <a class='btn btn-primary' href='modifiercontenueView.php?id=" . $row['id']. "'>modifier</a></td>" ;
+        $tableHTML .= "<td > <a class='btn btn-primary' href='contenueView.php?id=" . $row['id']. "'>modifier</a></td>" ;
         $tableHTML .= '</tr>';
     }
     
