@@ -15,16 +15,12 @@ function toggleMenu(element) {
 }
 
 
-
-
-
 var urlParams = new URLSearchParams(window.location.search);
 if (urlParams.get("showPopupComment") === "true") 
 {
   showPopupComment();
   console.log("show");
 }
-
 function showPopupComment() 
 {
   var overlay = document.getElementById("overlay");

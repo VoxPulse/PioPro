@@ -2,15 +2,16 @@ var urlParams = new URLSearchParams(window.location.search);
 if (urlParams.get("showQuestion") === "true") {
   showQuestionForm();
 }
-function showQuestionForm() {
+function showQuestionForm() 
+{
   var overlay = document.getElementById("overlay");
   var formContainer = document.getElementById("questionForm");
 
   overlay.style.display = "block";
   formContainer.style.display = "block";
 }
-
-function hideQuestionForm() {
+function hideQuestionForm() 
+{
   var overlay = document.getElementById("overlay");
   var formContainer = document.getElementById("questionForm");
   overlay.style.display = "none";
@@ -19,7 +20,8 @@ function hideQuestionForm() {
   var baseUrl = originalUrl.split("?")[0]; //  retirer les paramètres GET
   history.pushState({}, "", baseUrl);
 }
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () 
+{
   function validateUserId() {
     const userInput = document.getElementById("form_id_user");
     const userId = userInput.value;
@@ -68,43 +70,90 @@ document.addEventListener("DOMContentLoaded", function () {
       return true;
     }
   }
-
-  function validateContent() {
+  function analyzeText(text) {
+    const apiKey = 'AIzaSyCjbYiFLMQM3IAe2m1AUp_JXuXfUy17Bag'; // Be cautious with exposing API keys!
+    const url = 'https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=' + apiKey;
+  
+    const data = {
+      comment: { text: text },
+      requestedAttributes: { TOXICITY: {} }
+    };
+  
+    return fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      if (data.attributeScores && data.attributeScores.TOXICITY) {
+        const toxicityScore = data.attributeScores.TOXICITY.summaryScore.value;
+        document.getElementById('form_contenuError').textContent = 'Toxicity score: ' + toxicityScore;
+        return toxicityScore; // Return the score for further processing
+      } else {
+        throw new Error("Failed to get toxicity score.");
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      document.getElementById('form_contenuError').textContent = 'Error analyzing text.';
+      throw error; // Rethrow after handling to let the caller know
+    });
+  }
+  
+  async function validateContent() {
     const contentInput = document.getElementById("txtEditor");
+    const contentError = document.getElementById("form_contenuError");
+
     if (!contentInput) {
       console.error("Textarea element 'txtEditor' not found.");
       return false;
     }
-    const content = contentInput.value;
-    const contentError = document.getElementById("form_contenuError");
 
+    const content = contentInput.value;
     if (content.trim() === "") {
       contentError.innerText = "Le contenu est requis.";
       contentError.style.color = "red";
       contentInput.style.borderColor = "red";
       console.log("Validation failed for content.");
       return false;
-    } else {
-      contentError.innerText = "Correct";
-      contentError.style.color = "green";
-      contentInput.style.borderColor = "green";
-      console.log("Validation passed for content.");
-      return true;
+    }
+
+    try {
+      const toxicityScore = await analyzeText(content);
+      if (toxicityScore > 0.8) {
+        contentError.innerText = "Le contenu est jugé toxique.";
+        contentError.style.color = "red";
+        contentInput.style.borderColor = "red";
+        console.log("Content determined to be toxic.");
+        return false;
+      } else {
+        contentError.innerText = "Contenu accepté.";
+        contentError.style.color = "green";
+        contentInput.style.borderColor = "green";
+        console.log("Content passed toxicity check.");
+        return true;
+      }
+    } catch (error) {
+      console.error("Failed to analyze toxicity:", error);
+      return false;
     }
   }
 
   const form = document.getElementById("publier");
-  form.addEventListener("submit", function (event) {
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault();
     console.log("Form submission attempted.");
     const isUserIdValid = validateUserId();
     const isTitleValid = validateTitle();
-    const isContentValid = validateContent();
+    const isContentValid = await validateContent();
 
     if (!isUserIdValid || !isTitleValid || !isContentValid) {
       console.log("Form submission prevented due to validation errors.");
-      event.preventDefault(); // Stop the form from submitting
     } else {
       console.log("All validations passed. Form will be submitted naturally.");
+      form.submit(); // Manually trigger the form submission if all checks are passed
     }
   });
 });
