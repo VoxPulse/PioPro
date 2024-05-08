@@ -170,7 +170,7 @@
                 <span id="form_user_idError" class="error"></span>
             </div>
             <div class="question-title39">
-                <span class="form-description43">Sujet* </span>
+                <span class="form-description43">Titre* </span>
                 <input type="text" name="titre" id="form_titre" class="question-ttile32" placeholder="Entrez le titre de votre publication" value="<?php if (isset($id)){echo $titre;}?>">
                 <span id="form_titreError" class="error"></span>
             </div>
@@ -251,17 +251,18 @@
             <label for="tab4">Moins Répondues</label>
 
             
-              <!--Recent Question Content Section -->
                
-              
-              
-              <section id="content1">
               <?php   
                 require_once __DIR__ . '/../../Models/publication.php';
                 require_once __DIR__ . '/../../Controllers/PublicationC.php';
-
+                
                 $pub1 = new PublicationC();
-                $pub1->afficherPub('date_crea', 'DESC'); 
+                $titre = isset($_GET['titre']) ? $_GET['titre'] : "";
+              ?>
+              <section id="content1">
+              <?php   
+                
+                $pub1->afficherPub($titre,'date_crea', 'DESC'); 
               ?>
 
               <nav aria-label="Page navigation">
@@ -287,11 +288,7 @@
 
             <section id="content2">
             <?php 
-            require_once __DIR__ . '/../../Models/publication.php';
-            require_once __DIR__ . '/../../Controllers/PublicationC.php';
-
-            $pub1 = new PublicationC();
-            $pub1->afficherPub('date_crea', 'ASC');
+            $pub1->afficherPub($titre,'date_crea', 'ASC');
             ?>
               <nav aria-label="Page navigation">
                 <ul class="pagination">
@@ -316,11 +313,7 @@
 
             <section id="content3">
             <?php 
-            require_once __DIR__ . '/../../Models/publication.php';
-            require_once __DIR__ . '/../../Controllers/PublicationC.php';
-
-            $pub1 = new PublicationC();
-            $pub1->afficherPub('nb_comment', 'DESC'); 
+            $pub1->afficherPub($titre,'nb_comment', 'DESC'); 
             ?>
               <nav aria-label="Page navigation">
                 <ul class="pagination">
@@ -345,11 +338,7 @@
 
             <section id="content4">
               <?php 
-              require_once __DIR__ . '/../../Models/publication.php';
-              require_once __DIR__ . '/../../Controllers/PublicationC.php';
-
-              $pub1 = new PublicationC();
-              $pub1->afficherPub('nb_comment', 'ASC'); 
+              $pub1->afficherPub($titre,'nb_comment', 'ASC'); 
               ?>
               <nav aria-label="Page navigation">
                 <ul class="pagination">
@@ -377,12 +366,14 @@
         <!--strart col-md-3 (side bar)-->
         <aside class="col-md-3 sidebar97239">
           <div class="status-part3821">
-            <h4>Statistiques</h4>
-            <a href="#"
-              ><i class="fa fa-question-circle" aria-hidden="true"> Questions(20)</i
-              ></a
-            >
-            <i class="fa fa-comment" aria-hidden="true"> Réponses(50)</i>
+            <h4>Recherche</h4>
+            <form action="index.php" method="GET" class="rechercheForum">
+                <input type="text" name="titre" placeholder="Entrez le titre de la publication" value="<?php echo isset($_GET['titre']) ? htmlspecialchars($_GET['titre']) : ''; ?>">
+                <button type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+        </svg></button>
+            </form>
+
           </div>
           <!--          start tags part-->
           <div class="tags-part2398">

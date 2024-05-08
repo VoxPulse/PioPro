@@ -4,20 +4,24 @@ include __DIR__ . '/../Models/config.php';
 class PublicationC
 {
     // AFFICHAGE back
-    public function ListPublication($sortField , $sortDirection ) 
+    public function ListPublication($titre , $sortField , $sortDirection ) 
     {
         $conn = config::getConnexion();
         try {
-            // Validate and sanitize input parameters
             $allowedSortFields = ['date_crea', 'nb_comment'];
             $allowedSortDirections = ['ASC', 'DESC'];
             $sortField = in_array($sortField, $allowedSortFields) ? $sortField : 'date_crea';
             $sortDirection = in_array($sortDirection, $allowedSortDirections) ? $sortDirection : 'DESC';
     
-            // Construct the SQL query with dynamic sorting
-            $query = $conn->prepare("SELECT * FROM publication ORDER BY $sortField $sortDirection");
+            if (!empty($titre)) {
+                $titre = "%{$titre}%";
+                $query = $conn->prepare("SELECT * FROM publication WHERE titre LIKE ? ORDER BY $sortField $sortDirection");
+                $query->execute([$titre]);
+            } else {
+                $query = $conn->prepare("SELECT * FROM publication ORDER BY $sortField $sortDirection");
+                $query->execute();
+            }
     
-            $query->execute();
             $result = $query->fetchAll();
         } catch (PDOException $e) {
             echo 'echec de connexion:' . $e->getMessage();
@@ -94,20 +98,24 @@ class PublicationC
         </table>';
     }
     //AFFICHAGE front
-    public function afficherPub($sortField , $sortDirection ) 
+    public function afficherPub($titre , $sortField , $sortDirection ) 
     {
         $conn = config::getConnexion();
         try {
-            // Validate and sanitize input parameters
             $allowedSortFields = ['date_crea', 'nb_comment'];
             $allowedSortDirections = ['ASC', 'DESC'];
             $sortField = in_array($sortField, $allowedSortFields) ? $sortField : 'date_crea';
             $sortDirection = in_array($sortDirection, $allowedSortDirections) ? $sortDirection : 'DESC';
     
-            // Construct the SQL query with dynamic sorting
-            $query = $conn->prepare("SELECT * FROM publication ORDER BY $sortField $sortDirection");
+            if (!empty($titre)) {
+                $titre = "%{$titre}%";
+                $query = $conn->prepare("SELECT * FROM publication WHERE titre LIKE ? ORDER BY $sortField $sortDirection");
+                $query->execute([$titre]);
+            } else {
+                $query = $conn->prepare("SELECT * FROM publication ORDER BY $sortField $sortDirection");
+                $query->execute();
+            }
     
-            $query->execute();
             $result = $query->fetchAll();
         } catch (PDOException $e) {
             echo 'echec de connexion:' . $e->getMessage();
@@ -302,8 +310,8 @@ class PublicationC
     public function getMonthlyPostsData() 
     {
         $conn = config::getConnexion();
-        $currentMonth = date('Y-m-01'); // Premier jour du mois courant
-        $nextMonth = date('Y-m-01', strtotime('+1 month')); // Premier jour du mois prochain
+        $currentMonth = date('Y-m-01');
+        $nextMonth = date('Y-m-01', strtotime('+1 month')); 
     
         try {
             $query = $conn->prepare("SELECT DATE(date_crea) as day, COUNT(*) as count FROM publication WHERE date_crea >= :currentMonth AND date_crea < :nextMonth GROUP BY DATE(date_crea)");
@@ -317,6 +325,18 @@ class PublicationC
             echo "Erreur lors de la requête SQL : " . $e->getMessage();
         }
     }
-    
+    public function searchPublicationsByTitle($title) {
+        $conn = config::getConnexion();
+        $title = "%" . $title . "%"; // Préparation de la chaîne pour une recherche 'LIKE'
+        try {
+            $query = $conn->prepare("SELECT * FROM publication WHERE titre LIKE :titre");
+            $query->bindParam(':titre', $title);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC); // Récupère toutes les publications correspondantes
+        } catch (PDOException $e) {
+            echo 'Échec lors de la recherche : ' . $e->getMessage();
+            return [];
+        }
+    }
 }
 ?>

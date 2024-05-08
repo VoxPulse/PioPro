@@ -369,7 +369,7 @@
             $nbrPubTotal=$pub1->nbrTotalPub();
             echo "(".$nbrPubTotal.")";
             ?> </h6>
-                  <!-- Sorting Form -->
+                  
                   <form action="" method="GET" class="sort-form">
                       <select name="sortField">
                           <option value="date_crea">Date de création</option>
@@ -381,6 +381,14 @@
                       </select>
                       <button type="submit">Trier</button>
                   </form>
+                  <form action="dashboard.php" method="GET" class="rechercheForum">
+                      <input type="text" name="titre" placeholder="Entrez le titre de la publication" value="<?php echo isset($_GET['titre']) ? htmlspecialchars($_GET['titre']) : ''; ?>">
+                        <button type="submit">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                          </svg>
+                        </button>
+                  </form>
               </div>
           </div>
           <div class="table-responsive">
@@ -388,12 +396,10 @@
                   require_once('..\..\..\Controllers\PublicationC.php');
                   $pub1 = new PublicationC();
                   
-                  // Capture and sanitize input
                   $sortField = isset($_GET['sortField']) ? $_GET['sortField'] : 'date_crea';
                   $sortDirection = isset($_GET['sortDirection']) ? $_GET['sortDirection'] : 'DESC';
-
-                  // Call the function with dynamic parameters
-                  $pub1->ListPublication($sortField, $sortDirection);
+                  $titre = isset($_GET['titre']) ? $_GET['titre'] : "";
+                  $pub1->ListPublication($titre,$sortField, $sortDirection);
               ?>
           </div>
         </div>

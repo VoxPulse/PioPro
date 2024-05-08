@@ -16,11 +16,37 @@
     background-color: white;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Add some shadow */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     display: none;
     z-index: 1000; /* Ensure it's above the overlay */
     max-width: 700px;
     align-items: center;
+  }
+  .rechercheForum {
+    font-size: small;
+    
+  }
+  
+  .rechercheForum input[type="text"] {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    width: 100%;
+    
+  }
+  .rechercheForum button {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    background-color: #ccc; 
+    cursor: pointer;
+    outline: none;
+    margin-top: 3%;
+    margin-left: 83%;
+  }
+  
+  .rechercheForum button:hover {
+    background-color: #83e800;
   }
   .tableaux
 {

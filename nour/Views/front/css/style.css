@@ -16,6 +16,30 @@ hr {
 html, body {
   overflow: auto;
 }
+.rechercheForum {
+  font-size: small;
+}
+
+.rechercheForum input[type="text"] {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  width: 100%;
+}
+.rechercheForum button {
+  padding: 5px 10px;
+  margin-top: 2%;
+  margin-left: 85%;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  background-color: #ccc; 
+  cursor: pointer;
+  outline: none;
+}
+
+.rechercheForum button:hover {
+  background-color: #83e800;
+}
 
 .overlay {
   position: fixed;
