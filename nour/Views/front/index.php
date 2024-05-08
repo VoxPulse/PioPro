@@ -170,7 +170,7 @@
                 <span id="form_user_idError" class="error"></span>
             </div>
             <div class="question-title39">
-                <span class="form-description43">Titre* </span>
+                <span class="form-description43">Sujet* </span>
                 <input type="text" name="titre" id="form_titre" class="question-ttile32" placeholder="Entrez le titre de votre publication" value="<?php if (isset($id)){echo $titre;}?>">
                 <span id="form_titreError" class="error"></span>
             </div>
@@ -242,9 +242,9 @@
         <div class="col-md-9">
           <div id="main">
             <input id="tab1" type="radio" name="tabs" checked />
-            <label for="tab1">Publications Récentes</label>
+            <label for="tab1">Plus Récentes</label>
             <input id="tab2" type="radio" name="tabs" />
-            <label for="tab2">Publications Anciennes</label>
+            <label for="tab2">Plus Anciennes</label>
             <input id="tab3" type="radio" name="tabs" />
             <label for="tab3">Plus Répondues</label>
             <input id="tab4" type="radio" name="tabs" />
@@ -343,7 +343,7 @@
               </nav>
             </section>
 
-            <section id="content5">
+            <section id="content4">
               <?php 
               require_once __DIR__ . '/../../Models/publication.php';
               require_once __DIR__ . '/../../Controllers/PublicationC.php';
@@ -400,27 +400,7 @@
             </ul>
           </div>
           <!--          End tags part-->
-          <!--        start recent post  -->
-          <div class="recent-post3290">
-            <h4>Recent Post</h4>
-            <div class="post-details021">
-              <a href="#"><h5>How much do web developers</h5></a>
-              <p>
-                I am thinking of pursuing web developing as a career & was ...
-              </p>
-              <small style="color: #848991">July 16, 2017</small>
-            </div>
-            <hr />
-            <div class="post-details021">
-              <a href="#"><h5>How much do web developers</h5></a>
-              <p>
-                I am thinking of pursuing web developing as a career & was ...
-              </p>
-              <small style="color: #848991">July 16, 2017</small>
-            </div>
-            <hr />
-          </div>
-          <!--       end recent post    -->
+         
           <!--             social part -->
           <div class="social-part2189">
             <h4>Find us</h4>

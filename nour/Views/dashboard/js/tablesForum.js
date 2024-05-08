@@ -17,10 +17,9 @@ function hideConfirmationPopup() {
   overlay.style.display = "none";
   formContainer.style.display = "none";
   var originalUrl = window.location.href;
-  var baseUrl = originalUrl.split("?")[0]; 
+  var baseUrl = originalUrl.split("?")[0];
   history.pushState({}, "", baseUrl);
 }
-
 
 //supp pub
 if (urlParams.get("showPopup1") === "true") {
@@ -40,10 +39,9 @@ function hideConfirmationPopup1() {
   overlay.style.display = "none";
   formContainer.style.display = "none";
   var originalUrl = window.location.href;
-  var baseUrl = originalUrl.split("?")[0]; 
+  var baseUrl = originalUrl.split("?")[0];
   history.pushState({}, "", baseUrl);
 }
-
 
 //show comment
 if (urlParams.get("showPopupComment") === "true") {
@@ -63,7 +61,7 @@ function hideConfirmationPopupComment() {
   overlay.style.display = "none";
   formContainer.style.display = "none";
   var originalUrl = window.location.href;
-  var baseUrl = originalUrl.split("?")[0]; 
+  var baseUrl = originalUrl.split("?")[0];
   history.pushState({}, "", baseUrl);
 }
 
@@ -89,21 +87,61 @@ function hideConfirmationPopupComment1() {
   history.pushState({}, "", baseUrl);
 }
 
+var myChart = null;
+document.addEventListener("DOMContentLoaded", function () {
+  fetch("statistiqueForum.php")
+    .then((response) => response.json())
+    .then((data) => {
+      // Assuming data.publications and data.comments are arrays
+      data.publications.sort((a, b) => new Date(a.day) - new Date(b.day));
 
+      const ctx = document.getElementById("chart-line").getContext("2d");
 
-//tab commentaire correspondate à pub
-document.addEventListener('DOMContentLoaded', function() {
-  var table = document.getElementById('publicationsTable');
-
-  table.addEventListener('click', function(event) {
-      var row = event.target.closest('tr[data-pub-id]');
-      if (row) {
-          var pubId = row.getAttribute('data-pub-id');
-          window.location.href = window.location.pathname + '?pub_id=' + pubId + '#commentsSection';
+      if (myChart) {
+        myChart.destroy();
       }
+
+      myChart = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: data.publications.map((item) => item.day),
+          datasets: [
+            {
+              label: "Nombre des Publications",
+              data: data.publications.map((item) => item.count),
+              borderColor: "rgb(131, 232, 0)",
+              tension: 0.1,
+            },
+            {
+              label: "Nombre des Commentaires",
+              data: data.comments.map((item) => item.count),
+              borderColor: "rgb(0, 44, 140)",
+              tension: 0.1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                stepSize: 1,
+              },
+            },
+          },
+        },
+      });
+    })
+    .catch((error) => console.error("Error loading the data: ", error));
+
+  var table = document.getElementById("publicationsTable");
+
+  table.addEventListener("click", function (event) {
+    var row = event.target.closest("tr[data-pub-id]");
+    if (row) {
+      var pubId = row.getAttribute("data-pub-id");
+      window.location.href =
+        window.location.pathname + "?pub_id=" + pubId + "#commentsSection";
+    }
   });
 });
-
-
-
-

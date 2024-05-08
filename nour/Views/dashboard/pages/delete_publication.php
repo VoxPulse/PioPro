@@ -7,7 +7,7 @@
 </head>
 <body>
         <?php
-            require_once('..\..\..\Controllers\PublicationC.php');
+            require_once __DIR__ . '/../../../Controllers\PublicationC.php';
             $pub1=new PublicationC();
             $id = $_GET['id'];
             $pub1->DeletePublication($id);

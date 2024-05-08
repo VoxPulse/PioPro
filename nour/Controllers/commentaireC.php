@@ -92,7 +92,8 @@ class commentaireC
                 echo '<td class="align-middletext-sm" style="max-width: 20px;white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;">
-                <div class="col text-center" ><a href="dashboard.php?id_comment=' . $row['id'] .'&showPopupComment=true ">'. $row['contenu'] .'</a></div></td>';
+                <div class="col text-center" ><a href="dashboard.php?id_comment=' . $row['id'] .'&showPopupComment=true ">'. $row['contenu'] .'</a>
+                </div></td>';
                 echo '<td class="align-middletext-sm">
                 <div class="col text-center">' ;
                 if (!empty($row['audio_path'])) {
@@ -247,6 +248,23 @@ class commentaireC
             return 0;
         }
     }
+    public function getMonthlyCommentsData() 
+    {
+        $conn = config::getConnexion();
+        $currentMonth = date('Y-m-01'); // Premier jour du mois courant
+        $nextMonth = date('Y-m-01', strtotime('+1 month')); // Premier jour du mois prochain
     
+        try {
+            $query = $conn->prepare("SELECT DATE(date_crea) as day, COUNT(*) as count FROM commentaire WHERE date_crea >= :currentMonth AND date_crea < :nextMonth GROUP BY DATE(date_crea)");
+            $query->bindParam(':currentMonth', $currentMonth);
+            $query->bindParam(':nextMonth', $nextMonth);
+            $query->execute();
+            
+            $results = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la requête SQL : " . $e->getMessage();
+        }
+    }
 }
 ?>

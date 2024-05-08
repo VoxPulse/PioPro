@@ -1,7 +1,6 @@
 <?php
 include __DIR__ . '/../Models/config.php';
 
-
 class PublicationC
 {
     // AFFICHAGE back
@@ -287,5 +286,37 @@ class PublicationC
             echo $e->getMessage();
         }
     }
+    public function nbrTotalPub()
+    {
+        $conn = config::getConnexion();
+        try {
+            $query = $conn->prepare("SELECT COUNT(*) AS total FROM publication");
+            $query->execute();
+
+            $result = $query->fetch();
+            return $result['total'];
+        } catch (PDOException $e) {
+            echo "Erreur lors de la requête SQL : " . $e->getMessage();
+        }
+    }
+    public function getMonthlyPostsData() 
+    {
+        $conn = config::getConnexion();
+        $currentMonth = date('Y-m-01'); // Premier jour du mois courant
+        $nextMonth = date('Y-m-01', strtotime('+1 month')); // Premier jour du mois prochain
+    
+        try {
+            $query = $conn->prepare("SELECT DATE(date_crea) as day, COUNT(*) as count FROM publication WHERE date_crea >= :currentMonth AND date_crea < :nextMonth GROUP BY DATE(date_crea)");
+            $query->bindParam(':currentMonth', $currentMonth);
+            $query->bindParam(':nextMonth', $nextMonth);
+            $query->execute();
+            
+            $results = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la requête SQL : " . $e->getMessage();
+        }
+    }
+    
 }
 ?>
