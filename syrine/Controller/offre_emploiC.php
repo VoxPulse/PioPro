@@ -3,12 +3,20 @@ include 'C:\wamp64\www\VoxPulse4\Model\config.php';
 include 'C:\wamp64\www\VoxPulse4\Model\offre_emploi.php';
 class Offre_emploiC
 {
+<<<<<<< HEAD
     public function afficher($atr)
+=======
+    public function afficher()
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
     {
         $conn = config::getConnexion();
         try 
         {
+<<<<<<< HEAD
             $requete = $conn->prepare("SELECT * FROM offre_emploi order by $atr");
+=======
+            $requete = $conn->prepare("SELECT * FROM offre_emploi");
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
             $requete->execute();
             
             // Utilisation de fetchAll pour récupérer les résultats sous forme de tableau
@@ -20,13 +28,39 @@ class Offre_emploiC
             echo 'Échec de connexion : ' . $e->getMessage();
         }
     }
+<<<<<<< HEAD
     public function addOffre($id, $titre_p , $description , $date_fin , $salaire , $categorie)
+=======
+<<<<<<< HEAD
+    public function addOffre($id, $titre_p , $description , $date_fin , $salaire , $categorie)
+=======
+<<<<<<< HEAD
+    public function addOffre($titre_p , $description , $date_fin , $salaire , $categorie)
+=======
+    public function addOffre($id , $titre_p , $description , $date_fin , $salaire , $categorie)
+>>>>>>> 355c956eac4eef2648e55fce1160df4743d97bdc
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
     {
         $conn = config::getConnexion();
         try 
         {
+<<<<<<< HEAD
             $requete = $conn->prepare("INSERT INTO offre_emploi (id, titre_p , description, date_fin, salaire ,  categorie) VALUES (:id, :titre_p , :description, :date_fin , :salaire, :categorie )");
             $requete->bindParam(':id', $id);
+=======
+<<<<<<< HEAD
+            $requete = $conn->prepare("INSERT INTO offre_emploi (id, titre_p , description, date_fin, salaire ,  categorie) VALUES (:id, :titre_p , :description, :date_fin , :salaire, :categorie )");
+            $requete->bindParam(':id', $id);
+=======
+<<<<<<< HEAD
+            $requete = $conn->prepare("INSERT INTO offre_emploi (titre_p , description, date_fin, salaire ,  categorie) VALUES (:titre_p , :description, :date_fin , :salaire, :categorie )");
+=======
+            $requete = $conn->prepare("INSERT INTO offre_emploi (id, titre_p , description, date_fin, salaire ,  categorie) VALUES (:id, :titre_p , :description, :date_fin , :salaire, :categorie )");
+            $requete->bindParam(':id', $id);
+>>>>>>> 355c956eac4eef2648e55fce1160df4743d97bdc
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
             $requete->bindParam(':titre_p', $titre_p);
             $requete->bindParam(':description', $description);
             $requete->bindParam(':date_fin', $date_fin);
@@ -126,6 +160,10 @@ class Offre_emploiC
             echo 'Échec de connexion : ' . $e->getMessage();
         }
     }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 
 
     public function trierPardate()
@@ -145,6 +183,11 @@ class Offre_emploiC
         echo 'Échec de connexion : ' . $e->getMessage();
     }
 }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 }
 
 

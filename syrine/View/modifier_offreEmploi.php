@@ -119,6 +119,7 @@ if($offre_emploi->getId() != "")
     $Categorie=$offre_emploi->getCategorie();
 }
 ?>
+<<<<<<< HEAD
 <script>
   function controleSaisie_offreEmploi() {
     var idInput = document.getElementById("id");
@@ -193,6 +194,8 @@ if($offre_emploi->getId() != "")
 };
 
   </script>
+=======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 <div">
     <div class="custom-modal">
         <div class="modal-content">
@@ -222,7 +225,15 @@ if($offre_emploi->getId() != "")
                         <td>
                             <div class="form-group">
                                 <label for="date_fin">date_fin:</label>
+<<<<<<< HEAD
                                 <input type="date" id="date_fin" name="date_fin" value="<?php echo $date_fin; ?>">
+=======
+<<<<<<< HEAD
+                                <input type="date" id="date_fin" name="date_fin" value="<?php echo $date_fin; ?>">
+=======
+                                <input type="text" id="date_fin" name="date_fin" value="<?php echo $date_fin; ?>">
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
                             </div>
                         </td>
                     </tr>
@@ -243,7 +254,11 @@ if($offre_emploi->getId() != "")
                     
                 </table>
                 <div class="button-container">
+<<<<<<< HEAD
                     <button class="btn btn-danger btn-Terminer" onclick="controleSaisie_offreEmploi()">Terminer</button>
+=======
+                    <button class="btn btn-danger btn-Terminer">Terminer</button>
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
                     <button class="btn btn-primary btn-Annuler">Annuler</button>
                 </div>
             </form>

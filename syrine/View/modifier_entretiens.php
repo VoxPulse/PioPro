@@ -108,23 +108,43 @@ h5 {
 include 'C:\wamp64\www\VoxPulse4\Controller\entretiensC.php';
 $entretiensC = new entretiensC();
 $entretiens=new entretiens ();
+<<<<<<< HEAD
 $entretiens=$entretiensC->getOffre($_GET['id']);
+=======
+$entretiens=$entretiensC->getentretiens($_GET['id']);
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 if($entretiens->getId() != "")
 {
     $id=$entretiens->getId();
     $date=$entretiens->getdate();
+<<<<<<< HEAD
     $heure=$entretiens->getheure();
     $statut=$entretiens->getstatut();
     $url=$entretiens->geturl();
     $id_user=$entretiens->getid_user();
     $id_offre=$entretiens->getid_offre();
+=======
+    $heure=$entretiens->getDescription();
+    $statut=$entretiens->getstatut();
+    $url=$entretiens->geturl();
+    $id_user=$entretiens->getid_user();
+<<<<<<< HEAD
+    $id_offre=$entretiens->getid_offre();
+=======
+    $id_off=$entretiens->getid_off();
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 }
 ?>
 <div">
     <div class="custom-modal">
         <div class="modal-content">
             <h5>Modifier</h5>
+<<<<<<< HEAD
             <form action="updateentretiens.php" method="post" >
+=======
+            <form action="updateOffre.php" method="post" >
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
                 <table>
                     <tr>
                         <td>
@@ -137,13 +157,21 @@ if($entretiens->getId() != "")
                         <td>
                             <div class="form-group">
                                 <label for="date">date:</label>
+<<<<<<< HEAD
                                 <input type="date" id="date" name="date" value="<?php echo $date; ?>">
+=======
+                                <input type="date" id="titre_p" name="titre_p" value="<?php echo $date; ?>">
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
                             </div>
                         </td>
                         <td>
                             <div class="form-group">
                                 <label for="description">heure:</label>
+<<<<<<< HEAD
                                 <input type="text" id="heure" name="heure" value="<?php echo $heure; ?>">
+=======
+                                <input type="text" id="description" name="description" value="<?php echo $heure; ?>">
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
                             </div>
                         </td>
                         <td>
@@ -168,8 +196,18 @@ if($entretiens->getId() != "")
                         </td>
                         <td>
                             <div class="form-group">
+<<<<<<< HEAD
                                 <label for="id_offre">id_user:</label>
                                 <input type="text" id="id_offre" name="id_offre" value="<?php echo $id_offre; ?>">
+=======
+<<<<<<< HEAD
+                                <label for="id_offre">id_user:</label>
+                                <input type="text" id="id_offre" name="id_offre" value="<?php echo $id_offre; ?>">
+=======
+                                <label for="id_off">id_user:</label>
+                                <input type="text" id="id_off" name="id_off" value="<?php echo $id_off; ?>">
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
                             </div>
                         </td>
                     </tr>

@@ -2,6 +2,7 @@
 <?php
     include 'C:\wamp64\www\VoxPulse4\Controller\offre_emploiC.php';
     $offre_emploi = new Offre_emploiC();
+<<<<<<< HEAD
     if(isset($_GET['option']))
     {
         $resultat=$offre_emploi->afficher($_GET['option']);
@@ -12,6 +13,9 @@
         $resultat=$offre_emploi->afficher("id");
         $char = "id" ;
     }
+=======
+    $resultat=$offre_emploi->afficher();
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
     $tableHTML = '<table class="table">';
     $tableHTML .= '<thead>';
     $tableHTML .= '<tr>';
@@ -33,8 +37,22 @@
         $tableHTML .= '<td>' . $row['date_fin'] . '</td>';
         $tableHTML .= '<td>' . $row['salaire'] . '</td>';
         $tableHTML .= '<td>' . $row['categorie'] . '</td>';
+<<<<<<< HEAD
         $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "' onclick='return confirmDelete();'>Supprimer</a></td>";
        /* $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "'>suprimer</a></td>" ;*/
+=======
+<<<<<<< HEAD
+        $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "' onclick='return confirmDelete();'>Supprimer</a></td>";
+       /* $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "'>suprimer</a></td>" ;*/
+=======
+<<<<<<< HEAD
+        $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "' onclick='return confirmDelete();'>Supprimer</a></td>";
+       /* $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "'>suprimer</a></td>" ;*/
+=======
+        $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "'>suprimer</a></td>" ;
+>>>>>>> 355c956eac4eef2648e55fce1160df4743d97bdc
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
         $tableHTML .= "<td > <a class='btn btn-primary' href='modifier_offreEmploi.php?id=" . $row['id']. "'>modifier</a></td>" ;
         $tableHTML .= '</tr>';
     }
@@ -356,12 +374,17 @@
         </div>
       </div>
     </form>
+<<<<<<< HEAD
       <div class="row mt-4" style="max-height: 800px; overflow-y: auto; width: 175%; margin: auto;">
+=======
+      <div class="row mt-4">
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
       <div class="col-lg-7 mb-lg-0 mb-4">
   <div class="card z-index-2 h-100">
   <div class="card-header pb-0 pt-3 bg-transparent d-flex justify-content-between align-items-center">
     <h6 class="text-capitalize m-0"> Tous Les Utilisateurs</h6>
     <!-- Ajout du bouton -->
+<<<<<<< HEAD
     <button class="btn btn-success" onclick="redirigerVersAutreFichier()" >Ajouter Un offre</button>
     <button class="btn btn-primary" onclick="imprimerTableau()">Imprimer</button>
 
@@ -376,15 +399,34 @@
       <table id="tableau" class="table align-items-center w-100">
           
             
+=======
+<<<<<<< HEAD
+    <button class="btn btn-success" onclick="redirigerVersAutreFichier()" >Ajouter Un offre</button>
+    <button class="btn btn-success" onclick="trierPardate()" >Trier</button>
+</div>
+
+    <div class="card-body p-3" style="max-height: 300px; overflow-y: auto;">
+=======
+    <button class="btn btn-success" onclick="redirigerVersAutreFichier()" >Ajouter Un  offre</button>
+</div>
+
+    <div class="card-body p-3" style="max-height: 280px; overflow-y: auto;">
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
+      <table class="table align-items-center ">
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
         <tbody>
           <?php echo $tableHTML;?> 
         </tbody>
       </table>
+<<<<<<< HEAD
       
+=======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
     </div>
   </div>
 
   </main>
+<<<<<<< HEAD
   <script>
     document.addEventListener("DOMContentLoaded", function() {
         var selectElement = document.getElementById("choix");
@@ -447,4 +489,7 @@ function imprimerTableau() {
 }
 </script>
 
+=======
+  
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 <!-- Labek-->
