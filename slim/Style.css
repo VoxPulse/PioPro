@@ -231,4 +231,23 @@ table tr:hover {
   background-color: #f0f0f0;
 }
 
+.green-button {
+  background-color: #4CAF50; /* Vert */
+  color: white; /* Texte blanc */
+  border: none; /* Pas de bordure */
+  padding: 10px 20px; /* Espacement interne */
+  text-align: center; /* Alignement du texte au centre */
+  text-decoration: none; /* Pas de décoration pour le texte */
+  display: inline-block; /* Type d'affichage */
+  font-size: 16px; /* Taille de la police */
+  margin: 4px 2px; /* Marges externes */
+  cursor: pointer; /* Curseur en forme de pointeur */
+  border-radius: 5px; /* Bords arrondis */
+}
+
+/* Optionnel : style pour l'effet de survol */
+.green-button:hover {
+  background-color: #45a049; /* Un vert légèrement plus foncé */
+}
+
 /* Fin des styles.css */

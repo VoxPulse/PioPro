@@ -18,6 +18,9 @@
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
   <link rel="icon" type="image/png" href="./oneschool-master/images/logo 1.png">
+  <!--Captcha -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 </head>
 
 <body class="">
@@ -80,7 +83,8 @@
                       </div>
                       <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="Mot de passe" aria-label="Password">
                     </div>
-                    <button type="submit" class="btn btn-primary">Connecter</button>
+                    <div class="g-recaptcha" data-sitekey="6LcgOtEpAAAAAE7O2uI9mbVmPlXYkY7TPTKTB7Md"></div>
+                    <button value="Submit" type="submit" name="ok"  class="btn btn-primary">Connecter</button>
                   </form>
 
                 </div>
@@ -91,7 +95,7 @@
                   </p>
                   <p class="mb-4 text-sm mx-auto">
                     Mot de passe oublié?
-                    <a href="../View/sign-up.html" class="text-primary text-gradient font-weight-bold">Récuperer le mot de passe </a>
+                    <a href="RECUP.php" class="text-primary text-gradient font-weight-bold">Récuperer le mot de passe </a>
                   </p>
                 </div>
               </div>
@@ -141,6 +145,32 @@
         COERRORDiv.textContent = "Utilisateur bloqué. Veuillez contacter l'administrateur pour plus d'informations.";
         COERRORDiv.style.display = 'block';
     }
+</script>
+<?php
+if(isset($_POST['ok']))
+{
+  require_once 'C:\wamp64\www\VoxPulse\View\Captcha\autoload.php';
+$recaptcha = new \ReCaptcha\ReCaptcha("6LcgOtEpAAAAAGICn7VJaun1NoJQRLoxg2DgTM8X");
+$gRecaptchaResponse = $_POST['g-recaptcha-response'];
+$resp = $recaptcha->setExpectedHostname('localhost')
+                  ->verify($gRecaptchaResponse, $remoteIp);
+if ($resp->isSuccess()) {
+    echo "Success !";
+} else {
+    $errors = $resp->getErrorCodes();
+    var_dump($errors);
+}
+
+}
+?>
+<script>
+document.getElementById('myForm').addEventListener('submit', function(event) {
+    var response = grecaptcha.getResponse();
+    if (response.length === 0) { // Si le captcha n'est pas coché, response est vide
+        event.preventDefault(); // Empêche la soumission du formulaire
+        alert('Veuillez cocher la case reCAPTCHA.');
+    }
+});
 </script>
 
 

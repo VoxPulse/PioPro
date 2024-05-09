@@ -4,7 +4,7 @@ include 'C:\wamp64\www\VoxPulse\Model\config.php';
 class UserC
 {
     // AFFICHAGE 
-   public function ListUser()
+    public function ListUser()
     {
         $conn = config::getConnexion();
         try {
@@ -22,7 +22,7 @@ class UserC
             $tableHTML .= '<th>Date de Naissance</th>';
             $tableHTML .= '<th>Cin</th>';
             $tableHTML .= '<th>role</th>';
-             $tableHTML .= '<th>Mot de Passe </th>';
+            $tableHTML .= '<th>Mot de Passe </th>';
             $tableHTML .= '<th>Etablissement</th>';
             $tableHTML .= '<th>Mail</th>';
             $tableHTML .= '<th>Tel</th>';
@@ -48,7 +48,10 @@ class UserC
                 $tableHTML .= '<td>' . $row['tel'] . '</td>';
 
 
-                $tableHTML .= '<td><button class="btn btn-danger btn-supprimer" data-id="' . $row['id'] . '">Supprimer</button></td>';
+                $tableHTML .= '<td><button class="btn btn-danger btn-supprimer" data-id="' . $row['id'] .
+                    '" data-prenom="' . htmlspecialchars($row['prenom']) .
+                    '" data-name="' . htmlspecialchars($row['nom']) .
+                    '" data-email="' . htmlspecialchars($row['mail']) . '">Supprimer</button></td>';
 
                 $tableHTML .= '<td><button class="btn btn-primary btn-update"
                     data-id="' . $row['id'] . '" data-name="' . htmlspecialchars($row['nom']) .
@@ -220,6 +223,8 @@ class UserC
         }
     }
 
+
+
     public function getPassword($email)
     {
         $conn = config::getConnexion();
@@ -228,7 +233,7 @@ class UserC
             $query = $conn->prepare("SELECT mdp FROM user WHERE mail=:email");
             $query->bindParam(':email', $email, PDO::PARAM_STR);
             $query->execute();
-    
+
             // Vérifier si une ligne a été récupérée
             if ($query->rowCount() > 0) {
                 // Récupérer le mot de passe hashé depuis le résultat de la requête
@@ -244,7 +249,7 @@ class UserC
             return null; // Si la connexion échoue, retourner null
         }
     }
-    
+
 
 
 
@@ -341,7 +346,7 @@ class UserC
         $conn = config::getConnexion();
         try {
             $query = $conn->prepare("SELECT COUNT(*) as num_users from user WHERE statut=:statut ");
-            $statut = "enligne";
+            $statut = "en ligne";
             $query->bindParam(':statut', $statut);
             $query->execute();
             $result = $query->fetch(PDO::FETCH_ASSOC);
@@ -370,6 +375,22 @@ class UserC
             return false; // En cas d'erreur, retourner false
         }
     }
+    //CLEANING
+    public function cleanOldLogins()
+    {
+        $conn = config::getConnexion();
+        try {
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  // Set error mode to exception
+            $query = $conn->prepare("DELETE FROM user WHERE dernier_login < DATE_SUB(NOW(), INTERVAL 1 YEAR)");
+            $query->execute();
+            return $query->rowCount();
+        } catch (PDOException $e) {
+            echo 'Error executing DELETE operation: ' . $e->getMessage();
+            return false;
+        }
+    }
+
+
 
     // GET USER BY ID
     public function getUserById($id)
@@ -387,47 +408,206 @@ class UserC
         }
     }
 
+    public function setUserOnline($id)
+    {
+        $conn = config::getConnexion();
+        try {
+            // Préparer la requête SQL pour mettre à jour le statut de l'utilisateur à "en ligne" et mettre à jour 'dernier_login' à l'instant actuel
+            $query = $conn->prepare("UPDATE user SET statut = 'en ligne', dernier_login = NOW() WHERE id = :id");
+
+            // Lier le paramètre id à la valeur passée à la fonction
+            $query->bindParam(':id', $id, PDO::PARAM_INT);
+
+            // Exécuter la requête
+            $query->execute();
+
+            // Retourner le nombre de lignes affectées
+            return $query->rowCount();
+        } catch (PDOException $e) {
+            echo 'Error executing UPDATE operation: ' . $e->getMessage();
+            return false;  // En cas d'erreur, retourner false
+        }
+    }
+
+    public function setUserOffline($id)
+    {
+        $conn = config::getConnexion();
+        try {
+            // Préparer la requête SQL pour mettre à jour le statut de l'utilisateur à "hors ligne"
+            $query = $conn->prepare("UPDATE user SET statut = 'hors ligne' WHERE id = :id");
+
+            // Lier le paramètre id à la valeur passée à la fonction
+            $query->bindParam(':id', $id, PDO::PARAM_INT);
+
+            // Exécuter la requête
+            $query->execute();
+
+            // Retourner le nombre de lignes affectées
+            return $query->rowCount();
+        } catch (PDOException $e) {
+            echo 'Error executing UPDATE operation: ' . $e->getMessage();
+            return false;  // En cas d'erreur, retourner false
+        }
+    }
+
+
+    public function updateUserResetToken($mail, $token, $time)
+    {
+        $conn = config::getConnexion();
+        try {
+            // Préparation de la requête pour mettre à jour les informations de réinitialisation de mot de passe
+            $query = $conn->prepare("UPDATE user SET reset_token_hash=:token, reset_token_expires_at=:time WHERE mail=:mail");
+
+            // Liaison des paramètres pour éviter les injections SQL
+            $query->bindParam(':token', $token);
+            $query->bindParam(':time', $time);
+            $query->bindParam(':mail', $mail);
+
+            // Exécution de la requête
+            $query->execute();
+
+            // Vérification si la mise à jour a été effectuée
+            if ($query->rowCount() > 0) {
+                return true; // Retourner vrai si la mise à jour a réussi
+            } else {
+                return false; // Retourner faux si aucun enregistrement n'a été mis à jour
+            }
+        } catch (PDOException $e) {
+            echo 'Échec de la mise à jour : ' . $e->getMessage();
+            return false; // Retourner faux si une erreur se produit
+        }
+    }
+
+    public function UpdateToken($email, $token)
+    {
+        $conn = config::getConnexion();
+        try {
+            // Préparation de la requête pour mettre à jour les informations de réinitialisation de mot de passe
+            $query = $conn->prepare("UPDATE user SET reset_token_hash=:token  WHERE mail=:mail");
+
+            // Liaison des paramètres pour éviter les injections SQL
+            $query->bindParam(':token', $token);
+            $query->bindParam(':mail', $email);
+
+            // Exécution de la requête
+            $query->execute();
+
+            // Vérification si la mise à jour a été effectuée
+            if ($query->rowCount() > 0) {
+                return true; // Retourner vrai si la mise à jour a réussi
+            } else {
+                return false; // Retourner faux si aucun enregistrement n'a été mis à jour
+            }
+        } catch (PDOException $e) {
+            echo 'Échec de la mise à jour : ' . $e->getMessage();
+            return false; // Retourner faux si une erreur se produit
+        }
+    }
+
+    public function updatePasswordByToken($token, $newPassword)
+    {
+        $conn = config::getConnexion();
+        try {
+            // Hashage du nouveau mot de passe avant de l'insérer dans la base de données
+            $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
+
+            // Préparation de la requête pour mettre à jour le mot de passe
+            $query = $conn->prepare("UPDATE user SET mdp=:password WHERE reset_token_hash=:token");
+
+            // Liaison des paramètres pour éviter les injections SQL
+            $query->bindParam(':password', $passwordHash);
+            $query->bindParam(':token', $token);
+
+            // Exécution de la requête
+            $query->execute();
+
+            // Vérification si la mise à jour a été effectuée
+            if ($query->rowCount() > 0) {
+                return true; // Retourner vrai si la mise à jour a réussi
+            } else {
+                return false; // Retourner faux si aucun enregistrement n'a été mis à jour
+            }
+        } catch (PDOException $e) {
+            echo 'Échec de la mise à jour : ' . $e->getMessage();
+            return false; // Retourner faux si une erreur se produit
+        }
+    }
+    public function tokenExists($token)
+    {
+        $conn = config::getConnexion();
+        try {
+            // Préparation de la requête pour vérifier l'existence du token
+            $query = $conn->prepare("SELECT COUNT(*) FROM user WHERE reset_token_hash=:token");
+
+            // Liaison des paramètres pour éviter les injections SQL
+            $query->bindParam(':token', $token);
+
+            // Exécution de la requête
+            $query->execute();
+
+            // Récupération du nombre de lignes qui correspondent au token
+            $count = $query->fetchColumn();
+
+            // Vérification de la présence du token
+            return $count > 0;
+        } catch (PDOException $e) {
+            echo 'Erreur lors de la vérification du token : ' . $e->getMessage();
+            return false; // Retourner faux si une erreur se produit
+        }
+    }
+
+
+
     public function getUserCO($email, $mdp)
     {
         $conn = config::getConnexion();
         try {
-            $query = $conn->prepare("SELECT COUNT(*) FROM user WHERE mail=:mail AND mdp=:mdp");
+            // Modifier la requête pour sélectionner toutes les colonnes
+            $query = $conn->prepare("SELECT * FROM user WHERE mail=:mail AND mdp=:mdp");
             $query->bindParam(':mail', $email);
             $query->bindParam(':mdp', $mdp);
             $query->execute();
-            $result = $query->fetchColumn(); // Récupérer le nombre de lignes
-    
-            if ($result > 0) {
-                // Il y a des utilisateurs correspondants dans la base de données
-                $roleQuery = $conn->prepare("SELECT role, Block FROM user WHERE mail=:mail AND mdp=:mdp");
-                $roleQuery->bindParam(':mail', $email);
-                $roleQuery->bindParam(':mdp', $mdp);
-                $roleQuery->execute();
-                $userData = $roleQuery->fetch(PDO::FETCH_ASSOC);
-                
-                // Vérifier si les données de l'utilisateur ont été récupérées avec succès
-                if ($userData) {
-                    $userRole = $userData['role'];
-                    $userState = $userData['Block'];
-                    if ($userState == 'Blocked') {
-                        return 3; // Retourner 3 si l'utilisateur est bloqué
-                    } elseif ($userRole == 'admin') {
-                        return 1; // Retourner 1 pour l'administrateur
-                    } else {
-                        return 2; // Retourner 2 pour les utilisateurs normaux
-                    }
+            $userData = $query->fetch(PDO::FETCH_ASSOC); // Récupérer les données utilisateur en tant que tableau associatif
+
+            // Vérifier si les données de l'utilisateur ont été récupérées
+            if ($userData) {
+                // Vous pouvez ajouter des conditions spécifiques ici si nécessaire
+                if ($userData['Block'] == 'Blocked') {
+                    return ['status' => 'blocked']; // Retourner un état bloqué avec les données de l'utilisateur
                 } else {
-                    return 0; // Aucun utilisateur correspondant trouvé
+                    return $userData; // Retourner toutes les données de l'utilisateur si non bloqué
                 }
             } else {
-                return 0; // Aucun utilisateur correspondant trouvé
+                return null; // Aucun utilisateur correspondant trouvé
             }
         } catch (PDOException $e) {
             // Gérer l'exception PDO de manière appropriée
             throw new Exception('Échec de la connexion : ' . $e->getMessage());
         }
     }
-    
+
+    public function getUser($email)
+    {
+        $conn = config::getConnexion();
+        try {
+            // Préparer la requête pour sélectionner toutes les colonnes de l'utilisateur spécifié par email
+            $query = $conn->prepare("SELECT * FROM user WHERE mail=:mail");
+            $query->bindParam(':mail', $email);
+            $query->execute();
+            $userData = $query->fetch(PDO::FETCH_ASSOC); // Récupérer les données utilisateur sous forme de tableau associatif
+
+            // Vérifier si les données de l'utilisateur ont été récupérées
+            if ($userData) {
+                return $userData; // Retourner les données de l'utilisateur
+            } else {
+                return null; // Aucun utilisateur correspondant trouvé
+            }
+        } catch (PDOException $e) {
+            // Gérer l'exception PDO de manière appropriée
+            throw new Exception('Échec de la connexion : ' . $e->getMessage());
+        }
+    }
+
 
 
 
@@ -445,6 +625,38 @@ class UserC
             echo 'Échec de connexion : ' . $e->getMessage();
         }
     }
+
+    // AJOUT  HISTO
+    public function HISTO($admin_id, $type_action, $description)
+    {
+        $conn = config::getConnexion();
+        try {
+            $requete = $conn->prepare("INSERT INTO historique (admin_id, type_action, description, date_action) VALUES (:admin_id, :type_action, :description, :date_action)");
+
+            // Bind parameters
+            $requete->bindParam(':admin_id', $admin_id);
+            $requete->bindParam(':type_action', $type_action);
+            $requete->bindParam(':description', $description);
+
+            // Get the current date and time
+            $date_action = date("Y-m-d H:i:s");  // Format: YYYY-MM-DD HH:MM:SS
+            $requete->bindParam(':date_action', $date_action);
+
+            // Execute the query
+            $requete->execute();
+
+            // Optional: Check if the insert was successful
+            if ($requete->rowCount() > 0) {
+                echo 'Action logged successfully';
+            } else {
+                echo 'No action was logged';
+            }
+        } catch (PDOException $e) {
+            echo 'Failure in action logging: ' . $e->getMessage();
+        }
+    }
+
+
 
     // AJOUT 
     public function AddUser($nom, $prenom, $cin, $tel, $mail, $role, $mdp, $etab, $date_n, $date_crea, $Block, $statut)

@@ -24,13 +24,7 @@ include_once 'submit.php';
   <link id="pagestyle" href="./css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
   <link rel="icon" type="image/png" href="./oneschool-master/images/logo 1.png">
   <!--Captcha-->
-  <script src="https://www.google.com/recaptcha/api.js"></script>
-  <script>
-    function onSubmit(token)
-    {
-    document.getElementbyId("myForm").submit();
-    }
-  </script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 
 <body>
@@ -180,18 +174,17 @@ include_once 'submit.php';
                   </div>
                 </div>
                 <div class="form-check form-check-info text-start">
-                  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
                   <label class="form-check-label" for="flexCheckDefault">
-                    J'accepte <a href="javascript:;" class="text-dark font-weight-bolder">les termes et les conditions</a>
+                  <div class="g-recaptcha" data-sitekey="6LcgOtEpAAAAAE7O2uI9mbVmPlXYkY7TPTKTB7Md"></div>
                   </label>
                 </div>
                 <input type="hidden" name="submit_frm" value="1">
                 <div class="text-center">
                   <button  
-                    type="submit" data-acti id="btnInscription" class="btn bg-gradient-dark w-100 my-4 mb-2">S'inscrire</button>
+                     value="Submit" name="ok" type="submit" data-acti id="btnInscription" class="btn bg-gradient-dark w-100 my-4 mb-2">S'inscrire</button>
                 </div>
                 <div class="text-center">
-                  <p class="text-sm mt-3 mb-0">Vous avez déjà un compte ? <a href="./sign-in.html" class="text-dark font-weight-bolder">Connectez-vous</a></p>
+                  <p class="text-sm mt-3 mb-0">Vous avez déjà un compte ? <a href="sign-in.php" class="text-dark font-weight-bolder">Connectez-vous</a></p>
                 </div>
               </form>
 
@@ -455,6 +448,65 @@ include_once 'submit.php';
     document.getElementById("demo-form").submit();
   }
 </script>
+
+<?php
+if(isset($_POST['ok']))
+{
+  require_once 'C:\wamp64\www\VoxPulse\View\Captcha\autoload.php';
+$recaptcha = new \ReCaptcha\ReCaptcha("6LcgOtEpAAAAAGICn7VJaun1NoJQRLoxg2DgTM8X");
+$gRecaptchaResponse = $_POST['g-recaptcha-response'];
+$resp = $recaptcha->setExpectedHostname('localhost')
+                  ->verify($gRecaptchaResponse, $remoteIp);
+if ($resp->isSuccess()) {
+    echo "Success !";
+} else {
+    $errors = $resp->getErrorCodes();
+    var_dump($errors);
+}
+
+}
+?>
+
+<script>
+document.getElementById('myForm').addEventListener('submit', function(event) {
+    var response = grecaptcha.getResponse();
+    if (response.length === 0) { // Si le captcha n'est pas coché, response est vide
+        event.preventDefault(); // Empêche la soumission du formulaire
+        alert('Veuillez cocher la case reCAPTCHA.');
+    }
+});
+</script>
+ <!--Inactivité-->
+ <script>
+// Délai avant la redirection en cas d'inactivité (5 minutes en millisecondes)
+var TIME_LIMIT = 1 * 60 * 1000; // 5 minutes
+
+var timeoutId;
+
+// Réinitialise le minuteur à chaque interaction
+function resetTimer() {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(redirectToPage, TIME_LIMIT);
+}
+
+// Fonction de redirection
+function redirectToPage() {
+    window.location.href = 'page.php'; // Modifiez 'page.php' par l'URL de votre choix
+}
+
+// Ajoutez les écouteurs d'événements pour la souris et le clavier
+window.onload = function() {
+    document.addEventListener('mousemove', resetTimer, false);
+    document.addEventListener('keypress', resetTimer, false);
+    document.addEventListener('mousedown', resetTimer, false); // Capture les clics de souris
+    document.addEventListener('touchstart', resetTimer, false); // Capture les interactions sur écran tactile
+
+    // Initialiser le minuteur la première fois
+    resetTimer();
+}
+</script>
+
+
 </body>
 
 </html>

@@ -9,28 +9,43 @@ $ListUser = $E->ListUser();
 $listBlock = $E->ListBlock();
 $listUnBlock = $E->ListUnBlock();
 
-$bdd = new PDO('mysql:host=localhost;dbname=piopro','root', '');
+$bdd = new PDO('mysql:host=localhost;dbname=piopro', 'root', '');
 $allusers = $bdd->query('SELECT * FROM user ');
 // RECHERCHE
 if (isset($_GET['searchInput'])) {
-    $Rech = htmlspecialchars($_GET['searchInput']);
-    $allusers = $bdd->query('SELECT * FROM user WHERE cin LIKE "%' . $Rech . '%"  ORDER BY id ASC');
+  $Rech = htmlspecialchars($_GET['searchInput']);
+  $allusers = $bdd->query('SELECT * FROM user WHERE cin LIKE "%' . $Rech . '%"  ORDER BY id ASC');
 }
 
 $bdd1 = new PDO('mysql:host=localhost;dbname=piopro', 'root', '');
-// TRI
-$allusers1 = $bdd1->query('SELECT * FROM user');
+
 if (isset($_GET['tri'])) {
   $T = $_GET['tri'];
-  if ($T == "cin") {
-      $allusers1 = $bdd1->query('SELECT * FROM user ORDER BY cin ASC');
-  } else if ($T == "id") {
-      $allusers1 = $bdd1->query('SELECT * FROM user ORDER BY id ASC');
-  } elseif ($T == "ALF") {
-      $allusers1 = $bdd1->query('SELECT * FROM user ORDER BY nom ASC');
+  switch ($T) {
+    case 'cin':
+      $allusers = $bdd1->query('SELECT * FROM user ORDER BY cin ASC');
+      break;
+    case 'id':
+      $allusers = $bdd1->query('SELECT * FROM user ORDER BY id ASC');
+      break;
+    case 'ALF':
+      $allusers = $bdd1->query('SELECT * FROM user ORDER BY nom ASC');
+      break;
+    default:
+      $allusers = $bdd1->query('SELECT * FROM user');
+      break;
   }
 }
+$bdd2 = new PDO('mysql:host=localhost;dbname=piopro', 'root', '');
+$HISTO = $bdd2->query('SELECT * FROM historique ORDER BY date_action DESC');
 
+//SESSION 
+session_start();
+
+if (!isset($_SESSION['user'])) {
+  header('Location: sign-in.php');
+  exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -124,7 +139,7 @@ if (isset($_GET['tri'])) {
           <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="./profile.html">
+          <a class="nav-link" href="profile.php"> <!-- Modification ici pour pointer vers un fichier PHP -->
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
             </div>
@@ -140,10 +155,10 @@ if (isset($_GET['tri'])) {
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Tableau De Bord </a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page"></li>
           </ol>
-          <h6 class="font-weight-bolder text-white mb-0">Tableau de bord </h6>
+          <h6 class="font-weight-bolder text-white mb-0"><strong>Bonjour <?php echo htmlspecialchars($_SESSION['user']['nom']); ?> <?php echo htmlspecialchars($_SESSION['user']['prenom']); ?> </strong> </h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -239,11 +254,11 @@ if (isset($_GET['tri'])) {
           </ul>
         </div>
       </div>
-      <button onclick="redirection()" class="btn btn-danger btn-supprimer">Déconnexion</button>
+      <button onclick="redirection()" class="btn btn-danger">Déconnexion</button>
       <script>
         function redirection() {
           // Redirection vers une autre page
-          window.location.href = "sign-in.php";
+          window.location.href = "logout.php";
         }
       </script>
     </nav>
@@ -394,57 +409,74 @@ if (isset($_GET['tri'])) {
                 <div class="card-header pb-0 p-3">
                   <h6 class="mb-2" style="font-weight: bold; color: red;">Rechercher un utilisateur par sa carte d'identité nationale</h6>
                   <div class="input-group mb-3">
-                    <input type="text" class="form-control" id="searchInput" name="searchInput" placeholder="Entrez la carte d'identite de l'utilisateur">
+                    <!-- Formulaire de recherche -->
+                    <form action="" method="get">
+                      <input type="text" class="form-control" id="searchInput" name="searchInput" placeholder="Entrez la carte d'identité de l'utilisateur">
+                    </form>
                   </div>
-                  <div class="table-responsive">
-                    <table class="table align-items-center">
-                      <button type="Submit" class="btn btn-link text-dark p-0 fixed-plugin-close-button">Rechercher</button>
-                      <tbody>
-                        <?php
-                        if ($allusers->rowCount() > 0) {
-                        ?>
-                          <table class="table">
-                            <thead class="thead-dark">
-                              <tr>
-                                <th>Nom</th>
-                                <th>Prénom</th>
-                                <th>Date de naissance</th>
-                                <th>Tel</th>
-                                <th>Mail</th>
-                                <th>Role</th>
-                                <th>Etablissemet</th>
-                                <th>ST BLOCK</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php
-                              while ($user = $allusers->fetch()) {
-                              ?>
-                                <tr>
-                                  <td><?= $user['nom'] ?></td>
-                                  <td><?= $user['prenom'] ?></td>
-                                  <td><?= $user['date_n'] ?></td>
-                                  <td><?= $user['tel'] ?></td>
-                                  <td><?= $user['mail'] ?></td>
-                                  <td><?= $user['role'] ?></td>
-                                  <td><?= $user['etab'] ?></td>
-                                  <td><?= $user['Block'] ?></td>
-                                </tr>
-                              <?php
-                              }
-                              ?>
-                            </tbody>
-                          </table>
-                        <?php
-                        } else {
-                        ?>
-                          <p>Aucun utilisateur trouvé</p>
-                        <?php
-                        }
-                        ?>
 
-                      </tbody>
-                    </table>
+                  <div class="input-group mb-3"> 
+                    <!-- Formulaire de tri -->
+                    <form action="" method="get">
+                      <select class="form-control" id="tri" name="tri" onchange="this.form.submit()">
+                        <option value="">Choisir un critère de tri</option>
+                        <option value="id">ID</option>
+                        <option value="ALF">Alphabétique</option>
+                        <option value="cin">CIN</option>
+                      </select>
+                    </form>
+                  </div>
+
+                  <div class="table-responsive">
+                    <div class="table-responsive" style="max-height: 350px; overflow-y: auto;">
+                      <table class="table align-items-center">
+                        <tbody>
+                          <?php
+                          if ($allusers->rowCount() > 0) {
+                          ?>
+                            <table class="table">
+                              <thead class="thead-dark">
+                                <tr>
+                                  <th>Nom</th>
+                                  <th>Prénom</th>
+                                  <th>Date de naissance</th>
+                                  <th>Tel</th>
+                                  <th>Mail</th>
+                                  <th>Role</th>
+                                  <th>Etablissemet</th>
+                                  <th>ST BLOCK</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <?php
+                                while ($user = $allusers->fetch()) {
+                                ?>
+                                  <tr>
+                                    <td><?= $user['nom'] ?></td>
+                                    <td><?= $user['prenom'] ?></td>
+                                    <td><?= $user['date_n'] ?></td>
+                                    <td><?= $user['tel'] ?></td>
+                                    <td><?= $user['mail'] ?></td>
+                                    <td><?= $user['role'] ?></td>
+                                    <td><?= $user['etab'] ?></td>
+                                    <td><?= $user['Block'] ?></td>
+                                  </tr>
+                                <?php
+                                }
+                                ?>
+                              </tbody>
+                            </table>
+                          <?php
+                          } else {
+                          ?>
+                            <p>Aucun utilisateur trouvé</p>
+                          <?php
+                          }
+                          ?>
+
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </form>
@@ -453,100 +485,86 @@ if (isset($_GET['tri'])) {
           <div class="col-lg-6">
             <div class="card">
               <form method="GET">
-                <div class="card-header pb-0 p-3">
-                  <h6 class="mb-2" style="font-weight: bold; color: red;">Trier par  titre </h6>
-                  <div class="input-group mb-3">
-                    <input type="text" class="form-control" id="tri" name="tri" placeholder="Ecrivez le titre ">
-                  </div>
-                  <div class="table-responsive">
-                    <table class="table align-items-center">
-                      <button type="Submit" class="btn btn-link text-dark p-0 fixed-plugin-close-button">Trier</button>
-                      <tbody>
-                        <?php
-                        if ($allusers1->rowCount() > 0) {
-                        ?>
-                          <table class="table">
-                            <thead class="thead-dark">
-                              <tr>
-                                <th>Nom</th>
-                                <th>Prénom</th>
-                                <th>Date de naissance</th>
-                                <th>Tel</th>
-                                <th>Mail</th>
-                                <th>Role</th>
-                                <th>Etablissemet</th>
-                                <th>ST BLOCK</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php
-                              while ($user=$allusers1->fetch()) {
-                              ?>
-                                <tr>
-                                  <td><?= $user['nom'] ?></td>
-                                  <td><?= $user['prenom'] ?></td>
-                                  <td><?= $user['date_n'] ?></td>
-                                  <td><?= $user['tel'] ?></td>
-                                  <td><?= $user['mail'] ?></td>
-                                  <td><?= $user['role'] ?></td>
-                                  <td><?= $user['etab'] ?></td>
-                                  <td><?= $user['Block'] ?></td>
-                                </tr>
-                              <?php
-                              }
-                              ?>
-                            </tbody>
-                          </table>
-                        <?php
-                        } else {
-                        ?>
-                          <p>Aucun utilisateur trouvé</p>
-                        <?php
-                        }
-                        ?>
-
-                      </tbody>
-                    </table>
-                  </div>
+                <div class="card-header pb-0 pt-3 bg-transparent d-flex justify-content-between align-items-center">
+                  <h6 class="mb-2" style="font-weight: bold; color: red;">Historique des Admins</h6>
+                  <form action="CLEAN.php" method="post">
+                    <button type="submit" class="btn btn-success">Clean</button>
+                  </form>
                 </div>
-              </form>
+                <div class="input-group mb-3">
+                  <!-- Formulaire de recherche -->
+                </div>
+
+                <!-- Inline style for scrollable table -->
+                <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                  <table class="table align-items-center">
+                    <tbody>
+                      <?php if ($allusers->rowCount() > 0) : ?>
+                        <table class="table">
+                          <thead class="thead-dark">
+                            <tr>
+                              <th>admin_id</th>
+                              <th>type_action</th>
+                              <th>description</th>
+                              <th>date</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php while ($HISTO1 = $HISTO->fetch()) : ?>
+                              <tr>
+                                <td><?= htmlspecialchars($HISTO1['admin_id']) ?></td>
+                                <td><?= htmlspecialchars($HISTO1['type_action']) ?></td>
+                                <td><?= htmlspecialchars($HISTO1['description']) ?></td>
+                                <td><?= htmlspecialchars($HISTO1['date_action']) ?></td>
+                              </tr>
+                            <?php endwhile; ?>
+                          </tbody>
+                        </table>
+                      <?php else : ?>
+                        <p>Aucun historique trouvé</p>
+                      <?php endif; ?>
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer pt-3  ">
+        <div class="container-fluid">
+          <div class="row align-items-center justify-content-lg-between">
+            <div class="col-lg-6 mb-lg-0 mb-4">
+              <div class="copyright text-center text-sm text-muted text-lg-start">
+                © <script>
+                  document.write(new Date().getFullYear())
+                </script>,
+                made with <i class="fa fa-heart"></i> by
+                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">VoxPulse</a>
+                for a better web.
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                <li class="nav-item">
+                  <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Vox Pulse </a>
+                </li>
+                <li class="nav-item">
+                  <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
+                </li>
+                <li class="nav-item">
+                  <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
+                </li>
+                <li class="nav-item">
+                  <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
-
-        <footer class="footer pt-3  ">
-          <div class="container-fluid">
-            <div class="row align-items-center justify-content-lg-between">
-              <div class="col-lg-6 mb-lg-0 mb-4">
-                <div class="copyright text-center text-sm text-muted text-lg-start">
-                  © <script>
-                    document.write(new Date().getFullYear())
-                  </script>,
-                  made with <i class="fa fa-heart"></i> by
-                  <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">VoxPulse</a>
-                  for a better web.
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                  <li class="nav-item">
-                    <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Vox Pulse </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </footer>
-      </div>
+      </footer>
+    </div>
   </main>
   <div class="fixed-plugin">
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
@@ -776,24 +794,43 @@ if (isset($_GET['tri'])) {
     supprimerButtons.forEach(function(button) {
       button.addEventListener('click', function() {
         var userId = button.getAttribute('data-id');
+        var nomId = button.getAttribute('data-name');
+        var prenomId = button.getAttribute('data-prenom');
+        var mailId = button.getAttribute('data-email');
+
         // Afficher la boîte de dialogue modale
         confirmationModal.style.display = 'block';
 
         // Gérer le clic sur le bouton "Oui"
-        btnOui.addEventListener('click', function() {
-          // Effectuer la suppression
-          fetch('../delete_user.php?id=' + userId, {
-              method: 'DELETE'
-            })
-            .then(function(response) {
-              location.reload();
-            })
-            .catch(function(error) {
-              console.error('Une erreur s\'est produite:', error);
+        document.addEventListener('DOMContentLoaded', function() {
+          const deleteButtons = document.querySelectorAll('.btn-supprimer');
+
+          deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+              const userId = this.getAttribute('data-id');
+              const userName = this.getAttribute('data-name');
+              const userEmail = this.getAttribute('data-email');
+
+              if (confirm(`Are you sure you want to delete ${userName}?`)) {
+                fetch('delete_user.php', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `id=${encodeURIComponent(userId)}&name=${encodeURIComponent(userName)}&email=${encodeURIComponent(userEmail)}`
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                    alert(data.message); // Display message from server
+                    location.reload(); // Reload page after delete
+                  })
+                  .catch(error => console.error('Error:', error));
+              }
             });
-          // Cacher la boîte de dialogue modale
-          confirmationModal.style.display = 'none';
+          });
         });
+
+
 
         // Gérer le clic sur le bouton "Non"
         btnNon.addEventListener('click', function() {
@@ -964,7 +1001,7 @@ if (isset($_GET['tri'])) {
       var nom2Input = document.getElementById('upNom');
       var prenom2Input = document.getElementById('PR');
       var Date2Input = document.getElementById('DDN');
-      var Cin2Input = document.getElementById('cin');
+      var Cin2Input = document.getElementById('cin'); 
       var Tel2Input = document.getElementById('tel');
       var Mail2Input = document.getElementById('email');
       var MDP2Input = document.getElementById('mdp');
@@ -1472,6 +1509,36 @@ if (isset($_GET['tri'])) {
     document.getElementById('searchInput').addEventListener('input', function() {
       searchUser(); // Appeler la fonction de recherche à chaque changement dans l'entrée de recherche
     });
+  </script>
+
+  <!--Inactivité-->
+  <script>
+    // Délai avant la redirection en cas d'inactivité (5 minutes en millisecondes)
+    var TIME_LIMIT = 1 * 60 * 1000; // 5 minutes
+
+    var timeoutId;
+
+    // Réinitialise le minuteur à chaque interaction
+    function resetTimer() {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(redirectToPage, TIME_LIMIT);
+    }
+
+    // Fonction de redirection
+    function redirectToPage() {
+      window.location.href = 'logout.php'; 
+    }
+
+    // Ajoutez les écouteurs d'événements pour la souris et le clavier
+    window.onload = function() {
+      document.addEventListener('mousemove', resetTimer, false);
+      document.addEventListener('keypress', resetTimer, false);
+      document.addEventListener('mousedown', resetTimer, false); // Capture les clics de souris
+      document.addEventListener('touchstart', resetTimer, false); // Capture les interactions sur écran tactile
+
+      // Initialiser le minuteur la première fois
+      resetTimer();
+    }
   </script>
 
 </body>

@@ -254,7 +254,7 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
             </div>
         </nav>
         <!-- End Navbar -->
-        < class="container-fluid py-4">
+        <class="container-fluid py-4">
             <form action="" method="get">
                 <div class="row">
                     <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
@@ -437,6 +437,7 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
                     </div>
                 </div>
             </form>
+        </div>
             <div class="row mt-4">
                 <div class="card z-index-2 h-100">
                     <div class="card-header pb-0 pt-3 bg-transparent d-flex justify-content-between align-items-center">
@@ -1998,6 +1999,7 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
             </div>
         </div>
     </div>
+
     <!--Script decrementation -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
@@ -2018,7 +2020,7 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
         });
     </script>
 
-    <!-- Modifier Modal -->
+    <!-- TABLEAU JOINTURE -->
     <div class="slim4">
         <div class="custom-modal4">
             <div class="modal-content">
@@ -2029,8 +2031,8 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
             </div>
         </div>
     </div>
-        <!-- Modifier Modal -->
-        <div class="slim5">
+    <!-- Modifier Modal -->
+    <div class="slim5">
         <div class="custom-modal5">
             <div class="modal-content">
                 <h5>Modifier Participation</h5>
@@ -2086,26 +2088,26 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
             </div>
         </div>
     </div>
-
+    <!--JOINTURE -->
     <script>
         // Gestionnaire d'événements clic sur le bouton "Participant"
-$('.btn-primary5').on('click', function() {
-    // Récupérez l'ID de l'événement à partir de l'attribut data-id du bouton
-    var eventId = $(this).data('id');
+        $('.btn-primary5').on('click', function() {
+            // Récupérez l'ID de l'événement à partir de l'attribut data-id du bouton
+            var eventId = $(this).data('id');
 
-    // Envoyez une requête AJAX pour récupérer les participants de cet événement
-    $.ajax({
-        type: 'POST',
-        url: 'get_participants.php',
-        data: { eventId: eventId },
-        success: function(response) {
-            // Affichez les participants dans la modalité
-            $('#participantsList').html(response);
-        }
-    });
-});
-
-
+            // Envoyez une requête AJAX pour récupérer les participants de cet événement
+            $.ajax({
+                type: 'POST',
+                url: 'get_participants.php',
+                data: {
+                    eventId: eventId
+                },
+                success: function(response) {
+                    // Affichez les participants dans la modalité
+                    $('#participantsList').html(response);
+                }
+            });
+        });
     </script>
 </body>
 

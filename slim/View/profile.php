@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user'])) {
+  header('Location: .php');
+  exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -110,10 +119,10 @@
           <div class="col-auto my-auto">
             <div class="h-100">
               <h5 class="mb-1">
-                Slim Sassi
+                <?php echo htmlspecialchars($_SESSION['user']['nom']); ?> <?php echo htmlspecialchars($_SESSION['user']['prenom']); ?>
               </h5>
               <p class="mb-0 font-weight-bold text-sm">
-                Etudiant
+                <?php echo htmlspecialchars($_SESSION['user']['role']); ?>
               </p>
             </div>
           </div>
@@ -123,11 +132,11 @@
                 <li class="nav-item">
                   <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
                     <i class="ni ni-settings-gear-65"></i>
-                    <select class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center">
-                      <option value="" disabled selected hidden>Parametres</option>
+                    <select id="settingsDropdown" class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center">
+                      <option value="" disabled selected hidden>Paramètres</option>
                       <option value="option1">Aide et assistance</option>
                       <option value="option2">Confidentialité</option>
-                      <option value="option3">Deconnexion</option>
+                      <option value="option3">Déconnexion</option>
                       <!-- Ajoutez autant d'options que nécessaire -->
                     </select>
                   </a>
@@ -155,25 +164,26 @@
                     <!-- Id -->
                     <div class="form-group">
                       <label for="id" class="form-control-label">Identifiant</label>
-                      <input id="id" class="form-control" type="text" disabled>
+                      <input id="id" class="form-control" type="text" value="<?php echo htmlspecialchars($_SESSION['user']['id']); ?>" disabled>
                     </div>
+
                     <!-- Nom -->
                     <div class="form-group">
                       <label for="NE" class="form-control-label">Nom</label>
                       <div id="NN" class="invalid-feedback">Le nom est invalide </div>
-                      <input id="nom" class="form-control" type="text" >
+                      <input id="nom" class="form-control" type="text" value="<?php echo htmlspecialchars($_SESSION['user']['nom']); ?>">
                     </div>
                     <!-- Date de naissance -->
                     <div class="form-group">
                       <label for="date_naissance" class="form-control-label">Date de naissance</label>
                       <div id="DE" class="invalid-feedback">La Date est invalide </div>
-                      <input id="DD" class="form-control" type="date">
+                      <input id="DD" class="form-control" type="date" value="<?php echo htmlspecialchars($_SESSION['user']['date_n']); ?>">
                     </div>
                     <!-- Téléphone -->
                     <div class="form-group">
                       <label for="telephone" class="form-control-label">Téléphone</label>
                       <div id="TE" class="invalid-feedback">Le numero est invalide </div>
-                      <input id="TT" class="form-control" type="text" >
+                      <input id="TT" class="form-control" type="text" value="<?php echo htmlspecialchars($_SESSION['user']['tel']); ?>">
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -181,24 +191,24 @@
                     <div class="form-group">
                       <label for="prenom" class="form-control-label">Prénom</label>
                       <div id="PE" class="invalid-feedback">Le prenom est invalide </div>
-                      <input id="PP" class="form-control" type="text" >
+                      <input id="PP" class="form-control" type="text" value="<?php echo htmlspecialchars($_SESSION['user']['prenom']); ?>">
                     </div>
                     <!-- Cin -->
                     <div class="form-group">
                       <label for="cin" class="form-control-label">CIN</label>
                       <div id="NI" class="invalid-feedback">La CIN est invalide </div>
-                      <input id="cin" class="form-control" type="text" >
+                      <input id="cin" class="form-control" type="text" value="<?php echo htmlspecialchars($_SESSION['user']['cin']); ?>">
                     </div>
                     <!-- Mail -->
                     <div class="form-group">
                       <label for="email" class="form-control-label">Mail</label>
                       <div id="MI" class="invalid-feedback">L'email est invalide </div>
-                      <input id="MM" class="form-control" type="text" >
+                      <input id="MM" class="form-control" type="text" value="<?php echo htmlspecialchars($_SESSION['user']['mail']); ?>">
                     </div>
                     <!-- Rôle -->
                     <div class="form-group">
                       <label for="role" class="form-control-label">Rôle</label>
-                      <select class="form-control" id="role" >
+                      <select class="form-control" id="role" value="<?php echo htmlspecialchars($_SESSION['user']['role']); ?>">
                         <option value="Recruteur">Recruteur</option>
                         <option value="Etudiant">Étudiant</option>
                         <option value="Professionnel">Professionnel</option>
@@ -206,9 +216,9 @@
                     </div>
                     <!-- Etablissement -->
                     <div class="form-group text-center">
-                      <label for="etablissement" class="form-control-label text-center">Etablissement</label>
+                      <label for="etablissement" class="form-control-label">Etablissement</label>
                       <div id="EE" class="invalid-feedback">L'etablissement est invalide </div>
-                      <input id="ETAB" class="form-control" type="text" value="ESPRIT">
+                      <input id="ETAB" class="form-control" type="text" value="ESPRIT" value="<?php echo htmlspecialchars($_SESSION['user']['etab']); ?>">
                     </div>
                     <!-- Bouton Modifier -->
                     <div class="form-group d-flex justify-content-end">
@@ -371,138 +381,149 @@
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script >
-  document.addEventListener('DOMContentLoaded', function() {
-    // Sélection des éléments du formulaire
-    var nomInput = document.getElementById('nom');
-    var DateInput = document.getElementById('DD');
-    var prenomInput = document.getElementById('PP');
-    var TelInput = document.getElementById('TT');
-    var CinInput = document.getElementById('cin');
-    var MailInput = document.getElementById('MM');
-    var ETInput = document.getElementById('MP');
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Sélection des éléments du formulaire
+      var nomInput = document.getElementById('nom');
+      var DateInput = document.getElementById('DD');
+      var prenomInput = document.getElementById('PP');
+      var TelInput = document.getElementById('TT');
+      var CinInput = document.getElementById('cin');
+      var MailInput = document.getElementById('MM');
+      var ETInput = document.getElementById('MP');
 
-    // Sélection des éléments d'erreur
-    var nomError = document.getElementById('NN');
-    var DateError = document.getElementById('DE');
-    var TelError = document.getElementById('TE');
-    var prenomError = document.getElementById('PE');
-    var CinError = document.getElementById('NI');
-    var MailError = document.getElementById('MI');
-    var ETError = document.getElementById('EP');
+      // Sélection des éléments d'erreur
+      var nomError = document.getElementById('NN');
+      var DateError = document.getElementById('DE');
+      var TelError = document.getElementById('TE');
+      var prenomError = document.getElementById('PE');
+      var CinError = document.getElementById('NI');
+      var MailError = document.getElementById('MI');
+      var ETError = document.getElementById('EP');
 
-    ETInput.addEventListener('input', function() {
+      ETInput.addEventListener('input', function() {
         if (!validateNom(ETInput.value)) {
           ETError.style.display = 'block';
         } else {
           ETError.style.display = 'none';
         }
-    });
-    MailInput.addEventListener('input', function() {
+      });
+      MailInput.addEventListener('input', function() {
         if (!validateEmail(MailInput.value)) {
           MailError.style.display = 'block';
         } else {
           MailError.style.display = 'none';
         }
-    });
-    TelInput.addEventListener('input', function() {
+      });
+      TelInput.addEventListener('input', function() {
         if (!validateCIN(TelInput.value)) {
           TelError.style.display = 'block';
         } else {
           TelError.style.display = 'none';
         }
-    });
+      });
 
-    // Événement pour le champ Nom
-    Cin2Input.addEventListener('input', function() {
+      // Événement pour le champ Nom
+      Cin2Input.addEventListener('input', function() {
         if (!validateCIN(Cin2Input.value)) {
           Cin2Error.style.display = 'block';
         } else {
           Cin2Error.style.display = 'none';
         }
-    });
-    CinInput.addEventListener('input', function() {
+      });
+      CinInput.addEventListener('input', function() {
         if (!validateCIN(CinInput.value)) {
           CinError.style.display = 'block';
         } else {
           CinError.style.display = 'none';
         }
-    });
+      });
 
-    // Événement pour le champ Nom
-    nomInput.addEventListener('input', function() {
+      // Événement pour le champ Nom
+      nomInput.addEventListener('input', function() {
         if (!validateNom(nomInput.value)) {
-            nomError.style.display = 'block';
+          nomError.style.display = 'block';
         } else {
-            nomError.style.display = 'none';
+          nomError.style.display = 'none';
         }
-    });
-    //prenom
+      });
+      //prenom
 
-    prenomInput.addEventListener('input', function() {
+      prenomInput.addEventListener('input', function() {
         if (!validateNom(prenomInput.value)) {
           prenomError.style.display = 'block';
         } else {
           prenomError.style.display = 'none';
         }
-    });
-    //Date
+      });
+      //Date
 
-    DateInput.addEventListener('input', function() {
+      DateInput.addEventListener('input', function() {
         if (!validateAge(DateInput.value)) {
           DateError.style.display = 'block';
         } else {
           DateError.style.display = 'none';
         }
-    });
-    // Validation du nom
-    function validateNom(nom) {
+      });
+      // Validation du nom
+      function validateNom(nom) {
         var nomRegex = /^[a-zA-Z\s]+$/;
         return nom.length > 3 && nomRegex.test(nom);
-    }
-    //Validation du prenom 
-    function validatePrenom(prenom) {
+      }
+      //Validation du prenom 
+      function validatePrenom(prenom) {
         var nomRegex = /^[a-zA-Z\s]+$/;
         return prenom.length > 3 && nomRegex.test(prenom);
-    }
-    //Date
-    function validateAge(date) {
+      }
+      //Date
+      function validateAge(date) {
         // Convertir la chaîne de date en objet Date
         var birthDate = new Date(date);
-        
+
         // Obtenir la date actuelle
         var today = new Date();
-        
+
         // Calculer la date il y a 18 ans
         var eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
-        
+
         // Comparer les dates
         return birthDate <= eighteenYearsAgo;
-    }
-    //CIN 
-    function validateCIN(cin) {
+      }
+      //CIN 
+      function validateCIN(cin) {
         var cinRegex = /^[0-9]*$/;
         return cin.length === 8 && cinRegex.test(cin);
-    }
-    //Tel 
-    function validateTel(cin) {
+      }
+      //Tel 
+      function validateTel(cin) {
         var cinRegex = /^[0-9]*$/;
         return cin.length === 8 && cinRegex.test(cin);
-    }
-    //EMAIL 
-    function validateEmail(email) {
+      }
+      //EMAIL 
+      function validateEmail(email) {
         var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
-    }
-    //MDP
-    function validateMotDePasse(motDePasse) {
+      }
+      //MDP
+      function validateMotDePasse(motDePasse) {
         // Expression régulière pour vérifier si le mot de passe contient au moins un caractère spécial, un chiffre et une lettre
         var regex = /^(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,}$/;
         return regex.test(motDePasse);
-    }
-});
+      }
+    });
+  </script>
 
-</script>
+  <script>
+    document.getElementById('settingsDropdown').addEventListener('change', function() {
+      var value = this.value;
+      if (value === 'option3') { // Si l'utilisateur sélectionne 'Déconnexion'
+        window.location.href = 'logout.php'; // Appelle le script PHP qui gère la déconnexion
+      }
+      // Ajoutez d'autres conditions si nécessaire
+    });
+  </script>
+
+
 </body>
 
 </html>

@@ -25,7 +25,7 @@ class eventC
             $tableHTML .= '<th>Date</th>';
             $tableHTML .= '<th>Lieu</th>';
             $tableHTML .= '<th>Nombre de places</th>';
-            $tableHTML .= '<th>Les places disponibles</th>'; 
+            $tableHTML .= '<th>Les places disponibles</th>';
             $tableHTML .= '<th>Action</th>'; // Nouvelle colonne pour les boutons d'action
             $tableHTML .= '</tr>';
             $tableHTML .= '</thead>';
@@ -53,7 +53,7 @@ class eventC
                     '" data-date="' . htmlspecialchars($row['date']) .
                     '" data-lieu="' . htmlspecialchars($row['lieu']) .
                     '" data-nb_places="' . htmlspecialchars($row['nb_places']) . '">Modifier</button></td>';
-                    $tableHTML .= '<td><button class=" btn btn-primary5" data-id="' . $row['id'] . '">Partcipant</button></td>';
+                $tableHTML .= '<td><button class=" btn btn-primary5" data-id="' . $row['id'] . '">Partcipant</button></td>';
                 $tableHTML .= '</tr>';
             }
             $tableHTML .= '</tbody>';
@@ -106,6 +106,9 @@ class eventC
             return 0; // Si la connexion échoue, retourner 0
         }
     }
+
+
+
     //Inscription Aujourd'hui 
     public function NouveauInscription()
     {
@@ -361,7 +364,7 @@ class participationC
 
             $tableHTML .= '</tbody>';
             $tableHTML .= '</table>';
-            
+
             return $tableHTML;
         } catch (PDOException $e) {
             echo 'Échec de connexion : ' . $e->getMessage();
