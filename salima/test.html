@@ -1,0 +1,41 @@
+<html>
+<body>
+
+    <h1>
+        Notification
+    </h1>
+</body>
+
+
+
+<script>
+    if ("Notification" in window){
+    if (Notification.permission === 'granted'){
+      notify();
+    }
+    else {
+        Notification.requestPermission().then(() => {
+            if (res === 'granted'){
+                notify();
+            }else if (res === 'denied'){
+                console.log("notif denied");
+            }else if (res === 'default'){
+                console.log("notif permission not given");
+            }
+        })
+    }}else {
+        console.error("notif not supported");
+    }
+
+function notify(){
+    new Notification("PioPro",{
+        body: `Nouveau evennement est là`,
+        icon: `.\logo 1.png`
+    }
+
+    );
+}
+</script>
+
+
+</html>

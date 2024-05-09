@@ -1,109 +1,101 @@
 <?php
 class Event{
-    private string $img, $statut, $lieu, $description;
-    private int $id, $nb_places;
-    private float $cout;
-    private DateTime date;
-    public function getid()
-    {
+    private $id, $nb_places;
+    private $img, $titre, $statut, $lieu, $description;
+    private $cout;
+    private $date;
+
+    public function getId() {
         return $this->id;
     } 
-    public function setid($id)
-    {
-        $this->id = $id;
 
+    public function setId($id) {
+        $this->id = $id;
         return $this;
     }
     
-    public function getdescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
-    public function setdescription($description)
-    {
-        $this->description = $description;
 
+    public function setDescription($description) {
+        $this->description = $description;
         return $this;
     }
-    //
-    public function getimg()
-    {
+
+    public function getImg() {
         return $this->img;
     }
-    public function setimg($img)
-    {
-        $this->img = $img;
 
+    public function setImg($img) {
+        $this->img = $img;
         return $this;
     }
-    //
-    public function getcout()
-    {
+
+    public function getCout() {
         return $this->cout;
     }
-    public function setcout($cout)
-    {
-        $this->cout = $cout;
 
+    public function setCout($cout) {
+        $this->cout = $cout;
         return $this;
     }
-    //
-    public function getstatut()
-    {
+
+    public function getStatut() {
         return $this->statut;
     }
-    public function setstatut($statut)
-    {
-        $this->statut = $statut;
 
+    public function setStatut($statut) {
+        $this->statut = $statut;
         return $this;
     }
-    //
-    public function getdate()
-    {
+
+    public function getDate() {
         return $this->date;
     }
-    public function setdate($date)
-    {
-        $this->date = $date;
 
+    public function setDate($date) {
+        $this->date = $date;
         return $this;
     }
 
-    //
-    public function getlieu()
-    {
+    public function getLieu() {
         return $this->lieu;
     }
-    public function setlieu($lieu)
-    {
-        $this->lieu = $lieu;
 
+    public function setLieu($lieu) {
+        $this->lieu = $lieu;
         return $this;
     }
-    //
-    public function getnb_places()
-    {
+
+    public function getNbPlaces() {
         return $this->nb_places;
     }
-    public function setnb_places($nb_places)
-    {
-        $this->nb_places = $nb_places;
 
+    public function setNbPlaces($nb_places) {
+        $this->nb_places = $nb_places;
         return $this;
     }
    
-    public function __construct(int $id,  string $description, string $img, float $cout, string $statut, DateTime $date, string $lieu, int $nb_places)
-    {
-        $this->id=$id;
-        $this->description=$description;
-        $this->img=$img;
-        $this->cout=$cout;
-        $this->statut=$statut;
-        $this->date=$date;
-        $this->lieu=$lieu;
-        $this->nb_places=$nb_places;
-        
+    public function getTitre() {
+        return $this->titre;
+    }
+
+    public function setTitre($titre) {
+        $this->titre = $titre;
+        return $this;
+    }
+
+    public function __construct($id, $titre, $description, $img, $cout, $statut, $date, $lieu, $nb_places) {
+        $this->setId($id);
+        $this->setTitre($titre);
+        $this->setDescription($description);
+        $this->setImg($img);
+        $this->setCout($cout);
+        $this->setStatut($statut);
+        $this->setDate($date);
+        $this->setLieu($lieu);
+        $this->setNbPlaces($nb_places);
     }
 }
 ?>
