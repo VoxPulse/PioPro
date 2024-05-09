@@ -9,7 +9,12 @@ class EntretiensC
         try 
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             $requete = $conn->prepare("SELECT * FROM entretiens");
+=======
+            $requete = $conn->prepare("SELECT * FROM entretiens
+        ");
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 =======
             $requete = $conn->prepare("SELECT * FROM entretiens
         ");
@@ -26,27 +31,39 @@ class EntretiensC
         }
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     public function addOffre($id, $date , $heure , $statut , $url , $id_user, $id_offre)
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
     public function addentretiens($id , $date , $heure , $statut , $url , $id_user, $id_offre)
 =======
     public function addentretiens($id , $date , $heure , $statut , $url , $id_user, $id_off)
 >>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
+<<<<<<< HEAD
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
+=======
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
     {
         $conn = config::getConnexion();
         try 
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             $requete = $conn->prepare("INSERT INTO entretiens (id, date , heure, statut, url ,  id_user, id_offre) VALUES (:id, :date , :heure, :statut , :url, :id_user, :id_offre )");
 =======
+=======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
             $requete = $conn->prepare("INSERT INTO entretiens
 <<<<<<< HEAD
          (id, date , heure, statut, url ,  id_user, id_offre) VALUES (:id, :date , :heure, :statut , :url, :id_user, :id_offre )");
 =======
          (id, date , heure, statut, url ,  id_user, id_off) VALUES (:id, :date , :heure, :statut , :url, :id_user, :id_off )");
 >>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
+<<<<<<< HEAD
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
+=======
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
             $requete->bindParam(':id', $id);
             $requete->bindParam(':date', $date);
@@ -56,17 +73,23 @@ class EntretiensC
             $requete->bindParam(':id_user', $id_user);
 <<<<<<< HEAD
             $requete->bindParam(':id_offre', $id_offre);
+<<<<<<< HEAD
             if($requete->execute());
             echo 'entretiens ajouté avec succès';
 =======
 <<<<<<< HEAD
             $requete->bindParam(':id_offre', $id_offre);
 =======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
+=======
             $requete->bindParam(':id_off', $id_off);
 >>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
             if($requete->execute());
             echo 'entretiens
          ajouté avec succès';
+<<<<<<< HEAD
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
+=======
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
         } 
         catch (PDOException $e) 
@@ -78,7 +101,12 @@ class EntretiensC
     public function updateentretiens($id , $date , $heure , $statut , $url , $id_user, $id_offre)
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
     public function updateentretiens($id , $date , $heure , $statut , $url , $id_user, $id_offre)
+=======
+    public function updateentretiens($id , $date , $heure , $statut , $url , $id_user, $id_off)
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 =======
     public function updateentretiens($id , $date , $heure , $statut , $url , $id_user, $id_off)
 >>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
@@ -88,14 +116,20 @@ class EntretiensC
         try 
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             $requete = $conn->prepare("UPDATE entretiens SET date = :date, heure = :heure, statut = :statut, url = :url , id_user=:id_user  WHERE id = :id");
 =======
+=======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
             $requete = $conn->prepare("UPDATE entretiens
 <<<<<<< HEAD
          SET date = :date, heure = :heure, statut = :statut, url = :url , id_user=:id_user, id_offre=:id_offre  WHERE id = :id");
 =======
          SET date = :date, heure = :heure, statut = :statut, url = :url , id_user=:id_user, id_off=:id_off  WHERE id = :id");
 >>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
+<<<<<<< HEAD
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
+=======
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
             $requete->bindParam(':id', $id);
             $requete->bindParam(':date', $date);
@@ -105,6 +139,7 @@ class EntretiensC
             $requete->bindParam(':id_user', $id_user);
 <<<<<<< HEAD
             $requete->bindParam(':id_offre', $id_offre);
+<<<<<<< HEAD
             if ($requete->execute()) 
             {
                 echo 'entretiens mise à jour avec succès';
@@ -114,6 +149,8 @@ class EntretiensC
 =======
 <<<<<<< HEAD
             $requete->bindParam(':id_offre', $id_offre);
+=======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 =======
             $requete->bindParam(':id_off', $id_off);
 >>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
@@ -125,6 +162,9 @@ class EntretiensC
             {
                 echo 'Échec de la mise à jour de la entretiens
             ';
+<<<<<<< HEAD
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
+=======
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
             }
         } 
@@ -139,6 +179,7 @@ class EntretiensC
         try 
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             $requete = $conn->prepare("DELETE FROM entretiens WHERE id = :id");
             $requete->bindParam(':id', $id);
             if ($requete->execute()) 
@@ -148,6 +189,8 @@ class EntretiensC
             {
                 echo 'Échec lors de la suppression de la entretiens';
 =======
+=======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
             $requete = $conn->prepare("DELETE FROM entretiens
          WHERE id = :id");
             $requete->bindParam(':id', $id);
@@ -159,6 +202,9 @@ class EntretiensC
             {
                 echo 'Échec lors de la suppression de la entretiens
             ';
+<<<<<<< HEAD
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
+=======
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
             }
         } 
@@ -168,12 +214,15 @@ class EntretiensC
         }
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     public function getOffre($id)
     {
         $entretiens = new entretiens ();
         $conn = config::getConnexion();
         $requete = $conn->prepare("SELECT * FROM entretiens WHERE id = :id");
 =======
+=======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
     public function getentretiens($id)
     {
         $entretiens
@@ -182,6 +231,9 @@ class EntretiensC
         $conn = config::getConnexion();
         $requete = $conn->prepare("SELECT * FROM entretiens
      WHERE id = :id");
+<<<<<<< HEAD
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
+=======
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
         $requete->bindParam(':id', $id);
         $requete->execute();
@@ -189,6 +241,7 @@ class EntretiensC
         if($count > 0)
         {
             $resultat = $requete->fetch(PDO::FETCH_ASSOC);
+<<<<<<< HEAD
 <<<<<<< HEAD
             $entretiens->setId ( $resultat['id'] );
             $entretiens->setdate ( $resultat['date']);
@@ -241,6 +294,8 @@ class EntretiensC
     }
 }
 =======
+=======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
             $entretiens
         ->setId ( $resultat['id'] );
             $entretiens
@@ -269,6 +324,9 @@ class EntretiensC
      ;
     }
     
+<<<<<<< HEAD
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
+=======
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 }
 

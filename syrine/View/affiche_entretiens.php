@@ -2,6 +2,7 @@
 <?php
     include 'C:\wamp64\www\VoxPulse4\Controller\entretiensC.php';
 <<<<<<< HEAD
+<<<<<<< HEAD
     $entretiens = new EntretiensC();
     if(isset($_GET['option']))
     {
@@ -39,6 +40,8 @@
         $table.= "<td > <a class='btn btn-primary' href='modifier_entretiens.php?id=" . $row['id']. "'>modifier</a></td>" ;
         $table.= '</tr>';
 =======
+=======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
     $entretiens = new entretiensC();
     $resultat=$entretiens->afficher();
     $tableHTML = '<table class="table">';
@@ -65,6 +68,9 @@
         $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_entretiens.php?id=" . $row['id']. "'>suprimer</a></td>" ;
         $tableHTML .= "<td > <a class='btn btn-primary' href='modifier_entretiens.php?id=" . $row['id']. "'>modifier</a></td>" ;
         $tableHTML .= '</tr>';
+<<<<<<< HEAD
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
+=======
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
     }
 ?>
@@ -101,7 +107,12 @@
         window.location.href = "ajout_entretiensView.html";
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
         window.location.href = "ajout_entretiensView.html";
+=======
+        window.location.href = "ajout_*entretiensView.html";
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 =======
         window.location.href = "ajout_*entretiensView.html";
 >>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
@@ -114,8 +125,11 @@
   <!-- Ajoutez le lien vers jQuery si nécessaire -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
 
+=======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 =======
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
     
@@ -405,6 +419,7 @@
     <!-- Ajout du bouton -->
     <button class="btn btn-success" onclick="redirigerVersAutreFichier()" >Ajouter Un entretiens</button>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <button class="btn btn-success" onclick="exportToPDF()" >PDF</button>
 </div>
 <div class="card-body p-3" style="max-height: 5000px; overflow-y: auto;">
@@ -419,12 +434,17 @@
         <tbody>
           <?php echo $table;?> 
 =======
+=======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 </div>
 
     <div class="card-body p-3" style="max-height: 280px; overflow-y: auto;">
       <table class="table align-items-center ">
         <tbody>
           <?php echo $tableHTML;?> 
+<<<<<<< HEAD
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
+=======
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
         </tbody>
       </table>
@@ -432,6 +452,7 @@
   </div>
 
   </main>
+<<<<<<< HEAD
 <<<<<<< HEAD
   <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -500,6 +521,8 @@
         });
     }
 </script>
+=======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 =======
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
   

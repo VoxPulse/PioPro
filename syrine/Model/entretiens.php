@@ -8,9 +8,12 @@ class Entretiens
     private string $url;
     private int $id_user;
 <<<<<<< HEAD
+<<<<<<< HEAD
     private int $id_offre;
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
     private int $offre_emploi;
     public static function getoffreemploifromentretiens()
     {
@@ -42,6 +45,9 @@ class Entretiens
 =======
     private int $id_off;
 >>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
+<<<<<<< HEAD
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
+=======
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 
     // Setter pour l'ID
@@ -96,7 +102,11 @@ class Entretiens
 
     // Setter pour la catégorie
 <<<<<<< HEAD
+<<<<<<< HEAD
     public function setid_user(string $id_user): void {
+=======
+    public function setid_user(int $id_user): void {
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 =======
     public function setid_user(int $id_user): void {
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
@@ -109,6 +119,7 @@ class Entretiens
     }
 <<<<<<< HEAD
     // Setter pour la catégorie
+<<<<<<< HEAD
     public function setid_offre(string $id_offre): void {
         $this->id_offre = $id_offre;
     }
@@ -120,6 +131,8 @@ class Entretiens
 =======
 <<<<<<< HEAD
     // Setter pour la catégorie
+=======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
     public function setoffre_emploi(int $offre_emploi): void {
         $this->offre_emploi = $offre_emploi;
     }
@@ -139,6 +152,9 @@ class Entretiens
         return $this->id_off;
     }
 >>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
+<<<<<<< HEAD
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
+=======
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 }
 ?>

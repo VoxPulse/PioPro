@@ -3,6 +3,7 @@
     include 'C:\wamp64\www\VoxPulse4\Controller\offre_emploiC.php';
     $offre_emploi = new Offre_emploiC();
 <<<<<<< HEAD
+<<<<<<< HEAD
     if(isset($_GET['option']))
     {
         $resultat=$offre_emploi->afficher($_GET['option']);
@@ -13,6 +14,9 @@
         $resultat=$offre_emploi->afficher("id");
         $char = "id" ;
     }
+=======
+    $resultat=$offre_emploi->afficher();
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 =======
     $resultat=$offre_emploi->afficher();
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
@@ -46,8 +50,14 @@
        /* $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "'>suprimer</a></td>" ;*/
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
         $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "' onclick='return confirmDelete();'>Supprimer</a></td>";
        /* $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "'>suprimer</a></td>" ;*/
+=======
+        $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "'>suprimer</a></td>" ;
+>>>>>>> 355c956eac4eef2648e55fce1160df4743d97bdc
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 =======
         $tableHTML .= "<td > <a class='btn btn-danger btn-supprimer' href='suprimer_offreEmploi.php?id=" . $row['id']. "'>suprimer</a></td>" ;
 >>>>>>> 355c956eac4eef2648e55fce1160df4743d97bdc
@@ -375,7 +385,11 @@
       </div>
     </form>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <div class="row mt-4" style="max-height: 800px; overflow-y: auto; width: 175%; margin: auto;">
+=======
+      <div class="row mt-4">
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 =======
       <div class="row mt-4">
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
@@ -386,6 +400,7 @@
     <!-- Ajout du bouton -->
 <<<<<<< HEAD
     <button class="btn btn-success" onclick="redirigerVersAutreFichier()" >Ajouter Un offre</button>
+<<<<<<< HEAD
     <button class="btn btn-primary" onclick="imprimerTableau()">Imprimer</button>
 
 </div>
@@ -402,6 +417,8 @@
 =======
 <<<<<<< HEAD
     <button class="btn btn-success" onclick="redirigerVersAutreFichier()" >Ajouter Un offre</button>
+=======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
     <button class="btn btn-success" onclick="trierPardate()" >Trier</button>
 </div>
 
@@ -413,19 +430,26 @@
     <div class="card-body p-3" style="max-height: 280px; overflow-y: auto;">
 >>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
       <table class="table align-items-center ">
+<<<<<<< HEAD
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
+=======
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
         <tbody>
           <?php echo $tableHTML;?> 
         </tbody>
       </table>
 <<<<<<< HEAD
+<<<<<<< HEAD
       
+=======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 =======
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
     </div>
   </div>
 
   </main>
+<<<<<<< HEAD
 <<<<<<< HEAD
   <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -489,6 +513,9 @@ function imprimerTableau() {
 }
 </script>
 
+=======
+  
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 =======
   
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4

@@ -4,7 +4,11 @@ include 'C:\wamp64\www\VoxPulse4\Model\offre_emploi.php';
 class Offre_emploiC
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
     public function afficher($atr)
+=======
+    public function afficher()
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 =======
     public function afficher()
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
@@ -13,7 +17,11 @@ class Offre_emploiC
         try 
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             $requete = $conn->prepare("SELECT * FROM offre_emploi order by $atr");
+=======
+            $requete = $conn->prepare("SELECT * FROM offre_emploi");
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 =======
             $requete = $conn->prepare("SELECT * FROM offre_emploi");
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
@@ -32,14 +40,20 @@ class Offre_emploiC
     public function addOffre($id, $titre_p , $description , $date_fin , $salaire , $categorie)
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
     public function addOffre($id, $titre_p , $description , $date_fin , $salaire , $categorie)
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
     public function addOffre($titre_p , $description , $date_fin , $salaire , $categorie)
 =======
     public function addOffre($id , $titre_p , $description , $date_fin , $salaire , $categorie)
 >>>>>>> 355c956eac4eef2648e55fce1160df4743d97bdc
 >>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
+<<<<<<< HEAD
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
+=======
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
     {
         $conn = config::getConnexion();
@@ -50,16 +64,22 @@ class Offre_emploiC
             $requete->bindParam(':id', $id);
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
             $requete = $conn->prepare("INSERT INTO offre_emploi (id, titre_p , description, date_fin, salaire ,  categorie) VALUES (:id, :titre_p , :description, :date_fin , :salaire, :categorie )");
             $requete->bindParam(':id', $id);
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
             $requete = $conn->prepare("INSERT INTO offre_emploi (titre_p , description, date_fin, salaire ,  categorie) VALUES (:titre_p , :description, :date_fin , :salaire, :categorie )");
 =======
             $requete = $conn->prepare("INSERT INTO offre_emploi (id, titre_p , description, date_fin, salaire ,  categorie) VALUES (:id, :titre_p , :description, :date_fin , :salaire, :categorie )");
             $requete->bindParam(':id', $id);
 >>>>>>> 355c956eac4eef2648e55fce1160df4743d97bdc
 >>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
+<<<<<<< HEAD
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
+=======
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
             $requete->bindParam(':titre_p', $titre_p);
             $requete->bindParam(':description', $description);
@@ -161,8 +181,11 @@ class Offre_emploiC
         }
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
+=======
 >>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 
 
@@ -184,6 +207,11 @@ class Offre_emploiC
     }
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
+>>>>>>> e72f15fd92f545167b15a4b29c6ff0b2ee793eb4
 =======
 =======
 >>>>>>> 41603468a7b9e0a441fe033d2ce13621c1f62433
