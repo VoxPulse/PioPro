@@ -1,8 +1,7 @@
+
 <?php
-include 'C:\wamp64\www\VoxPulse\Model\config.php';
-
-
-
+include 'C:\wamp64\www\VoxPulse\Controller\UserC.php';
+$E = new UserC;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,6 +91,9 @@ include 'C:\wamp64\www\VoxPulse\Model\config.php';
                                             <div id="emailError" class="invalid-feedback">
                                                 Veuillez saisir une adresse email valide.
                                             </div>
+                                            <div id="existError" class="invalid-feedback">
+                                                Veuillez saisir une adresse email valide.
+                                            </div>
                                             <input type="email" id="email" name="email" class="form-control form-control-lg" placeholder="Email" aria-label="Email">
                                         </div>
                                         <button type="submit" class="btn btn-primary">Envoyer un mail</button>
@@ -150,27 +152,25 @@ include 'C:\wamp64\www\VoxPulse\Model\config.php';
 
             //
             var MailError = document.getElementById('emailError');
-
+            var MailError2 = document.getElementById('existError');
+            
             myForm.addEventListener('submit', function(event) {
                 // Initialisation du compteur d'erreurs
                 var errors = 0;
 
                 // Événement pour le champ Nom
-                ailInput.addEventListener('input', function() {
+                MailInput.addEventListener('input', function() {
                     if (!validateEmail(ailInput.value)) {
                         MailError.style.display = 'block';
+                        
                         errors++;
                     } else {
                         MailError.style.display = 'none';
                     }
                 });
 
-
-
                 if (errors > 0) {
-                    event.preventDefault();
-                    alert('Le formulaire contient des erreurs, veuillez les corriger.');
-                }
+                    event.preventDefault();                }
             });
 
             //EMAIL 

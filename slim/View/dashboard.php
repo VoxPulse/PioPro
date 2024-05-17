@@ -1,5 +1,5 @@
 <?php
-include 'C:\wamp64\www\VoxPulse\Controller\UserC.php';
+include  'C:\wamp64\www\VoxPulse\Controller\UserC.php';
 $E = new UserC;
 $USerList = $E->countUsers();
 $UserOnline = $E->UsersOnline();
@@ -46,6 +46,7 @@ if (!isset($_SESSION['user'])) {
   header('Location: sign-in.php');
   exit;
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,14 +62,14 @@ if (!isset($_SESSION['user'])) {
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <!-- Nucleo Icons -->
-  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
-  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <link href="./assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="./assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <link href="./assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- CSS Files -->
-  <link id="pagestyle" href="../assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
-  <link rel="stylesheet" href="../Style.css">
+  <link id="pagestyle" href="./assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+  <link rel="stylesheet" href="Style.css">
   <!-- Supprimer-->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -104,11 +105,11 @@ if (!isset($_SESSION['user'])) {
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="/salima/dashboard.php">
+          <a class="nav-link " href="./salima/dashboard.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Rôles et autorisations </span>
+            <span class="nav-link-text ms-1">Evénements </span>
           </a>
         </li>
         <li class="nav-item">
@@ -116,15 +117,15 @@ if (!isset($_SESSION['user'])) {
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Assistance et support </span>
+            <span class="nav-link-text ms-1">Réclamation </span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="../pages/virtual-reality.html">
+          <a class="nav-link " href="./Syrine/affiche_offreEmploi.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-app text-info text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Authentification et sécurité </span>
+            <span class="nav-link-text ms-1"> Offres d'emploi </span>
           </a>
         </li>
         <li class="nav-item">
@@ -132,18 +133,15 @@ if (!isset($_SESSION['user'])) {
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Notifications et alertes</span>
+            <span class="nav-link-text ms-1">Formation</span>
           </a>
         </li>
-        <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
-        </li>
         <li class="nav-item">
-          <a class="nav-link" href="profile.php"> <!-- Modification ici pour pointer vers un fichier PHP -->
+          <a class="nav-link " href="./nour/dashboard/pages/dashboard.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
+              <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Profile</span>
+            <span class="nav-link-text ms-1">Forum</span>
           </a>
         </li>
       </ul>
@@ -187,7 +185,7 @@ if (!isset($_SESSION['user'])) {
                   <a class="dropdown-item border-radius-md" href="javascript:;">
                     <div class="d-flex py-1">
                       <div class="my-auto">
-                        <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
+                        <img src="./assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
                       </div>
                       <div class="d-flex flex-column justify-content-center">
                         <h6 class="text-sm font-weight-normal mb-1">
@@ -205,7 +203,7 @@ if (!isset($_SESSION['user'])) {
                   <a class="dropdown-item border-radius-md" href="javascript:;">
                     <div class="d-flex py-1">
                       <div class="my-auto">
-                        <img src="../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm bg-gradient-dark  me-3 ">
+                        <img src="./assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm bg-gradient-dark  me-3 ">
                       </div>
                       <div class="d-flex flex-column justify-content-center">
                         <h6 class="text-sm font-weight-normal mb-1">
@@ -320,7 +318,7 @@ if (!isset($_SESSION['user'])) {
                     <div class="numbers">
                       <p class="text-sm mb-0 text-uppercase font-weight-bold"> <strong>Nouveau Utilisateurs</strong> </p>
                       <h5 class="font-weight-bolder">
-                        +<?php echo  $NewUsers; ?>
+                        <?php echo  $NewUsers; ?>
                       </h5>
                     </div>
                   </div>
@@ -415,7 +413,7 @@ if (!isset($_SESSION['user'])) {
                     </form>
                   </div>
 
-                  <div class="input-group mb-3"> 
+                  <div class="input-group mb-3">
                     <!-- Formulaire de tri -->
                     <form action="" method="get">
                       <select class="form-control" id="tri" name="tri" onchange="this.form.submit()">
@@ -688,6 +686,19 @@ if (!isset($_SESSION['user'])) {
                   <div id="EP" class="invalid-feedback">Le Mot de passe est invalide </div>
                   <input type="password" id="MP" name="MotdePasse1">
                 </div>
+                <div class="form-group">
+                  <label for="TA">type_administrateur:</label>
+                  <select id="TA" name="TA" class="form-control" required>
+                    <option value="">--Choisissez Le Type d'administrateur--</option>
+                    <option value="Forum">Forum</option>
+                    <option value="Formation">Formation</option>
+                    <option value="Evenement">Evenement</option>
+                    <option value="ODE">Offre d'emploi</option>
+                    <option value="Admin">Administrateur</option>
+                    <option value="Reclam">Rèclamation</option>
+                  </select>
+                  <div id="DE" class="invalid-feedback">La date est invalide doit être +18</div>
+                </div>
               </div>
             </div>
           </div>
@@ -700,6 +711,7 @@ if (!isset($_SESSION['user'])) {
       </div>
     </div>
   </div>
+
   <!-- Labek-->
   <div class="slim">
     <div class="custom-modal">
@@ -781,6 +793,66 @@ if (!isset($_SESSION['user'])) {
       </div>
     </div>
   </div>
+
+  <div class="slim7">
+    <div class="custom-modal7">
+      <div class="modal-content">
+        <h5>Confirmation</h5>
+        <form action="suppression.php" method="post" id="Form4">
+          <!-- Ajoute un champ de formulaire caché pour contenir l'identifiant de l'utilisateur -->
+          <input type="hidden" name="id" id="userId" value="">
+          <div class="confirmation-message">
+            <!-- Le message de confirmation sera inséré ici par JavaScript -->
+          </div>
+          <hr>
+          <div class="button-container">
+            <button type="submit" class="btn btn-danger btn-Terminer">Terminer</button>
+            <button type="button" class="btn btn-primary btn-Annuler">Annuler</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    function confirmDelete(button) {
+      var userId = button.getAttribute('data-id');
+      var prenom = button.getAttribute('data-prenom');
+      var nom = button.getAttribute('data-name');
+      var email = button.getAttribute('data-email');
+
+      // Afficher la modal
+      var modal = document.querySelector('.custom-modal7');
+      modal.style.display = 'block';
+
+      // Mettre à jour le formulaire de la modal avec l'ID de l'utilisateur
+      var form = document.getElementById('Form4');
+      form.action = '../delete_user.php?id=' + userId; // Met à jour l'action du formulaire
+
+      // Mettre à jour le champ de formulaire caché avec l'ID de l'utilisateur
+      var userIdInput = document.getElementById('userId');
+      userIdInput.value = userId;
+
+      // Mettre à jour le message de confirmation avec des détails de l'utilisateur
+      var confirmationMessage = modal.querySelector('.confirmation-message');
+      confirmationMessage.innerHTML = `
+    <p>Êtes-vous sûr de vouloir supprimer l'utilisateur suivant ?</p>
+    <p><strong>Nom:</strong> ${nom} ${prenom}</p>
+    <p><strong>Email:</strong> ${email}</p>
+  `;
+    }
+
+    // Fermer la modal quand on clique sur Annuler
+    document.querySelector('.btn-Annuler').addEventListener('click', function() {
+      var modal = document.querySelector('.custom-modal7');
+      modal.style.display = 'none';
+    });
+  </script>
+
+
+
+
   <script>
     // Sélectionner les boutons supprimer
     var supprimerButtons = document.querySelectorAll('.btn-supprimer');
@@ -821,7 +893,7 @@ if (!isset($_SESSION['user'])) {
                   })
                   .then(response => response.json())
                   .then(data => {
-                    alert(data.message); // Display message from server
+                    //alert(data.message); // Display message from server
                     location.reload(); // Reload page after delete
                   })
                   .catch(error => console.error('Error:', error));
@@ -844,11 +916,11 @@ if (!isset($_SESSION['user'])) {
   </script>
 
   <!--   Core JS Files   -->
-  <script src="../assets/js/core/popper.min.js"></script>
-  <script src="../assets/js/core/bootstrap.min.js"></script>
-  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
-  <script src="../assets/js/plugins/chartjs.min.js"></script>
+  <script src="./assets/js/core/popper.min.js"></script>
+  <script src="./assets/js/core/bootstrap.min.js"></script>
+  <script src="./assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="./assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="./assets/js/plugins/chartjs.min.js"></script>
   <script>
     var ctx1 = document.getElementById("chart-line").getContext("2d");
 
@@ -997,11 +1069,15 @@ if (!isset($_SESSION['user'])) {
 
       var myForm = document.getElementById('Form4');
 
+      var slimOverlay = document.querySelector('.slim8');
+      var modal = document.querySelector('.custom-modal8');
+
+
       //
       var nom2Input = document.getElementById('upNom');
       var prenom2Input = document.getElementById('PR');
       var Date2Input = document.getElementById('DDN');
-      var Cin2Input = document.getElementById('cin'); 
+      var Cin2Input = document.getElementById('cin');
       var Tel2Input = document.getElementById('tel');
       var Mail2Input = document.getElementById('email');
       var MDP2Input = document.getElementById('mdp');
@@ -1096,7 +1172,6 @@ if (!isset($_SESSION['user'])) {
 
         if (errors > 0) {
           event.preventDefault();
-          alert('Le formulaire contient des erreurs, veuillez les corriger.');
         }
       });
 
@@ -1244,7 +1319,7 @@ if (!isset($_SESSION['user'])) {
         // Si le compteur d'erreurs est supérieur à 0, empêcher l'envoi du formulaire
         if (errors > 0) {
           event.preventDefault();
-          alert('Le formulaire contient des erreurs, veuillez les corriger.');
+
         }
       });
 
@@ -1299,43 +1374,7 @@ if (!isset($_SESSION['user'])) {
     });
   </script>
 
-  <script>
-    var supprimerButtons = document.querySelectorAll('.btn-supprimer');
-    supprimerButtons.forEach(function(button) {
-      button.addEventListener('click', function(event) {
-        event.preventDefault(); // Empêcher le comportement par défaut du bouton (redirection)
-        var userId = button.getAttribute('data-id');
-        // Afficher une boîte de dialogue de prompt pour confirmation
-        var confirmation = prompt("Voulez-vous vraiment supprimer cet utilisateur ? Répondez par 'oui' ou 'non'.");
-        // Vérifier la réponse de l'utilisateur
-        if (confirmation !== null) {
-          var confirmationLowerCase = confirmation.toLowerCase(); // Convertir la réponse en minuscules pour la comparaison
-          if (confirmationLowerCase === "oui") {
-            // Si l'utilisateur répond "oui", effectuer la suppression
-            fetch('../delete_user.php?id=' + userId, {
-                method: 'DELETE'
-              })
-              .then(function(response) {
-                location.reload(); // Rafraîchir la page après la suppression
-              })
-              .catch(function(error) {
-                console.error('Une erreur s\'est produite:', error);
-              });
-          } else if (confirmationLowerCase === "non") {
-            // Si l'utilisateur répond "non", ne rien faire
-            // Rafraîchir la page
-            location.reload();
-          } else {
-            // Si la réponse n'est ni "oui" ni "non", afficher un message d'erreur
-            alert("Réponse invalide. Veuillez répondre par 'oui' ou 'non'.");
-          }
-        } else {
-          // Si l'utilisateur ferme la boîte de dialogue, ne rien faire
-          console.log("Boîte de dialogue fermée.");
-        }
-      });
-    });
-  </script>
+
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       var dropZone = document.getElementById('drop-zone');
@@ -1380,6 +1419,7 @@ if (!isset($_SESSION['user'])) {
     document.addEventListener('DOMContentLoaded', function() {
       var slimOverlay = document.querySelector('.slim');
       var modal = document.querySelector('.custom-modal');
+
 
       // Ajout
       var slim2Overlay = document.querySelector('.slim2');
@@ -1426,8 +1466,10 @@ if (!isset($_SESSION['user'])) {
       supprimerButtons.forEach(function(button) {
         button.addEventListener('click', function() {
           var userId = button.getAttribute('data-id');
-          // Afficher une boîte de dialogue de confirmation
-          var confirmation = prompt("Voulez-vous vraiment supprimer cet utilisateur ? Répondez par 'oui' ou 'non'.");
+          slim7Overlay.style.display = 'flex';
+          modal27.style.display = 'block';
+          slim7Overlay.classList.add('blurred');
+
           if (confirmation !== null) {
             var confirmationLowerCase = confirmation.toLowerCase();
             if (confirmationLowerCase === "oui") {
@@ -1443,7 +1485,7 @@ if (!isset($_SESSION['user'])) {
             } else if (confirmationLowerCase === "non") {
               console.log("Suppression annulée.");
             } else {
-              alert("Réponse invalide. Veuillez répondre par 'oui' ou 'non'.");
+
             }
           } else {
             console.log("Boîte de dialogue fermée.");
@@ -1514,7 +1556,7 @@ if (!isset($_SESSION['user'])) {
   <!--Inactivité-->
   <script>
     // Délai avant la redirection en cas d'inactivité (5 minutes en millisecondes)
-    var TIME_LIMIT = 1 * 60 * 1000; // 5 minutes
+    var TIME_LIMIT = 30 * 60 * 1000; // 30 minutes
 
     var timeoutId;
 
@@ -1526,7 +1568,7 @@ if (!isset($_SESSION['user'])) {
 
     // Fonction de redirection
     function redirectToPage() {
-      window.location.href = 'logout.php'; 
+      window.location.href = 'logout.php';
     }
 
     // Ajoutez les écouteurs d'événements pour la souris et le clavier

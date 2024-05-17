@@ -38,7 +38,7 @@ if (!isset($_SESSION['user'])) {
   <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-      <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html " target="_blank">
+      <a class="navbar-brand m-0" href="../FRONT/index.php" target="_blank">
         <img src="./oneschool-master/images/logo 1.png" class="navbar-brand-img h-100" alt="main_logo">
         <span class="ms-1 font-weight-bold">PioPro</span>
       </a>
@@ -46,7 +46,7 @@ if (!isset($_SESSION['user'])) {
     <hr class="horizontal dark mt-0">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link " href="./oneschool-master/index.html">
+        <a class="nav-link " href="../FRONT/index.php">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
             <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
           </div>
@@ -54,25 +54,25 @@ if (!isset($_SESSION['user'])) {
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link " href="./pages/dashboard.html">
+        <a class="nav-link " href="../FRONT/index.php">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
             <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
           </div>
-          <span class="nav-link-text ms-1">Agenda</span>
+          <span class="nav-link-text ms-1">Evénement</span>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item"> 
         <a class="nav-link " href="./pages/billing.html">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
             <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
           </div>
-          <span class="nav-link-text ms-1">Les Factures</span>
+          <span class="nav-link-text ms-1">Reclamation</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link " href="./pages/rtl.html">
+        <a class="nav-link " href="./Syrine/oneschool-master/index1.php">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
+            <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
           </div>
           <span class="nav-link-text ms-1">Offre d'emploi</span>
         </a>
@@ -85,15 +85,12 @@ if (!isset($_SESSION['user'])) {
           <span class="nav-link-text ms-1">Formation </span>
         </a>
       </li>
-      <li class="nav-item mt-3">
-        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6"></h6>
-      </li>
       <li class="nav-item">
-        <a class="nav-link active" href="./profile.html">
+        <a class="nav-link " href="./nour/front/index.php">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
+            <i class="ni ni-app text-info text-sm opacity-10"></i>
           </div>
-          <span class="nav-link-text ms-1">Profile</span>
+          <span class="nav-link-text ms-1">Forum</span>
         </a>
       </li>
     </ul>
@@ -111,11 +108,7 @@ if (!isset($_SESSION['user'])) {
     <div class="card shadow-lg mx-4 card-profile-bottom">
       <div class="card-body p-3">
         <div class="row gx-4">
-          <div class="col-auto">
-            <div class="avatar avatar-xl position-relative">
-              <img src="img\image0.jpeg" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
-            </div>
-          </div>
+
           <div class="col-auto my-auto">
             <div class="h-100">
               <h5 class="mb-1">
@@ -157,33 +150,33 @@ if (!isset($_SESSION['user'])) {
               </div>
             </div>
             <div class="card-body">
-              <form id="userForm" action="" method="post" onsubmit="return validerFormulaire()">
+              <form id="userForm" action="UPDATEE2.php" method="post" onsubmit="return validerFormulaire()">
                 <p class="text-uppercase text-sm">Informations sur l'utilisateur</p>
                 <div class="row">
                   <div class="col-md-6">
                     <!-- Id -->
                     <div class="form-group">
                       <label for="id" class="form-control-label">Identifiant</label>
-                      <input id="id" class="form-control" type="text" value="<?php echo htmlspecialchars($_SESSION['user']['id']); ?>" disabled>
+                      <input name="id" id="id" class="form-control" type="text" value="<?php echo htmlspecialchars($_SESSION['user']['id']); ?>" disabled>
                     </div>
 
                     <!-- Nom -->
                     <div class="form-group">
                       <label for="NE" class="form-control-label">Nom</label>
                       <div id="NN" class="invalid-feedback">Le nom est invalide </div>
-                      <input id="nom" class="form-control" type="text" value="<?php echo htmlspecialchars($_SESSION['user']['nom']); ?>">
+                      <input name="nom"  id="nom" class="form-control" type="text" value="<?php echo htmlspecialchars($_SESSION['user']['nom']); ?>" disabled>
                     </div>
                     <!-- Date de naissance -->
                     <div class="form-group">
                       <label for="date_naissance" class="form-control-label">Date de naissance</label>
                       <div id="DE" class="invalid-feedback">La Date est invalide </div>
-                      <input id="DD" class="form-control" type="date" value="<?php echo htmlspecialchars($_SESSION['user']['date_n']); ?>">
+                      <input name="DD"  id="DD" class="form-control" type="date" value="<?php echo htmlspecialchars($_SESSION['user']['date_n']); ?>" disabled>
                     </div>
                     <!-- Téléphone -->
                     <div class="form-group">
                       <label for="telephone" class="form-control-label">Téléphone</label>
                       <div id="TE" class="invalid-feedback">Le numero est invalide </div>
-                      <input id="TT" class="form-control" type="text" value="<?php echo htmlspecialchars($_SESSION['user']['tel']); ?>">
+                      <input name="TT"  id="TT" class="form-control" type="text" value="<?php echo htmlspecialchars($_SESSION['user']['tel']); ?>" disabled>
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -191,24 +184,24 @@ if (!isset($_SESSION['user'])) {
                     <div class="form-group">
                       <label for="prenom" class="form-control-label">Prénom</label>
                       <div id="PE" class="invalid-feedback">Le prenom est invalide </div>
-                      <input id="PP" class="form-control" type="text" value="<?php echo htmlspecialchars($_SESSION['user']['prenom']); ?>">
+                      <input name="PP"  id="PP" class="form-control" type="text" value="<?php echo htmlspecialchars($_SESSION['user']['prenom']); ?>" disabled>
                     </div>
                     <!-- Cin -->
                     <div class="form-group">
                       <label for="cin" class="form-control-label">CIN</label>
                       <div id="NI" class="invalid-feedback">La CIN est invalide </div>
-                      <input id="cin" class="form-control" type="text" value="<?php echo htmlspecialchars($_SESSION['user']['cin']); ?>">
+                      <input name="cin"  id="cin" class="form-control" type="text" value="<?php echo htmlspecialchars($_SESSION['user']['cin']); ?>" disabled>
                     </div>
                     <!-- Mail -->
                     <div class="form-group">
                       <label for="email" class="form-control-label">Mail</label>
                       <div id="MI" class="invalid-feedback">L'email est invalide </div>
-                      <input id="MM" class="form-control" type="text" value="<?php echo htmlspecialchars($_SESSION['user']['mail']); ?>">
+                      <input name="MM"  id="MM" class="form-control" type="text" value="<?php echo htmlspecialchars($_SESSION['user']['mail']); ?>" disabled>
                     </div>
                     <!-- Rôle -->
                     <div class="form-group">
                       <label for="role" class="form-control-label">Rôle</label>
-                      <select class="form-control" id="role" value="<?php echo htmlspecialchars($_SESSION['user']['role']); ?>">
+                      <select name="role"  class="form-control" id="role" value="<?php echo htmlspecialchars($_SESSION['user']['role']); ?>" disabled>
                         <option value="Recruteur">Recruteur</option>
                         <option value="Etudiant">Étudiant</option>
                         <option value="Professionnel">Professionnel</option>
@@ -218,12 +211,12 @@ if (!isset($_SESSION['user'])) {
                     <div class="form-group text-center">
                       <label for="etablissement" class="form-control-label">Etablissement</label>
                       <div id="EE" class="invalid-feedback">L'etablissement est invalide </div>
-                      <input id="ETAB" class="form-control" type="text" value="ESPRIT" value="<?php echo htmlspecialchars($_SESSION['user']['etab']); ?>">
+                      <input name="ETAB" id="ETAB" class="form-control" type="text" value="ESPRIT" value="<?php echo htmlspecialchars($_SESSION['user']['etab']); ?>" disabled>
                     </div>
                     <!-- Bouton Modifier -->
                     <div class="form-group d-flex justify-content-end">
                       <button type="submit" class="btn btn-success me-2">Soumettre</button>
-                      <button type="button" class="btn btn-primary" onclick="activerChamps()">Modifier</button>
+                      <button type="button" class="btn btn-primary" id="activateButton" >Modifier</button>
                     </div>
                   </div>
                 </div>
@@ -522,6 +515,22 @@ if (!isset($_SESSION['user'])) {
       // Ajoutez d'autres conditions si nécessaire
     });
   </script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#activateButton').click(function() {
+            $('#nom').removeAttr('disabled').focus();
+            $('#DD').removeAttr('disabled').focus();
+            $('#TT').removeAttr('disabled').focus();
+            $('#PP').removeAttr('disabled').focus();
+            $('#cin').removeAttr('disabled').focus();
+            $('#MM').removeAttr('disabled').focus();
+            $('#role').removeAttr('disabled').focus();
+            $('#ETAB').removeAttr('disabled').focus();
+        });
+    });
+</script>
 
 
 </body>

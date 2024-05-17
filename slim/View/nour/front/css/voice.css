@@ -1,0 +1,29 @@
+
+.controllers .start-recording.inactive {
+    color: #508d00 ;
+    margin-top: 15px;
+    margin-right: 10px;
+    padding: 5px 5px ;
+    border: none ;
+    border-radius: 10px ;
+    cursor: pointer ;
+    font-size: small;
+    background-color: #ededed; 
+
+}
+.controllers .start-recording.active{
+
+    background-color: #83e800;
+
+}
+.controllers .stop-recording {
+    color: white ;
+    margin-top: 10px;
+    padding: 5px 5px ;
+    border: none ;
+    border-radius: 10px ;
+    cursor: pointer ;
+    font-size: small;
+    background-color: #fe1100 ; /* Red background */
+    
+}

@@ -1,5 +1,5 @@
 <?php
-include 'C:\wamp64\www\VoxPulse\Controller\UserC.php';
+include __DIR__ . '\..\Controller\UserC.php';
 
 if (isset($_POST['nom'], $_POST['prenom'], $_POST['cin'], $_POST['telephone'], $_POST['email'], $_POST['role'], $_POST['motdepasse'], $_POST['ddn'], $_POST['etablissement'])) {
     $E = new UserC;

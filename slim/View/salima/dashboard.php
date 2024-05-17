@@ -2,6 +2,7 @@
 
 include 'C:\wamp64\www\VoxPulse\Controller\eventC.php';
 $E = new eventC();
+
 $P = new participationC();
 $listeevent = $E->ListEvent();
 $nombreEvenements = $E->countEvent();
@@ -9,11 +10,71 @@ $nextEventDate = $E->getNextEventDate();
 $sommeCoutsProchainsEvenements = $E->sumEventCosts();
 $nextEventLocation = $E->getNextEventLocation();
 $particition = $P->ListParticipation();
+$Historique = $E->Historique();
 //participation
 $p = new participationC();
 $listparticipation = $p->ListParticipation();
+$nombre_participants = calculerNombreParticipantsProchainEvenement();
 
-// tri r
+
+//nombre de participant pour le prochain evenement 
+function calculerNombreParticipantsProchainEvenement()
+{
+    // Connexion à la base de données (à adapter selon votre configuration)
+    $connexion = new PDO("mysql:host=localhost;dbname=piopro", "root", "");
+
+    // Récupérer l'ID de l'événement le plus proche de la date actuelle
+    $query = "SELECT id FROM event WHERE date >= CURDATE() ORDER BY date ASC LIMIT 1";
+    $stmt = $connexion->prepare($query);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $id_evenement_proche = $row['id'];
+
+    // Compter le nombre de participants pour cet événement
+    $query = "SELECT COUNT(*) AS total_participants FROM participation WHERE id_event = :id_evenement";
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':id_evenement', $id_evenement_proche);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $nombre_participants = $row['total_participants'];
+
+    // Retourner le nombre total de participants
+    return $nombre_participants;
+}
+//
+if (isset($_GET['msg'])) {
+    echo '<script>
+    if ("Notification" in window){
+      if (Notification.permission === "granted"){
+        notify();
+      }else{
+        Notification.requestPermission().then((res)=> {
+          if (res === "granted"){
+  
+          }else if (res === "denied"){
+            console.log("Notifications acess denied");
+          }else if (res === "default"){
+            console.log("Notifications permission not given");
+          }
+        })
+      }
+    }
+    else{
+      console.error("not not supported") };
+  
+  function notify(){
+    new Notification("PioPro",{
+      body: "un nouveau evenement est ajouté",
+     icon: ".\logo 1.png",
+    }
+    );
+  }
+  
+  </script>
+  
+  ';
+}
+// tri 
 $bdd = new PDO('mysql:host=localhost;dbname=piopro', 'root', '');
 $allevent = $bdd->query('SELECT * FROM event ');
 // RECHERCHE
@@ -24,16 +85,14 @@ if (isset($_GET['tri'])) {
 
 $bdd1 = new PDO('mysql:host=localhost;dbname=piopro', 'root', '');
 
-// TRI
-$allevent1 = $bdd1->query('SELECT * FROM event');
 if (isset($_GET['tri1'])) {
     $T = $_GET['tri1'];
     if ($T == "date") {
-        $allevent1 = $bdd1->query('SELECT * FROM event ORDER BY date ASC');
+        $allevent = $bdd1->query('SELECT * FROM event ORDER BY date ASC');
     } else if ($T == "id") {
-        $allevent1 = $bdd1->query('SELECT * FROM event ORDER BY id ASC');
-    } elseif ($T == "nbp") {
-        $allevent1 = $bdd1->query('SELECT * FROM event ORDER BY nb_places ASC');
+        $allevent = $bdd1->query('SELECT * FROM event ORDER BY id ASC');
+    } elseif ($T == "Nombre_de_place") {
+        $allevent = $bdd1->query('SELECT * FROM event ORDER BY nb_places ASC');
     }
 }
 
@@ -44,6 +103,59 @@ $select = $bdd->query('SELECT * FROM event WHERE NBPD>0');
 //JOINTURE  
 $bdd3 = new PDO('mysql:host=localhost;dbname=piopro', 'root', '');
 $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
+
+$ex = $E->getAllEvents();
+
+foreach ($ex as $event) {
+    $start_date = date("Y-m-d", strtotime($event['date']));
+    $end_date = date("Y-m-d", strtotime($event['date'] . ' +1 day'));
+    $fullCalendarEvent = [
+        'Eventid' => $event['id'],
+        'titre' => $event['titre'],
+        'description' => $event['description'],
+        'start' => $start_date,
+        'end' => $end_date,
+        'fin' => $end_date,
+        'cout' => $event['cout'],
+        'statut' => $event['statut'],
+        'lieu' => $event['lieu'],
+        'nb_places' => $event['nb_places'],
+        'NBPD' => $event['NBPD'],
+    ];
+
+    // Ajoutez cet événement converti au tableau des événements FullCalendar
+    $fullCalendarEvents[] = $fullCalendarEvent;
+}
+
+$fullCalendarEvents = [];
+foreach ($ex as $event) {
+    $start_date = date("Y-m-d", strtotime($event['date']));
+    $end_date = date("Y-m-d", strtotime($event['date'] . '+1 day'));
+    $fullCalendarEvent = [
+        'EvenementID' => $event['id'],
+        'title' => $event['titre'],
+        'start' => $start_date,
+        'end' => $end_date,
+        'deb' => $start_date,
+        'fin' => $end_date,
+        'description' => $event['description'],
+        'cout' => $event['cout'],
+        'statut' => $event['statut'],
+        'nb_places' => $event['nb_places'],
+        'NBPD' => $event['NBPD']
+    ];
+
+    // Ajoutez cet événement converti au tableau des événements FullCalendar
+    $fullCalendarEvents[] = $fullCalendarEvent;
+}
+
+session_start();
+
+if (!isset($_SESSION['user'])) {
+    header('Location: sign-in.php');
+    exit;
+}
+
 ?>
 
 
@@ -51,6 +163,7 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
 <html lang="en">
 
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
@@ -72,6 +185,103 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
     <link rel="stylesheet" href="./styles.css">
     <!-- Supprimer-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src='index.global.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.10.0/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@5.10.0/main.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.10.0/main.css" rel="stylesheet" />
+
+    <style>
+        #calendar {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .popup-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+            width: 320px;
+            max-width: 90%;
+            text-align: left;
+            /* alignement du texte à gauche */
+        }
+
+        .popup-container h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .popup-content p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: #999;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .popup-close:hover {
+            color: #333;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title'
+                },
+                initialDate: '2024-05-01',
+                navLinks: true,
+                businessHours: true,
+                editable: true,
+                selectable: true,
+                eventClick: function(info) {
+                    var excursionDetails = info.event.extendedProps;
+                    $('#popupTitle').text(excursionDetails.title);
+                    $('#popupDetails').html(
+                        `<p><strong>Titre :</strong> ${excursionDetails.titre}</p>` +
+                        `<p><strong>Description :</strong> ${excursionDetails.description}</p>` +
+                        `<p><strong>Lieu :</strong> ${excursionDetails.lieu}</p>` +
+                        `<p><strong>Statut :</strong> ${excursionDetails.statut}</p>` +
+                        `<p><strong>Nombre de place  :</strong> ${excursionDetails.nb_places}</p>` +
+                        `<p><strong>Nombre de places disponible :</strong> ${excursionDetails.NBPD}</p>` +
+                        `<p><strong>Cout :</strong> ${excursionDetails.cout}</p>`
+                    );
+                    $('.popup-container').show();
+                },
+                events: <?php echo json_encode($fullCalendarEvents); ?>
+            });
+
+            calendar.render();
+        });
+
+        function closePopup() {
+            $('.popup-container').hide();
+        }
+    </script>
 
 </head>
 
@@ -102,46 +312,43 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="../pages/tables.html">
+                    <a class="nav-link  disabled" href="../pages/tables.html">
                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
                         </div>
-                        <span class="nav-link-text ms-1">Rôles et autorisations </span>
+                        <span class="nav-link-text ms-1"> Administrateur </span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="../pages/billing.html">
+                    <a class="nav-link  disabled" href="../pages/billing.html">
                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
                         </div>
-                        <span class="nav-link-text ms-1">Assistance et support </span>
+                        <span class="nav-link-text ms-1">Reclamation </span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="../pages/virtual-reality.html">
+                    <a class="nav-link disabled" href="../pages/virtual-reality.html">
                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-app text-info text-sm opacity-10"></i>
                         </div>
-                        <span class="nav-link-text ms-1">Authentification et sécurité </span>
+                        <span class="nav-link-text ms-1">Offres d'emploi</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="../pages/rtl.html">
+                    <a class="nav-link disabled" href="../pages/rtl.html">
                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
                         </div>
-                        <span class="nav-link-text ms-1">Notifications et alertes</span>
+                        <span class="nav-link-text ms-1">Formation</span>
                     </a>
                 </li>
-                <li class="nav-item mt-3">
-                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
-                </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="./profile.html">
+                    <a class="nav-link disabled" href="../pages/rtl.html">
                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
+                            <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
                         </div>
-                        <span class="nav-link-text ms-1">Profile</span>
+                        <span class="nav-link-text ms-1">Forum</span>
                     </a>
                 </li>
             </ul>
@@ -156,7 +363,7 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
                         <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
                         <li class="breadcrumb-item text-sm text-white active" aria-current="page"></li>
                     </ol>
-                    <h6 class="font-weight-bolder text-white mb-0">Tableau de bord </h6>
+                    <h6 class="font-weight-bolder text-white mb-0"><strong>Bonjour <?php echo htmlspecialchars($_SESSION['user']['nom']); ?> <?php echo htmlspecialchars($_SESSION['user']['prenom']); ?> </strong> </h6>
                 </nav>
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -228,7 +435,8 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
                                                             <g transform="translate(1716.000000, 291.000000)">
                                                                 <g transform="translate(453.000000, 454.000000)">
                                                                     <path class="color-background" d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z" opacity="0.593633743"></path>
-                                                                    <path class="color-background" d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"></path>
+                                                                    <path class="color-background" d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z">
+                                                                    </path>
                                                                 </g>
                                                             </g>
                                                         </g>
@@ -251,6 +459,13 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
                         </li>
                     </ul>
                 </div>
+                <button onclick="redirection()" class="btn btn-danger">Déconnexion</button>
+                <script>
+                    function redirection() {
+                        // Redirection vers une autre page
+                        window.location.href = "../logout.php";
+                    }
+                </script>
             </div>
         </nav>
         <!-- End Navbar -->
@@ -263,7 +478,8 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
                                 <div class="row">
                                     <div class="col-8">
                                         <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Nombre Des événements</p>
+                                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Nombre Des
+                                                événements</p>
                                             <h5 class="font-weight-bolder">
                                                 <?php echo $nombreEvenements; ?>
                                             </h5>
@@ -286,7 +502,8 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
                                 <div class="row">
                                     <div class="col-8">
                                         <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold">le cout des prochains événements</p>
+                                            <p class="text-sm mb-0 text-uppercase font-weight-bold">le cout des
+                                                prochains événements</p>
                                             <h5 class="font-weight-bolder">
                                                 <?php echo $sommeCoutsProchainsEvenements; ?>
                                             </h5>
@@ -307,9 +524,10 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
                                 <div class="row">
                                     <div class="col-8">
                                         <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold">participants pour le prochain événement </p>
+                                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Nombre de participants pour le
+                                                prochain événement </p>
                                             <h5 class="font-weight-bolder">
-                                                <p>En cours</p>
+                                                <?php echo $nombre_participants; ?>
                                             </h5>
                                         </div>
                                     </div>
@@ -328,96 +546,8 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
                                 <div class="row">
                                     <div class="col-8">
                                         <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold"> prochain événement</p>
-                                            <h5 class="font-weight-bolder">
-                                                <?php echo $nextEventLocation ?>
-                                                <br>
-                                                <?php echo $nextEventDate ?>
-                                            </h5>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-4 text-end">
-                                        <div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
-                                            <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                        <div class="card">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Nombre Des Participants</p>
-                                            <h5 class="font-weight-bolder">
-                                                <?php echo $nombreEvenements; ?>
-                                            </h5>
-                                            <p class="mb-0">
+                                            <p class="text-sm mb-0 text-uppercase font-weight-bold"> prochain événement
                                             </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 text-end">
-                                        <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                                            <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                        <div class="card">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold">le cout des paritcipants</p>
-                                            <h5 class="font-weight-bolder">
-                                                <?php echo $sommeCoutsProchainsEvenements; ?>
-                                            </h5>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 text-end">
-                                        <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
-                                            <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                        <div class="card">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold">participants pour le prochain événement </p>
-                                            <h5 class="font-weight-bolder">
-                                                <p>En cours</p>
-                                            </h5>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 text-end">
-                                        <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
-                                            <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-sm-6">
-                        <div class="card">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold"> prochain événement</p>
                                             <h5 class="font-weight-bolder">
                                                 <?php echo $nextEventLocation ?>
                                                 <br>
@@ -435,9 +565,10 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
                             </div>
                         </div>
                     </div>
+
                 </div>
             </form>
-        </div>
+            </div>
             <div class="row mt-4">
                 <div class="card z-index-2 h-100">
                     <div class="card-header pb-0 pt-3 bg-transparent d-flex justify-content-between align-items-center">
@@ -471,141 +602,137 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
                 </div>
             </div>
             <div class="row mt-4">
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <div class="card">
-                        <form method="GET">
-                            <div class="card-header pb-0 p-3">
-                                <h6 class="mb-2" style="font-weight: bold; color: red;">Recherche par titre </h6>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" id="tri" name="tri" placeholder="Ecrivez le titre">
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="table align-items-center">
-                                        <button type="Submit" class="btn btn-link text-dark p-0 fixed-plugin-close-button">Trier</button>
-                                        <tbody>
-                                            <?php
-                                            if ($allevent->rowCount() > 0) {
-                                            ?>
-                                                <table class="table">
-                                                    <thead class="thead-dark">
-                                                        <tr>
-                                                            <th>Id</th>
-                                                            <th>Titre</th>
-                                                            <th>Description</th>
-                                                            <th>Cout</th>
-                                                            <th>Statut</th>
-                                                            <th>Date</th>
-                                                            <th>Lieu</th>
-                                                            <th>Nombre de places</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php
-                                                        while ($event = $allevent->fetch()) {
-                                                        ?>
-                                                            <tr>
-                                                                <td><?= $event['id'] ?></td>
-                                                                <td><?= $event['titre'] ?></td>
-                                                                <td><?= $event['description'] ?></td>
-                                                                <td><?= $event['cout'] ?></td>
-                                                                <td><?= $event['statut'] ?></td>
-                                                                <td><?= $event['date'] ?></td>
-                                                                <td><?= $event['lieu'] ?></td>
-                                                                <td><?= $event['nb_places'] ?></td>
-                                                            </tr>
-                                                        <?php
-                                                        }
-                                                        ?>
-                                                    </tbody>
-                                                </table>
-                                            <?php
-                                            } else {
-                                            ?>
-                                                <p>Aucun evenement trouvé</p>
-                                            <?php
-                                            }
-                                            ?>
 
-                                        </tbody>
-                                    </table>
+                        <div class="card-header pb-0 p-3">
+                            <h6 class="mb-2" style="font-weight: bold; color: red;">Recherche par titre </h6>
+                            <div class="input-group mb-3">
+                                <form action="" method="get">
+                                    <input type="text" class="form-control" id="tri" name="tri" placeholder="Ecrivez le titre" style="width: 100%;">
+                                </form>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <div class="controls">
+                                    <form action="" method="get">
+                                        <select id="tri1" name="tri1" class="form-control" onchange="this.form.submit()">
+                                            <option value="Nombre_de_place">titre</option>
+                                            <option value="id">ID</option>
+                                            <option value="date">Date</option>
+                                        </select>
+                                    </form>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="card">
-                        <form method="GET">
-                            <div class="card-header pb-0 p-3">
-                                <h6 class="mb-2" style="font-weight: bold; color: red;">tri </h6>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" id="tri1" name="tri1" placeholder="Ecrivez la date,id ou nombre de places (nbp)  ">
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="table align-items-center">
-                                        <button type="Submit" class="btn btn-link text-dark p-0 fixed-plugin-close-button">Trier</button>
-                                        <tbody>
-                                            <?php
-                                            if ($allevent1->rowCount() > 0) {
-                                            ?>
-                                                <table class="table">
-                                                    <thead class="thead-dark">
+                            <div class="table-responsive">
+                                <table class="table align-items-center">
+                                    <tbody>
+                                        <?php
+                                        if ($allevent->rowCount() > 0) {
+                                        ?>
+                                            <table class="table">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Id</th>
+                                                        <th>Titre</th>
+                                                        <th>Description</th>
+                                                        <th>Cout</th>
+                                                        <th>Statut</th>
+                                                        <th>Date</th>
+                                                        <th>Lieu</th>
+                                                        <th>Nombre de places</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    while ($event = $allevent->fetch()) {
+                                                    ?>
                                                         <tr>
-                                                            <th>Id</th>
-                                                            <th>Titre</th>
-                                                            <th>Description</th>
-                                                            <th>Cout</th>
-                                                            <th>Statut</th>
-                                                            <th>Date</th>
-                                                            <th>Lieu</th>
-                                                            <th>Nombre de places</th>
+                                                            <td><?= $event['id'] ?></td>
+                                                            <td><?= $event['titre'] ?></td>
+                                                            <td><?= $event['description'] ?></td>
+                                                            <td><?= $event['cout'] ?></td>
+                                                            <td><?= $event['statut'] ?></td>
+                                                            <td><?= $event['date'] ?></td>
+                                                            <td><?= $event['lieu'] ?></td>
+                                                            <td><?= $event['nb_places'] ?></td>
                                                         </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php
-                                                        while ($event1 = $allevent1->fetch()) {
-                                                        ?>
-                                                            <tr>
-                                                                <td><?= $event1['id'] ?></td>
-                                                                <td><?= $event1['titre'] ?></td>
-                                                                <td><?= $event1['description'] ?></td>
-                                                                <td><?= $event1['cout'] ?></td>
-                                                                <td><?= $event1['statut'] ?></td>
-                                                                <td><?= $event1['date'] ?></td>
-                                                                <td><?= $event1['lieu'] ?></td>
-                                                                <td><?= $event1['nb_places'] ?></td>
-                                                            </tr>
-                                                        <?php
-                                                        }
-                                                        ?>
-                                                    </tbody>
-                                                </table>
-                                            <?php
-                                            } else {
-                                            ?>
-                                                <p>Aucun evenement trouvé</p>
-                                            <?php
-                                            }
-                                            ?>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </tbody>
+                                            </table>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <p>Aucun evenement trouvé</p>
+                                        <?php
+                                        }
+                                        ?>
 
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <div class="row mt-4">
+                <div class="card z-index-2 h-100">
+                    <div class="card-header pb-0 pt-3 bg-transparent d-flex justify-content-between align-items-center">
+                        <h3 class="mb-2" style="font-weight: bold; color: red;">Historique</h3>
+                    </div>
+
+                    <div class="card-body p-3" style="max-height: 280px; overflow-y: auto;">
+                        <table class="table align-items-center ">
+                            <tbody>
+                                <?php echo $Historique; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="card z-index-2 h-300" style="height: 1000px;"> <!-- Ajustez la hauteur selon vos besoins -->
+                    <div class="card-header pb-0 pt-3 bg-transparent d-flex justify-content-between align-items-center">
+                        <h3 class="mb-2" style="font-weight: bold; color: red;">Calendrier</h3>
+                    </div>
+                    <div class="card-body p-3" style="max-height: 280px; ">
+                        <div id='calendar'></div>
+                        <div class="popup-container">
+                            <span class="popup-close" onclick="closePopup()">X</span>
+                            <h2 id="popupTitle"></h2>
+                            <div id="popupDetails" class="popup-content"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inclure la bibliothèque Chart.js -->
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+            <!-- Inclure votre fichier JavaScript avec le code du graphique -->
+            <script src="C:\wamp64\www\PROJET\VoxPulse\View\salima\statistics.js"></script>
+            <div>
+                <canvas id="barChart"></canvas>
+            </div>
+
+
+
+
             <footer class="footer pt-3  ">
                 <div class="container-fluid">
                     <div class="row align-items-center justify-content-lg-between">
                         <div class="col-lg-6 mb-lg-0 mb-4">
                             <div class="copyright text-center text-sm text-muted text-lg-start">
-                                © <script>
+                                ©
+                                <script>
                                     document.write(new Date().getFullYear())
                                 </script>,
                                 made with <i class="fa fa-heart"></i> by
-                                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">VoxPulse</a>
+                                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">PioPro</a>
                                 for a better web.
                             </div>
                         </div>
@@ -630,6 +757,8 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
             </footer>
             </div>
     </main>
+    <!-- le path de cal-->
+    <script src="calendar.js"></script>
 
     <div class="fixed-plugin">
         <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
@@ -688,8 +817,10 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
                         <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
                     </div>
                 </div>
-                <a class="btn bg-gradient-dark w-100" href="https://www.creative-tim.com/product/argon-dashboard">Free Download</a>
-                <a class="btn btn-outline-dark w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/license/argon-dashboard">View documentation</a>
+                <a class="btn bg-gradient-dark w-100" href="https://www.creative-tim.com/product/argon-dashboard">Free
+                    Download</a>
+                <a class="btn btn-outline-dark w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/license/argon-dashboard">View
+                    documentation</a>
                 <div class="w-100 text-center">
                     <a class="github-button" href="https://github.com/creativetimofficial/argon-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/argon-dashboard on GitHub">Star</a>
                     <h6 class="mt-3">Thank you for sharing!</h6>
@@ -712,41 +843,53 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
                     <div class="form-row">
                         <div class="form-column">
                             <div class="form-group">
-                                <div id="titreError" class="invalid-feedback">le titre doit contenir seulement des lettres!</div>
+                                <div id="titreError" class="invalid-feedback">le titre doit contenir seulement des
+                                    lettres!</div>
                                 <label for="tit">titre:</label>
                                 <input type="text" id="tit" name="tit">
                             </div>
                             <div class="form-group">
                                 <label for="desc">Description:</label>
-                                <div id="descriptionError" class="invalid-feedback">la description ne peut pas contenir des lettres spéciaux!</div>
+                                <div id="descriptionError" class="invalid-feedback">la description ne peut pas contenir
+                                    des lettres spéciaux!</div>
                                 <input type="text" id="desc" name="desc">
                             </div>
                             <div class="form-group">
-                                <div id="coutError" class="invalid-feedback">le cout peut contenir seulement des reels!</div>
+                                <div id="coutError" class="invalid-feedback">le cout peut contenir seulement des reels!
+                                </div>
                                 <label for="cout">Cout:</label>
                                 <input type="text" id="cout" name="cout">
                             </div>
                             <div class="form-group">
                                 <label for="statut">Statut:</label>
-                                <div id="statutError" class="invalid-feedback">le statut ne peut contenir que des lettres!</div>
+                                <div id="statutError" class="invalid-feedback">le statut ne peut contenir que des
+                                    lettres!</div>
                                 <input type="text" id="statut" name="statut">
                             </div>
                         </div>
                         <div class="form-column">
                             <div class="form-group">
                                 <label for="date">Date:</label>
-                                <div id="D2Error" class="invalid-feedback">La date doit etre situer dans 10 jours ou plus !</div>
+                                <div id="D2Error" class="invalid-feedback">La date doit etre situer dans 10 jours ou
+                                    plus !</div>
                                 <input type="date" id="date" name="date">
                             </div>
                             <div class="form-group">
-                                <div id="lieuError" class="invalid-feedback">le lieu ne peut contenir que des lettres et des chiffres!</div>
+                                <div id="lieuError" class="invalid-feedback">le lieu ne peut contenir que des lettres et
+                                    des chiffres!</div>
                                 <label for="lieu">Lieu:</label>
                                 <input type="text" id="lieu" name="lieu">
                             </div>
                             <div class="form-group">
-                                <div id="nb_placesError" class="invalid-feedback">le nombre de place ne peut contenir que des chiffres!</div>
+                                <div id="nb_placesError" class="invalid-feedback">le nombre de place ne peut contenir
+                                    que des chiffres!</div>
                                 <label for="nbp">Nombre de places:</label>
                                 <input type="text" id="nbp" name="nbp">
+                            </div>
+                            <div class="form-group">
+                                <div id="IMGError" class="invalid-feedback">le nombre de place ne peut contenirque des chiffres!</div>
+                                <label for="IMG">Choisissez Votre Image:</label>
+                                <input type="text" id="IMG" name="IMG">
                             </div>
                         </div>
                     </div>
@@ -773,39 +916,46 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
                             </div>
                             <div class="form-group">
                                 <label for="TIT">titre:</label>
-                                <div id="titre2Error" class="invalid-feedback">le titre doit contenir seulement des lettres!</div>
+                                <div id="titre2Error" class="invalid-feedback">le titre doit contenir seulement des
+                                    lettres!</div>
                                 <input type="text" id="TIT2" name="TIT">
                             </div>
                             <div class="form-group">
                                 <label for="DESC">Description:</label>
-                                <div id="description2Error" class="invalid-feedback">la description ne peut pas contenir des lettres spéciaux!</div>
+                                <div id="description2Error" class="invalid-feedback">la description ne peut pas contenir
+                                    des lettres spéciaux!</div>
                                 <input type="text" id="DESC2" name="DESC">
                             </div>
                             <div class="form-group">
                                 <label for="COUT">Cout:</label>
-                                <div id="cout2Error" class="invalid-feedback">le cout peut contenir seulement des reels!</div>
+                                <div id="cout2Error" class="invalid-feedback">le cout peut contenir seulement des reels!
+                                </div>
                                 <input type="text" id="COUT2" name="COUT">
                             </div>
                             <div class="form-group">
                                 <label for="STATUT">Statut:</label>
-                                <div id="statut2Error" class="invalid-feedback">le statut ne peut contenir que des lettres!</div>
+                                <div id="statut2Error" class="invalid-feedback">le statut ne peut contenir que des
+                                    lettres!</div>
                                 <input type="text" id="STATUT2" name="STATUT">
                             </div>
                         </div>
                         <div class="form-column">
                             <div class="form-group">
                                 <label for="D1">Date:</label>
-                                <div id="date2Error" class="invalid-feedback">La date doit etre situer dans 10 jours ou plus !</div>
+                                <div id="date2Error" class="invalid-feedback">La date doit etre situer dans 10 jours ou
+                                    plus !</div>
                                 <input type="date" id="DATE2" name="Date">
                             </div>
                             <div class="form-group">
                                 <label for="L">Lieu:</label>
-                                <div id="lieu2Error" class="invalid-feedback">le lieu ne peut contenir que des lettres et des chiffres!</div>
+                                <div id="lieu2Error" class="invalid-feedback">le lieu ne peut contenir que des lettres
+                                    et des chiffres!</div>
                                 <input type="text" id="LIEU2" name="L">
                             </div>
                             <div class="form-group">
                                 <label for="ndp">Nombre de places:</label>
-                                <div id="nb_places2Error" class="invalid-feedback">le nombre de place ne peut contenir que des chiffres!</div>
+                                <div id="nb_places2Error" class="invalid-feedback">le nombre de place ne peut contenir
+                                    que des chiffres!</div>
                                 <input type="text" id="NOMP2" name="NOMP">
                             </div>
                         </div>
@@ -1214,7 +1364,6 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
 
                 if (errors > 0) {
                     event.preventDefault();
-                    alert('Le formulaire contient des erreurs, veuillez les corriger.');
                 }
             });
 
@@ -1340,7 +1489,7 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
 
                 if (errors > 0) {
                     event.preventDefault();
-                    alert('Le formulaire contient des erreurs, veuillez les corriger.');
+
                 }
             });
 
@@ -1470,7 +1619,7 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
 
                 if (errors > 0) {
                     event.preventDefault();
-                    alert('Le formulaire contient des erreurs, veuillez les corriger.');
+
                 }
             });
 
@@ -1594,7 +1743,7 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
 
                 if (errors > 0) {
                     event.preventDefault();
-                    alert('Le formulaire contient des erreurs, veuillez les corriger.');
+
                 }
             });
 
@@ -1636,6 +1785,63 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
 
         });
     </script>
+
+<div class="slim7">
+    <div class="custom-modal7">
+      <div class="modal-content">
+        <h5>Confirmation</h5>
+        <form action="suppression.php" method="post" id="Form4">
+          <!-- Ajoute un champ de formulaire caché pour contenir l'identifiant de l'utilisateur -->
+          <input type="hidden" name="id" id="userId" value="">
+          <div class="confirmation-message">
+            <!-- Le message de confirmation sera inséré ici par JavaScript -->
+          </div>
+          <hr>
+          <div class="button-container">
+            <button type="submit" class="btn btn-danger btn-Terminer">Terminer</button>
+            <button type="button" class="btn btn-primary btn-Annuler">Annuler</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    function confirmDelete(button) {
+      var userId = button.getAttribute('data-id');
+      var prenom = button.getAttribute('data-prenom');
+      var nom = button.getAttribute('data-name');
+      var email = button.getAttribute('data-email');
+
+      // Afficher la modal
+      var modal = document.querySelector('.custom-modal7');
+      modal.style.display = 'block';
+
+      // Mettre à jour le formulaire de la modal avec l'ID de l'utilisateur
+      var form = document.getElementById('Form4');
+      form.action = 'deleteEven.php?id=' + userId; // Met à jour l'action du formulaire
+
+      // Mettre à jour le champ de formulaire caché avec l'ID de l'utilisateur
+      var userIdInput = document.getElementById('userId');
+      userIdInput.value = userId;
+
+      // Mettre à jour le message de confirmation avec des détails de l'utilisateur
+      var confirmationMessage = modal.querySelector('.confirmation-message');
+      confirmationMessage.innerHTML = `
+    <p>Êtes-vous sûr de vouloir supprimer l'utilisateur suivant ?</p>
+    <p><strong>Nom:</strong> ${nom} ${prenom}</p>
+    <p><strong>Email:</strong> ${email}</p>
+  `;
+    }
+
+    // Fermer la modal quand on clique sur Annuler
+    document.querySelector('.btn-Annuler').addEventListener('click', function() {
+      var modal = document.querySelector('.custom-modal7');
+      modal.style.display = 'none';
+    });
+  </script>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1857,6 +2063,7 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
         });
     </script>
 
+
     <Script>
         document.addEventListener("DOMContentLoaded", function() {
             var supprimerButtons = document.querySelectorAll('.btn-supprimer');
@@ -1902,7 +2109,7 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
             console.log(id, nom, prenom, email, tel, etab, desc, idev);
 
             console.log(id, nom, prenom, email, tel, etab, desc, idev);
-            document.getElementById('IDD').value = id;
+            document.getElementById('identifiant').value = id;
             document.getElementById('NOM').value = nom;
             document.getElementById('PRENOM').value = prenom;
             document.getElementById('EMAIL').value = email;
@@ -1945,37 +2152,44 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
                         <div class="form-column">
                             <div class="form-group">
                                 <label for="nom">Nom:</label>
-                                <div id="nomError" class="invalid-feedback">Le nom doit contenir seulement des lettres!</div>
+                                <div id="nomError" class="invalid-feedback">Le nom doit contenir seulement des lettres!
+                                </div>
                                 <input type="text" id="nom" name="nom">
                             </div>
                             <div class="form-group">
                                 <label for="prenom">Prenom:</label>
-                                <div id="prenomError" class="invalid-feedback">Le prenom doit contenir seulement des lettres!</div>
+                                <div id="prenomError" class="invalid-feedback">Le prenom doit contenir seulement des
+                                    lettres!</div>
                                 <input type="text" id="prenom" name="prenom">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email:</label>
-                                <div id="emailError" class="invalid-feedback">Vous devez respecter la forme des emails!</div>
+                                <div id="emailError" class="invalid-feedback">Vous devez respecter la forme des emails!
+                                </div>
                                 <input type="text" id="email" name="email">
                             </div>
                             <div class="form-group">
                                 <label for="tel">Tel:</label>
-                                <div id="telError" class="invalid-feedback">Le numero de telephone doit contenir seulement des chiffres!</div>
+                                <div id="telError" class="invalid-feedback">Le numero de telephone doit contenir
+                                    seulement des chiffres!</div>
                                 <input type="text" id="tel" name="tel">
                             </div>
                             <div class="form-group">
                                 <label for="etablissement">Etablissement</label>
-                                <div id="etablissementError" class="invalid-feedback">L'etablissement ne doit pas contenir des caracteres speciaux!</div>
+                                <div id="etablissementError" class="invalid-feedback">L'etablissement ne doit pas
+                                    contenir des caracteres speciaux!</div>
                                 <input type="text" id="etablissement" name="etablissement">
                             </div>
                             <div class="form-group">
                                 <label for="Description">Description</label>
-                                <div id="DescriptionError" class="invalid-feedback">La Description ne doit pas contenir des caracteres speciaux!</div>
+                                <div id="DescriptionError" class="invalid-feedback">La Description ne doit pas contenir
+                                    des caracteres speciaux!</div>
                                 <input type="text" id="Description" name="Description">
                             </div>
                             <div class="form-group">
                                 <label for="ID">ID event de participation</label>
-                                <div id="IDError" class="invalid-feedback">L'ID ne doit pas contenir des caracteres speciaux!</div>
+                                <div id="IDError" class="invalid-feedback">L'ID ne doit pas contenir des caracteres
+                                    speciaux!</div>
                                 <select name="ID" id="ID">
                                     <?php
                                     // Boucle à travers les résultats de la requête SQL
@@ -2031,7 +2245,6 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
             </div>
         </div>
     </div>
-    <!-- Modifier Modal -->
     <div class="slim5">
         <div class="custom-modal5">
             <div class="modal-content">
@@ -2040,8 +2253,8 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
                     <div class="form-row">
                         <div class="form-column">
                             <div class="form-group">
-                                <label for="Id">Id:</label>
-                                <input type="text" id="IDD" name="IDD" disabled>
+                                <label for="identifiant">Id:</label>
+                                <input type="text" id="identifiant" name="IDENT">
                             </div>
                             <div class="form-group">
                                 <label for="NOM">Nom:</label>
@@ -2071,8 +2284,8 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
                         <input type="text" id="ETABLISSEMENT" name="ETABLISSEMENT">
                     </div>
                     <div class="form-group">
-                        <label for="description">description:</label>
-                        <div id="description2Error" class="invalid-feedback">La description doit contenir que des lettres </div>
+                        <label for="description">Description:</label>
+                        <div id="description2Error" class="invalid-feedback">La description doit contenir que des lettres!</div>
                         <input type="text" id="description" name="description">
                     </div>
                     <div class="form-group">
@@ -2082,12 +2295,13 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
                     </div>
                     <div class="button-container">
                         <button type="submit" class="btn btn-danger btn-Terminer">Terminer</button>
-                        <button class="btn btn-primary btn-Annuler">Annuler</button>
+                        <button type="button" class="btn btn-primary btn-Annuler">Annuler</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
     <!--JOINTURE -->
     <script>
         // Gestionnaire d'événements clic sur le bouton "Participant"
@@ -2109,6 +2323,16 @@ $JOINTURE = $bdd->query('SELECT * FROM event WHERE NBPD>0');
             });
         });
     </script>
+
+
+
+
+
+
+
+
+
+
 </body>
 
 </html>

@@ -1,38 +1,59 @@
 <?php
 session_start();
-include 'C:\wamp64\www\VoxPulse\Controller\UserC.php';
-$E = new UserC;
+include  'C:\wamp64\www\VoxPulse\Controller\UserC.php';
+
+$E = new UserC();
 
 if (isset($_POST['email'], $_POST['password'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Récupérer les données de l'utilisateur y compris le mot de passe hashé
-    $user = $E->getUser($email);  // Supposons que cette méthode renvoie les données de l'utilisateur
-    if (password_verify($password, $user['mdp'])) {
-        // Si le mot de passe est correct et l'utilisateur existe
-        $_SESSION['user'] = $user;  // Stockage des données utilisateur dans la session
-        if ($user['role'] == "Admin") {
-            $id=$user['id'];
-            $E->setUserOnline($id);
-            header('Location: dashboard.php'); // Redirection vers le tableau de bord admin
-        } else {
-            $id=$user['id'];
-            $E->setUserOnline($id);
-            header('Location: profile.php'); // Redirection vers le profil utilisateur
+    $user = $E->getUserCO($email, $password); // Get user with hashed password
+
+    if ($user) {
+        if (isset($user['status']) && $user['status'] === 'blocked') {
+            header('Location: sign-in.php?error=account_blocked');
+            exit;
+        }
+
+        $_SESSION['user'] = $user;
+
+        $id = $user['id'];
+        $E->setUserOnline($id);
+
+        switch ($user['role']) {
+            case "Evenement":
+                header('Location: ./salima/dashboard.php');
+                break;
+            case "entreprise":
+                header('Location: profile.php');
+                break;
+            case "Professionel":
+                header('Location: profile.php');
+                break;
+                case "etudiant":
+                    header('Location: profile.php');
+                    break;
+            case "Forum":
+                header('Location: ./nour/dashboard/pages/dashboard.php');
+                break;
+            case "ODE":
+                header('Location: ./Syrine/affiche_entretiens.php');
+                break;
+            case "Admin":
+                header('Location: dashboard.php');
+                break;
+            default:
+                header('Location: sign-in.php?error=unknown_role');
+                break;
         }
         exit;
     } else {
-        $_SESSION['user'] = $user;  // Stockage des données utilisateur dans la session
-        if ($user['role'] == "Admin") {
-            header('Location: dashboard.php'); // Redirection vers le tableau de bord admin
-        } else {
-            header('Location: profile.php'); // Redirection vers le profil utilisateur
-        }
+        header('Location: sign-in.php?error=invalid_credentials');
         exit;
     }
 } else {
-    // Si des données POST sont manquantes
-    header('Location: sign-in.php?error=donnees_manquantes');
+    header('Location: sign-in.php?error=missing_data');
     exit;
 }
+?>

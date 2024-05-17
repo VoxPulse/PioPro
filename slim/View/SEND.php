@@ -1,6 +1,6 @@
 <?php
 
-include  'C:\wamp64\www\VoxPulse\Controller\UserC.php';
+include 'C:\wamp64\www\VoxPulse\Controller\UserC.php';
 
 $E = new UserC;
 
@@ -48,14 +48,11 @@ if (isset($_POST["email"])) {
      
     $email=$_POST["email"];
 
-    $E->UpdateToken($email, $code);
+    $E->UpdateToken($email,$code);
 
     header('Location:RECUP1.php');
 
-    if ($mail->send()) {
-        echo "<script>alert('Email envoyé avec succès');</script>";
-    } else {
-        echo "<script>alert('Erreur lors de l'envoi de l'email.');</script>";
-    }
+    $mail->send();
+
 }
 ?>

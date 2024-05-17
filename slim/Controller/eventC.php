@@ -3,6 +3,21 @@ include 'C:\wamp64\www\VoxPulse\Model\config.php';
 
 class eventC
 {
+    public function ListEv()
+    {
+        $conn = config::getConnexion();
+        try {
+            //filtrage 
+            $query = $conn->prepare("SELECT * FROM event");
+            $query->execute();
+            $result = $query->fetchAll();
+
+        } catch (PDOException $e) {
+            echo 'Échec de connexion : ' . $e->getMessage();
+        }
+        return $result;
+    }
+
     // AFFICHAGE 
     public function ListEvent()
     {
@@ -16,7 +31,6 @@ class eventC
             $tableHTML = '<table class="table">';
             $tableHTML .= '<thead>';
             $tableHTML .= '<tr>';
-            $tableHTML .= '<th>Photo</th>';
             $tableHTML .= '<th>ID</th>';
             $tableHTML .= '<th>Titre</th>';
             $tableHTML .= '<th>Description</th>';
@@ -33,7 +47,6 @@ class eventC
 
             foreach ($result as $row) {
                 $tableHTML .= '<tr>';
-                $tableHTML .= '<td><img src="' . $row['img'] . '" alt="Image"></td>';
                 $tableHTML .= '<td>' . $row['id'] . '</td>';
                 $tableHTML .= '<td>' . $row['titre'] . '</td>';
                 $tableHTML .= '<td>' . $row['description'] . '</td>';
@@ -54,6 +67,43 @@ class eventC
                     '" data-lieu="' . htmlspecialchars($row['lieu']) .
                     '" data-nb_places="' . htmlspecialchars($row['nb_places']) . '">Modifier</button></td>';
                 $tableHTML .= '<td><button class=" btn btn-primary5" data-id="' . $row['id'] . '">Partcipant</button></td>';
+                $tableHTML .= '</tr>';
+            }
+            $tableHTML .= '</tbody>';
+            $tableHTML .= '</table>';
+
+            return $tableHTML;
+        } catch (PDOException $e) {
+            echo 'Échec de connexion : ' . $e->getMessage();
+            return ''; // Si la connexion échoue, retourner une chaîne vide
+        }
+    }
+
+
+    public function Historique()
+    {
+        $conn = config::getConnexion();
+        try {
+            //filtrage 
+            $query = $conn->prepare("SELECT * FROM historiquee  ");
+            $query->execute();
+            $result = $query->fetchAll();
+
+            $tableHTML = '<table class="table">';
+            $tableHTML .= '<thead>';
+            $tableHTML .= '<tr>';
+            $tableHTML .= '<th>type_action</th>';
+            $tableHTML .= '<th>description</th>';
+            $tableHTML .= '<th>date_actiom</th>'; // Nouvelle colonne pour les boutons d'action
+            $tableHTML .= '</tr>';
+            $tableHTML .= '</thead>';
+            $tableHTML .= '<tbody>';
+
+            foreach ($result as $row) {
+                $tableHTML .= '<tr>';
+                $tableHTML .= '<td>' . $row['type_action'] . '</td>';
+                $tableHTML .= '<td>' . $row['description'] . '</td>';
+                $tableHTML .= '<td>' . $row['date_actiom'] . '</td>';
                 $tableHTML .= '</tr>';
             }
             $tableHTML .= '</tbody>';
@@ -174,6 +224,70 @@ class eventC
         }
     }
 
+    public function getAllEventDates()
+    {
+        $conn = config::getConnexion(); // Assurez-vous que config::getConnexion() retourne une connexion PDO valide à votre base de données
+
+        try {
+            $query = $conn->prepare("SELECT date FROM event");
+            $query->execute();
+            $results = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $eventDates = array(); // Initialisation du tableau pour stocker les dates des événements
+
+            foreach ($results as $result) {
+                $eventDates[] = $result['date']; // Ajouter chaque date à notre tableau
+            }
+
+            return $eventDates; // Retourner le tableau contenant toutes les dates des événements
+        } catch (PDOException $e) {
+            echo 'Échec de connexion : ' . $e->getMessage();
+            return array(); // En cas d'échec de la connexion, retourner un tableau vide
+        }
+    }
+
+    public function getAllEvents()
+    {
+        $conn = config::getConnexion(); // Assurez-vous que config::getConnexion() retourne une connexion PDO valide à votre base de données
+
+        try {
+            $query = $conn->prepare("SELECT * FROM event");
+            $query->execute();
+            $results = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            return $results; // Retourner tous les événements de la base de données
+        } catch (PDOException $e) {
+            echo 'Échec de connexion : ' . $e->getMessage();
+            return array(); // En cas d'échec de la connexion, retourner un tableau vide
+        }
+    }
+    //pour le front 
+    public function getAllEventTitlesAndIds()
+    {
+        $conn = config::getConnexion(); // Assurez-vous que config::getConnexion() retourne une connexion PDO valide à votre base de données
+
+        try {
+            $query = $conn->prepare("SELECT id, titre FROM event");
+            $query->execute();
+            $results = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $eventData = array(); // Initialisation du tableau pour stocker les données des événements (ID et titre)
+
+            foreach ($results as $result) {
+                $eventData[] = array(
+                    'id' => $result['id'],
+                    'titre' => $result['titre']
+                ); // Ajouter chaque paire ID-titre à notre tableau
+            }
+
+            return $eventData; // Retourner le tableau contenant les données des événements
+        } catch (PDOException $e) {
+            echo 'Échec de connexion : ' . $e->getMessage();
+            return array(); // En cas d'échec de la connexion, retourner un tableau vide
+        }
+    }
+
+
 
 
     //cout total
@@ -230,11 +344,11 @@ class eventC
     }
 
     // AJOUT 
-    public function AddEvent($titre, $description, $cout, $statut, $date, $lieu, $nb_places, $NBPD)
+    public function AddEvent($titre, $description, $cout, $statut, $date, $lieu, $nb_places, $NBPD, $IMG)
     {
         try {
             $conn = config::getConnexion();
-            $requete = $conn->prepare("INSERT INTO event (titre,description, cout, statut, date, lieu, nb_places, NBPD) VALUES (:titre,:description, :cout, :statut, :date, :lieu, :nb_places, :NBPD)");
+            $requete = $conn->prepare("INSERT INTO event (titre,description, cout, statut, date, lieu, nb_places, NBPD , img ) VALUES (:titre,:description, :cout, :statut, :date, :lieu, :nb_places, :NBPD,:IMG)");
             $requete->bindParam(':titre', $titre);
             $requete->bindParam(':description', $description);
             $requete->bindParam(':cout', $cout);
@@ -243,6 +357,23 @@ class eventC
             $requete->bindParam(':lieu', $lieu);
             $requete->bindParam(':nb_places', $nb_places);
             $requete->bindParam(':NBPD', $NBPD);
+            $requete->bindParam(':IMG', $IMG);
+            $requete->execute();
+            echo 'Événement ajouté avec succès';
+        } catch (PDOException $e) {
+            echo 'Erreur de connexion : ' . $e->getMessage();
+        }
+    }
+
+    
+    public function AddHISTO($action, $description, $date)
+    {
+        try {
+            $conn = config::getConnexion();
+            $requete = $conn->prepare("INSERT INTO  historiquee (type_action,description,date_actiom) VALUES (:type_action,:description,:date_action)");
+            $requete->bindParam(':type_action',$action);
+            $requete->bindParam(':description', $description);
+            $requete->bindParam(':date_action', $date);
             $requete->execute();
             echo 'Événement ajouté avec succès';
         } catch (PDOException $e) {
@@ -349,16 +480,22 @@ class participationC
                 $tableHTML .= '<td>' . $row['etablissement'] . '</td>';
                 $tableHTML .= '<td>' . $row['description'] . '</td>';
                 $tableHTML .= '<td>' . $row['id_event'] . '</td>';
-                $tableHTML .= '<td><button class="btn btn-danger btn-supprimer1" data-id="' . $row['id'] . '">Supprimer</button></td>';
+                $tableHTML .= '<td><button class="btn btn-danger btn-supprimer1" data-id="' . $row['id'] . 
+                '" data-nom="' . htmlspecialchars($row['nom']) .
+                '" data-prenom="' . htmlspecialchars($row['prenom']) .
+                '" data-prenom="' . htmlspecialchars($row['prenom']) . 
+                '">Supprimer</button></td>';
+
+
                 $tableHTML .= '<td><button class="btn btn-primary6 "
                     data-id="' . $row['id'] .
                     '" data-nom="' . htmlspecialchars($row['nom']) .
                     '" data-prenom="' . htmlspecialchars($row['prenom']) .
-                    '" data-email="' . htmlspecialchars($row['email']) .
                     '" data-etab="' . htmlspecialchars($row['etablissement']) .
                     '" data-desc="' . htmlspecialchars($row['description']) .
                     '" data-tel="' . htmlspecialchars($row['tel']) .
-                    '" data_eventID="' . htmlspecialchars($row['id_event']) . '">Modifier</button></td>';
+                    '" data-email="' . htmlspecialchars($row['email']) .
+                    '" data_eventID="' . htmlspecialchars($row['id_event']) .  '">Modifier</button></td>';
                 $tableHTML .= '</tr>';
             }
 
@@ -371,9 +508,6 @@ class participationC
             return ''; // Si la connexion échoue, retourner une chaîne vide
         }
     }
-
-
-
 
 
     // GET USER BY ID

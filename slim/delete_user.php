@@ -5,7 +5,7 @@ session_start();
 include 'C:\wamp64\www\VoxPulse\Controller\UserC.php'; // Inclure votre classe contenant la fonction DeleteUser
 // Redirection si l'utilisateur n'est pas connecté
 
-if (isset($_GET['id'])) {
+
     $userId = $_GET['id'];
     $yourClass = new UserC(); // Créez une instance de votre classe
     $yourClass->DeleteUser($userId); // Appelez la fonction de suppression de votre classe
@@ -23,7 +23,5 @@ if (isset($_GET['id'])) {
             // Log the action
             $yourClass->HISTO($admin_id, $type_action, $description);
     header('Location:./View/dashboard.php');
-} else {
-    echo 'ID d\'utilisateur non spécifié.';
-}
+
 ?>

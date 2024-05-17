@@ -1,5 +1,5 @@
 <?php
-include 'C:\wamp64\www\VoxPulse\Model\config.php';
+include __DIR__ . '\..\Model\config.php';
 
 ?>
 <!DOCTYPE html>
@@ -98,13 +98,13 @@ include 'C:\wamp64\www\VoxPulse\Model\config.php';
                                             <div id="MDPError" class="invalid-feedback">
                                                 Entrez Un Mot de passe Valide 
                                             </div>
-                                            <input type="text" id="MDP" name="MDP" class="form-control form-control-lg" placeholder="Mot de Passe " aria-label="Email">
+                                            <input type="password" id="MDP" name="MDP" class="form-control form-control-lg" placeholder="Mot de Passe " aria-label="Email">
                                         </div>
                                         <div class="mb-3">
                                             <div id="MDP2Error" class="invalid-feedback">
                                             Entrez Un Mot de passe Valide 
                                             </div>
-                                            <input type="text" id="MDP2" name="MDP2" class="form-control form-control-lg" placeholder="Confirmez Votre Mot de passe  " aria-label="Email">
+                                            <input type="password" id="MDP2" name="MDP2" class="form-control form-control-lg" placeholder="Confirmez Votre Mot de passe  " aria-label="Email">
                                         </div>
                                         <button type="submit" class="btn btn-primary">Réinitialiser</button>
                                     </form>

@@ -10,14 +10,14 @@
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <!-- Nucleo Icons -->
-  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
-  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <link href="./assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="./assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <link href="./assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- CSS Files -->
-  <link id="pagestyle" href="../assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
-  <link rel="icon" type="image/png" href="./oneschool-master/images/logo 1.png">
+  <link id="pagestyle" href="./assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="../oneschool-master/images/logo 1.png">
   <!--Captcha -->
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
@@ -30,7 +30,7 @@
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg blur border-radius-lg top-0 z-index-3 shadow position-absolute mt-4 py-2 start-0 end-0 mx-4">
           <div class="container-fluid">
-            <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="./oneschool-master/index.html">
+            <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="../FRONT/index.php">
               PioPro
             </a>
             <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,7 @@
               </ul>
               <ul class="navbar-nav d-lg-block d-none">
                 <li class="nav-item">
-                  <a href="./oneschool-master/index.html" class="btn btn-sm mb-0 me-1 btn-primary">Acceuil</a>
+                  <a href="../FRONT/index.php" class="btn btn-sm mb-0 me-1 btn-primary">Acceuil</a>
                 </li>
               </ul>
             </div>
@@ -69,7 +69,7 @@
                 <div class="card-body">
                   <form id="myForm" action="Connexion.php" method="post">
                     <div class="mb-3">
-                    <div id="COERROR" class="invalid-feedback">
+                      <div id="COERROR" class="invalid-feedback">
                         Mail ou mot de passse incorrect
                       </div>
                       <div id="emailError" class="invalid-feedback">
@@ -83,8 +83,11 @@
                       </div>
                       <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="Mot de passe" aria-label="Password">
                     </div>
+                    <div id="CaptchaError" class="invalid-feedback">
+                        Vous devez Chochez La captcha
+                      </div>
                     <div class="g-recaptcha" data-sitekey="6LcgOtEpAAAAAE7O2uI9mbVmPlXYkY7TPTKTB7Md"></div>
-                    <button value="Submit" type="submit" name="ok"  class="btn btn-primary">Connecter</button>
+                    <button value="Submit" type="submit" name="ok" class="btn btn-primary">Connecter</button>
                   </form>
 
                 </div>
@@ -112,10 +115,10 @@
     </section>
   </main>
   <!--   Core JS Files   -->
-  <script src="../assets/js/core/popper.min.js"></script>
-  <script src="../assets/js/core/bootstrap.min.js"></script>
-  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="./assets/js/core/popper.min.js"></script>
+  <script src="./assets/js/core/bootstrap.min.js"></script>
+  <script src="./assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="./assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -128,50 +131,106 @@
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+  <script src="./assets/js/argon-dashboard.min.js?v=2.0.4"></script>
   <script src="script3.js"></script>
+
   <script>
     // Récupérer le paramètre d'URL pour vérifier s'il y a une erreur
     const urlParams = new URLSearchParams(window.location.search);
     const error = urlParams.get('error');
-    
+
     // Si une erreur est présente, afficher le message d'erreur correspondant
     if (error === 'utilisateur_introuvable') {
-        const COERRORDiv = document.getElementById('COERROR');
-        COERRORDiv.textContent = "Utilisateur introuvable. Veuillez vérifier votre email et mot de passe.";
-        COERRORDiv.style.display = 'block';
+      const COERRORDiv = document.getElementById('COERROR');
+      COERRORDiv.textContent = "Utilisateur introuvable. Veuillez vérifier votre email et mot de passe.";
+      COERRORDiv.style.display = 'block';
     } else if (error === 'utilisateur_bloque') {
-        const COERRORDiv = document.getElementById('COERROR');
-        COERRORDiv.textContent = "Utilisateur bloqué. Veuillez contacter l'administrateur pour plus d'informations.";
-        COERRORDiv.style.display = 'block';
+      const COERRORDiv = document.getElementById('COERROR');
+      COERRORDiv.textContent = "Utilisateur bloqué. Veuillez contacter l'administrateur pour plus d'informations.";
+      COERRORDiv.style.display = 'block';
     }
-</script>
-<?php
-if(isset($_POST['ok']))
-{
-  require_once 'C:\wamp64\www\VoxPulse\View\Captcha\autoload.php';
-$recaptcha = new \ReCaptcha\ReCaptcha("6LcgOtEpAAAAAGICn7VJaun1NoJQRLoxg2DgTM8X");
-$gRecaptchaResponse = $_POST['g-recaptcha-response'];
-$resp = $recaptcha->setExpectedHostname('localhost')
-                  ->verify($gRecaptchaResponse, $remoteIp);
-if ($resp->isSuccess()) {
-    echo "Success !";
-} else {
-    $errors = $resp->getErrorCodes();
-    var_dump($errors);
-}
+  </script>
 
-}
-?>
-<script>
-document.getElementById('myForm').addEventListener('submit', function(event) {
-    var response = grecaptcha.getResponse();
-    if (response.length === 0) { // Si le captcha n'est pas coché, response est vide
-        event.preventDefault(); // Empêche la soumission du formulaire
-        alert('Veuillez cocher la case reCAPTCHA.');
+  <?php
+  if (isset($_POST['ok'])) {
+    require_once 'C:\wamp64\www\VoxPulse\View\Captcha\autoload.php';
+    $recaptcha = new \ReCaptcha\ReCaptcha("6LcgOtEpAAAAAGICn7VJaun1NoJQRLoxg2DgTM8X");
+    $gRecaptchaResponse = $_POST['g-recaptcha-response'];
+    $resp = $recaptcha->setExpectedHostname('localhost')
+      ->verify($gRecaptchaResponse, $remoteIp);
+    if ($resp->isSuccess()) {
+      echo "Success !";
+    } else {
+      $errors = $resp->getErrorCodes();
+      var_dump($errors);
     }
-});
-</script>
+  }
+  ?>
+  <script>
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+      var response = grecaptcha.getResponse();
+      if (response.length === 0) { // Si le captcha n'est pas coché, response est vide
+        event.preventDefault(); // Empêche la soumission du formulaire
+        CaptchaError.style.display = 'block';
+      }
+    });
+  </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      //form 
+      var myForm = document.getElementById('myForm');
+      // Sélection des éléments du formulaire
+      var emailInput = document.getElementById('email');
+      var mdpInput = document.getElementById('password');
+
+      // Sélection des éléments d'erreur
+      var emailError = document.getElementById('emailError');
+      var mdpError = document.getElementById('passwordError');
+
+      myForm.addEventListener('submit', function(event) {
+        // Initialisation du compteur d'erreurs
+        var errorCount = 0;
+
+        // MDP 
+        if (!validateMotDePasse(mdpInput.value)) {
+          mdpError.style.display = 'block';
+          CaptchaError
+          errorCount++;
+        } else {
+          mdpError.style.display = 'none';
+        }
+
+        // Événement pour le champ Email
+        if (!validateEmail(emailInput.value)) {
+          emailError.style.display = 'block';
+          errorCount++;
+        } else {
+          emailError.style.display = 'none';
+        }
+
+        // Si le compteur d'erreurs est supérieur à 0, empêcher l'envoi du formulaire
+        if (errorCount > 0) {
+          event.preventDefault();
+        }
+      });
+
+      // Validation de l'email
+      function validateEmail(email) {
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
+
+      function validateMotDePasse(motDePasse) {
+        // Expression régulière pour vérifier si le mot de passe contient au moins un caractère spécial, un chiffre et une lettre
+        var regex = /^(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,}$/;
+        return regex.test(motDePasse);
+      }
+
+
+
+    });
+  </script>
 
 
 </body>

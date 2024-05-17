@@ -1,5 +1,5 @@
 <?php
-include 'C:\wamp64\www\VoxPulse\Model\config.php';
+include 'C:\wamp64\www\PROJET\VoxPulse\Model\config.php';
 class participationC
 {
     // AFFICHAGE 

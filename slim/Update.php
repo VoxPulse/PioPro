@@ -1,5 +1,5 @@
 <?php
-include 'C:\wamp64\www\VoxPulse\Controller\UserC.php'; // Inclure votre classe contenant la fonction De
+include __DIR__ . '\..\Controller\UserC.php'; // Inclure votre classe contenant la fonction De
 
 if (isset($_GET['id'])) {
                                                                                                                                                                                                                                                                                                                                                      

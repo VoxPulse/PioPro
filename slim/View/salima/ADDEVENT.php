@@ -11,11 +11,16 @@ include 'C:\wamp64\www\VoxPulse\Controller\eventC.php';
     $lieu = $_POST['lieu'];
     $nb_places = $_POST['nbp'];
     $NBPD=$_POST['nbp'];
+    $IMG=$_POST['IMG'];
     // Ajout de l'utilisateur avec les données récupérées
-    $E->AddEvent( $titre,$description, $cout, $statut, $date, $lieu, $nb_places,$NBPD);
+    $E->AddEvent( $titre,$description, $cout, $statut, $date, $lieu, $nb_places,$NBPD,$IMG);
+   
 
+    $date = date('Y-m-d H:i:s');
+    $action="AJOUT";
+    $description="ajout evenement  $titre ";
+    $E->AddHISTO($action, $description, $date);
     // Redirection vers une autre page après l'ajout de l'utilisateur
-    header('Location: dashboard.php');
+    header('Location: dashboard.php?msg');
     exit; // Assurez-vous de terminer le script après la redirection
 ?>
-<script src="C:\wamp64\www\VoxPulse2\VoxPulse\View\pages\script2.js"></script>
